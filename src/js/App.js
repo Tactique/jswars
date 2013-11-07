@@ -6,6 +6,7 @@ var gfx = {
 
 $(document).ready(function() {
     initCanvas($(window).width(), $(window).height());
+    assets.load(['img/unit_sprites.png', 'img/env_sprites.png']);
 });
 
 $(window).resize(function() {
