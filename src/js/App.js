@@ -19,7 +19,13 @@ var initCanvas = function(width, height) {
     document.getElementById("canvas_land").appendChild(canvas);
     resizeCanvas(width, height);
 
-    gfx.ctx = canvas.getContext("2d");
+    gfx.ctx = setupContext(canvas.getContext("2d"));
+}
+
+var setupContext = function(ctx) {
+    ctx.imageSmoothingEnabled = false;
+
+    return ctx;
 }
 
 var resizeCanvas = function(width, height) {
