@@ -61,3 +61,7 @@
         isReady: isReady
     };
 })();
+
+function GatherAssets() {
+    assets.load(['img/unit_sprites.png', 'img/env_sprites.png']);
+}
