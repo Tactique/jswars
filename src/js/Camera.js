@@ -9,11 +9,19 @@ function Camera() {
         y += _y;
     }
 
+    function getWidth() {
+        return width;
+    }
+
+    function getHeight() {
+        return height;
+    }
+
     var x = 0;
     var y = 0;
     var width = gfx.width;
     var height = gfx.height;
-    var that = this;
+    // var that = this;
 
     this.print = function() {
         return _print();
@@ -22,7 +30,12 @@ function Camera() {
     this.move = function(x, y) {
         return _move(x, y);
     }
+
+    this.getWidth = function() {
+        return getWidth();
+    }
+
+    this.getHeight = function() {
+        return getHeight();
+    }
 }
-
-
-var camera = new Camera();

@@ -20,6 +20,8 @@ var initCanvas = function(width, height) {
     resizeCanvas(width, height);
 
     gfx.ctx = setupContext(canvas.getContext("2d"));
+
+    camera = new Camera();
 }
 
 var setupContext = function(ctx) {
