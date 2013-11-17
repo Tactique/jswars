@@ -1,15 +1,16 @@
-var drawLine = function(sx, sy, dx, dy) {
+function drawLine(sx, sy, dx, dy) {
     gfx.ctx.beginPath();
     gfx.ctx.moveTo(sx, sy);
     gfx.ctx.lineTo(dx, dy);
     gfx.ctx.stroke();
 }
 
-var drawWorld = function(world) {
+function drawWorld(world) {
 
     drawGrid(world);
 }
 
+function drawGrid(world) {
     gfx.ctx.strokeStyle = "#000000";
     for (var x = 0; x <= world.getWidth(); x++) {
         var draw_x = camera.transformToCameraSpace(x, 0).cam_x;
