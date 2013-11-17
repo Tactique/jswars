@@ -11,10 +11,11 @@ var requestAnimFrame = (function(){
         };
 })();
 
+
 function Game() {
     function init() {
         // setup the game state, hook up inputs, so on...
-
+        initInputs();
         // start the game
         mainLoop();
     }
