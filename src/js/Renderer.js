@@ -1,3 +1,8 @@
+function clearBack() {
+    gfx.ctx.fillStyle = "#FFFFFF";
+    gfx.ctx.fillRect(0, 0, gfx.width, gfx.height);
+}
+
 function drawLine(sx, sy, dx, dy) {
     gfx.ctx.beginPath();
     gfx.ctx.moveTo(sx, sy);
@@ -25,4 +30,11 @@ function drawGrid(world) {
         var right = camera.transformToCameraSpace(world.getWidth(), y).cam_x;
         drawLine(left, draw_y, right, draw_y);
     }
+}
+
+// should probably render the current state, not necessarily the world
+function render() {
+    clearBack();
+
+    drawWorld(world);
 }
