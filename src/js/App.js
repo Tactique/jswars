@@ -8,8 +8,6 @@ var gfx = {
 
 var game;
 var camera;
-var world = new World(5, 5);
-world.initialize([[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]);
 
 $(document).ready(function() {
     initialize();

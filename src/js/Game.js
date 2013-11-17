@@ -32,8 +32,32 @@ function Game() {
         requestAnimFrame(mainLoop);
     }
 
+    function changeState(newState) {
+        this.currentState = newState;
+    }
+
+    // this world initialization here is temporary
+    this.world = new World(5, 5);
+    this.world.initialize([[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]);
+
     this.lastTime = 0;
+    this.currentState = "CAMERA_CONTROL";
+
+    // using strings sucks here, should probably use an array
+    this.stateMap = {
+        "CAMERA_CONTROL" : {
+            render : drawWorld,
+            mouse : handleCameraMouse,
+            keyboard: handleCameraKeyboard
+        },
+        "UNIT_CONTROL" : {
+            render : drawWorld,
+            mouse : handleUnitMouse,
+            keyboard: handleUnitKeyboard
+        }
+    }
 
     this.init = init;
     this.mainLoop = mainLoop;
+    this.changeState = changeState;
 }

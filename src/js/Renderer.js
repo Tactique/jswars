@@ -10,9 +10,9 @@ function drawLine(sx, sy, dx, dy) {
     gfx.ctx.stroke();
 }
 
-function drawWorld(world) {
+function drawWorld() {
 
-    drawGrid(world);
+    drawGrid(game.world);
 }
 
 function drawGrid(world) {
@@ -36,5 +36,5 @@ function drawGrid(world) {
 function render() {
     clearBack();
 
-    drawWorld(world);
+    game.stateMap[game.currentState].render()
 }
