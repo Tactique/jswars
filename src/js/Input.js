@@ -22,8 +22,18 @@ function initInputs(){
 }
 
 function handleCameraKeyboard(ev) {
-    console.log("camera");
-    console.log(ev);
+    if (keyCodeToChar[ev.keyCode] === "Left") {
+        camera.move(-5, 0);
+    }
+    if (keyCodeToChar[ev.keyCode] === "Right") {
+        camera.move(5, 0);
+    }
+    if (keyCodeToChar[ev.keyCode] === "Up") {
+        camera.move(0, -5);
+    }
+    if (keyCodeToChar[ev.keyCode] === "Down") {
+        camera.move(0, 5);
+    }
 }
 
 function handleCameraMouse(ev) {
