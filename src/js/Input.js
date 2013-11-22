@@ -50,16 +50,16 @@ function InputManager() {
 
 function handleCameraKeyboard(keyboard) {
     var camMove = {'x': 0, 'y': 0};
-    if (keyCodeToChar[ev.keyCode] === "Left") {
+    if (keyboard.KeyDown("Left")) {
         camMove['x'] -= 5;
     }
-    if (keyCodeToChar[ev.keyCode] === "Right") {
+    if (keyboard.KeyDown("Right")) {
         camMove['x'] += 5;
     }
-    if (keyCodeToChar[ev.keyCode] === "Up") {
+    if (keyboard.KeyDown("Up")) {
         camMove['y'] -= 5;
     }
-    if (keyCodeToChar[ev.keyCode] === "Down") {
+    if (keyboard.KeyDown("Down")) {
         camMove['y'] += 5;
     }
     camera.processMove(camMove);
