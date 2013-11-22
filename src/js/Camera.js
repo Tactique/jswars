@@ -29,6 +29,10 @@ function Camera() {
         zoom(-10);
     }
 
+    function processMove(move) {
+        _move(move['x'], move['y']);
+    }
+
     function transformToCameraSpace(w_x, w_y) {
         return {
             cam_x : (w_x * zoomLevel) - x,
@@ -65,6 +69,10 @@ function Camera() {
 
     this.zoomOut = function() {
         return zoomOut();
+    }
+
+    this.processMove = function(move) {
+        processMove(move);
     }
 
     this.transformToCameraSpace = function(w_x, w_y) {

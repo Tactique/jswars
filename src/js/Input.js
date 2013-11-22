@@ -22,18 +22,20 @@ function initInputs(){
 }
 
 function handleCameraKeyboard(ev) {
+    var camMove = {'x': 0, 'y': 0};
     if (keyCodeToChar[ev.keyCode] === "Left") {
-        camera.move(-5, 0);
+        camMove['x'] -= 5;
     }
     if (keyCodeToChar[ev.keyCode] === "Right") {
-        camera.move(5, 0);
+        camMove['x'] += 5;
     }
     if (keyCodeToChar[ev.keyCode] === "Up") {
-        camera.move(0, -5);
+        camMove['y'] -= 5;
     }
     if (keyCodeToChar[ev.keyCode] === "Down") {
-        camera.move(0, 5);
+        camMove['y'] += 5;
     }
+    camera.processMove(camMove);
 }
 
 function handleCameraMouse(ev) {
