@@ -1,27 +1,54 @@
-function initInputs(){
-    // Low level input functions pass their events to the state handlers
-    $(document).keydown(function(ev) {
-        game.stateMap[game.currentState].keyboard(ev);
-    });
+function InputManager() {
+    function initInputs(){
+        $(document).keydown(function(ev) {
+            handleKeyboard(ev);
+        });
 
-    $(document).keyup(function(ev) {
-        game.stateMap[game.currentState].keyboard(ev);
-    });
+        $(document).keyup(function(ev) {
+            handleKeyboard(ev);
+        });
 
-    $(document).mousedown(function(ev) {
-        game.stateMap[game.currentState].mouse(ev);
-    });
+        $(document).mousedown(function(ev) {
+            handleMouse(ev);
+        });
 
-    $(document).mouseup(function(ev) {
-        game.stateMap[game.currentState].mouse(ev);
-    });
+        $(document).mouseup(function(ev) {
+            handleMouse(ev);
+        });
 
-    $(document).mousemove(function(ev) {
-        game.stateMap[game.currentState].mouse(ev);
-    });
+        $(document).mousemove(function(ev) {
+            handleMouse(ev);
+        });
+    }
+
+    function handleKeyboard(ev) {
+        if (ev.type === "keydown") {
+            keyboard[keyCodeToChar[ev.keyCode]] = true;
+        } else if(ev.type === "keyup") {
+            keyboard[keyCodeToChar[ev.keyCode]] = false;
+        }
+    }
+
+    function handleMouse(ev) {
+
+    }
+
+    function processInputs() {
+        game.stateMap[game.currentState].keyboard(keyboard);
+        game.stateMap[game.currentState].mouse();
+    }
+
+    initInputs();
+
+    keyboard = new Keyboard();
+    // this.mouse = new Mouse();
+
+    this.processInputs = function() {
+        processInputs();
+    }
 }
 
-function handleCameraKeyboard(ev) {
+function handleCameraKeyboard(keyboard) {
     var camMove = {'x': 0, 'y': 0};
     if (keyCodeToChar[ev.keyCode] === "Left") {
         camMove['x'] -= 5;
@@ -38,17 +65,14 @@ function handleCameraKeyboard(ev) {
     camera.processMove(camMove);
 }
 
-function handleCameraMouse(ev) {
-    console.log("camera");
-    console.log(ev);
+function handleCameraMouse(mouse) {
+    
 }
 
-function handleUnitKeyboard(ev) {
-    console.log("unit");
-    console.log(ev);
+function handleUnitKeyboard(keyboard) {
+    
 }
 
-function handleUnitMouse(ev) {
-    console.log("unit");
-    console.log(ev);
+function handleUnitMouse(mouse) {
+
 }

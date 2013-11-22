@@ -15,7 +15,7 @@ var requestAnimFrame = (function(){
 function Game() {
     function init() {
         // setup the game state, hook up inputs, so on...
-        initInputs();
+        this.Inputs = new InputManager();
         // start the game
         mainLoop();
     }
@@ -24,6 +24,7 @@ function Game() {
         var now = Date.now();
         var dt = (now - this.lastTime) / 1000.0;
 
+        this.Inputs.processInputs();
         // update entities, animations, and such, with dt
         // update(dt)
         render();
