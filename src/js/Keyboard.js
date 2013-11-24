@@ -6,7 +6,7 @@ function Keyboard() {
         if (key instanceof Number) {
             key = keyCodeToChar[key];
         }
-        if (this[key] === false || this[key] === null) {
+        if (this[key] == false || this[key] == null) {
             return false;
         }
         return true;
