@@ -72,7 +72,12 @@ function handleCameraKeyboard(keyboard) {
 }
 
 function handleCameraMouse(mouse) {
-    
+    var camMove = {'x': 0, 'y': 0};
+    if (mouse.ButtonDown("Right")) {
+        camMove['x'] = mouse.dx;
+        camMove['y'] = mouse.dy;
+    }
+    camera.processMove(camMove);
 }
 
 function handleUnitKeyboard(keyboard) {
