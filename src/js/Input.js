@@ -30,18 +30,24 @@ function InputManager() {
     }
 
     function handleMouse(ev) {
-
+        if (ev.type === "mousedown") {
+            mouse[buttonCodeToChar[ev.which]] = true;
+        } else if (ev.type === "mouseup") {
+            mouse[buttonCodeToChar[ev.which]] = false;
+        }
+        // This may not deal with the possibility of a moving window
+        mouse.UpdatePosition(ev.clientX, ev.clientY);
     }
 
     function processInputs() {
         game.stateMap[game.currentState].keyboard(keyboard);
-        game.stateMap[game.currentState].mouse();
+        game.stateMap[game.currentState].mouse(mouse);
     }
 
     initInputs();
 
     keyboard = new Keyboard();
-    // this.mouse = new Mouse();
+    mouse = new Mouse();
 
     this.processInputs = function() {
         processInputs();
