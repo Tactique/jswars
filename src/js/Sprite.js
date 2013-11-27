@@ -27,7 +27,7 @@ function Sprite(url, srcPos, width, height, animRate, animSeq) {
     this.srcPos = srcPos;
     this.width = width;
     this.height = height;
-    this.animRate = animRate !== null ? animRate : 0;
+    this.animRate = animRate != null ? animRate : 0;
     this.animSeq = this.animRate > 0 ? animSeq : [];
 
     this.update = function(dt) {
