@@ -35,8 +35,14 @@ function Sprite(url, srcPos, width, height, animRate, animSeq) {
         if (currentTime <= 0) {
             currentTime = this.animRate;
             currentFrame = (currentFrame + 1) % this.animSeq.length;
-            console.log("flipped", this.animSeq[currentFrame]);
         }
+    }
+
+    this.getFramePosition = function() {
+        if (this.animRate == 0) {
+            return this.srcPos;
+        }
+        return this.animSeq[currentFrame];
     }
 
     currentTime = this.animRate;
