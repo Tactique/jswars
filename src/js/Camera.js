@@ -33,6 +33,13 @@ function Camera() {
         _move(move['x'], move['y']);
     }
 
+    function multZoomFactor(w, h) {
+        return {
+            cam_w : w * zoomLevel,
+            cam_h : h * zoomLevel
+        }
+    }
+
     function transformToCameraSpace(w_x, w_y) {
         return {
             cam_x : (w_x * zoomLevel) - x,
@@ -73,6 +80,10 @@ function Camera() {
 
     this.processMove = function(move) {
         processMove(move);
+    }
+
+    this.multZoomFactor = function(w, h) {
+        return multZoomFactor(w, h);
     }
 
     this.transformToCameraSpace = function(w_x, w_y) {
