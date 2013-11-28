@@ -17,7 +17,6 @@ function Game() {
         // setup the game state, hook up inputs, so on...
         this.Inputs = new InputManager();
 
-        this.Sprites = new SpriteManager();
         // start the game
         mainLoop();
     }

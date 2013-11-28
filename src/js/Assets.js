@@ -58,7 +58,8 @@
         load: load,
         get: get,
         onReady: onReady,
-        isReady: isReady
+        isReady: isReady,
+        sprites: new SpriteManager()
     };
 })();
 
