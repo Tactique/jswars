@@ -64,5 +64,5 @@
 
 function GatherAssets(readyFunc) {
     assets.onReady(readyFunc)
-    assets.load(['img/unit_sprites.png', 'img/env_sprites.png']);
+    assets.load(['assets/unit_sprites.png', 'assets/env_sprites.png']);
 }
