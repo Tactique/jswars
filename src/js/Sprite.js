@@ -3,6 +3,20 @@ function SpriteManager() {
         sprites[spriteName] = new Sprite(url, srcPos, width, height, animRate, animSeq);
     }
 
+    function cloneSprite(srcSpriteName, newSpriteName) {
+        var srcSprite = sprites[srcSpriteName];
+        sprites[newSpriteName] = new Sprite(srcSprite.url,
+                                            srcSprite.srcPos,
+                                            srcSprite.width,
+                                            srcSprite.height,
+                                            srcSprite.animRate,
+                                            srcSprite.animSeq);
+    }
+
+    function getSprite(name) {
+        return sprites[name];
+    }
+
     function update(dt) {
         for (var key in sprites) {
             if (sprites.hasOwnProperty(key)) {
@@ -15,6 +29,14 @@ function SpriteManager() {
 
     this.addSprite = function(spriteName, url, srcPos, width, height, animRate, animSeq) {
         return addSprite(spriteName, url, srcPos, width, height, animRate, animSeq);
+    }
+
+    this.cloneSprite = function(srcSpriteName, newSpriteName) {
+        cloneSprite(srcSpriteName, newSpriteName);
+    }
+
+    this.getSprite = function(name) {
+        return getSprite(name);
     }
 
     this.update = function(dt) {
