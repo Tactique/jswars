@@ -2,6 +2,8 @@
     var resourceCache = {};
     var loading = [];
     var readyCallbacks = [];
+    var completeCallback = [];
+    var assets_loaded = 0;
 
     function load(urlOrArr) {
         if(urlOrArr instanceof Array) {
@@ -54,16 +56,53 @@
         readyCallbacks.push(func);
     }
 
+    function onCompletion(func) {
+        completeCallback.push(func);
+    }
+
+    function completed() {
+        assets_loaded += 1;
+        if (assets_loaded == asset_json.length) {
+            completeCallback.forEach(function(func) { func(); });
+        }
+    }
+
     assets = { 
         load: load,
         get: get,
         onReady: onReady,
         isReady: isReady,
+        onCompletion: onCompletion,
+        completed: completed,
         sprites: new SpriteManager()
     };
 })();
 
+var asset_img = ['assets/unit_sprites.png', 'assets/env_sprites.png'];
+var asset_json = ['assets/unit_sprites.json', 'assets/env_sprites.json'];
+
 function GatherAssets(readyFunc) {
-    assets.onReady(readyFunc)
-    assets.load(['assets/unit_sprites.png', 'assets/env_sprites.png']);
+    function loadAssetInfo() {
+        for (var i in asset_json) {
+            $.ajax({
+                url: asset_json[i],
+                dataType: 'json',
+                complete: ParseAssetInfo,
+                error: function() {
+                    console.log("Couldn't find asset at url: ", asset_json[i]);
+                }
+            });
+        }
+    }
+
+    assets.onCompletion(readyFunc);
+    assets.onReady(loadAssetInfo);
+    assets.load(asset_img);
+}
+
+function ParseAssetInfo(response) {
+
+    console.log(response.responseJSON);
+
+    assets.completed();
 }
