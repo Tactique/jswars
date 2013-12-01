@@ -112,5 +112,5 @@ function ParseAssetInfo(response) {
 function ParseSpriteInfo(sprite) {
     assets.sprites.addSprite(sprite.name, sprite.url, sprite.srcPos,
                              sprite.width, sprite.height,
-                             sprite.animRate, sprite.animSeq);
+                             sprite.animRate, sprite.animSeq, false);
 }

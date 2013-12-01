@@ -44,24 +44,25 @@ function SpriteManager() {
     }
 }
 
-function Sprite(url, srcPos, width, height, animRate, animSeq) {
+function Sprite(url, srcPos, width, height, animRate, animSeq, animate) {
     this.url = url;
     this.srcPos = srcPos;
     this.width = width;
     this.height = height;
     this.animRate = animRate != null ? animRate : 0;
     this.animSeq = this.animRate > 0 ? animSeq : [];
+    this.animate = animate != null ? animate : false;
 
     this.update = function(dt) {
         currentTime -= dt;
-        if (currentTime <= 0) {
+        if (currentTime <= 0 && this.animate) {
             currentTime = this.animRate;
             currentFrame = (currentFrame + 1) % this.animSeq.length;
         }
     }
 
     this.getFramePosition = function() {
-        if (this.animRate == 0) {
+        if (this.animRate == 0 || !this.animate) {
             return this.srcPos;
         }
         return this.animSeq[currentFrame];
