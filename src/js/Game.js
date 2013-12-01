@@ -15,22 +15,22 @@ var requestAnimFrame = (function(){
 function Game() {
     function init() {
         // setup the game state, hook up inputs, so on...
-        this.Inputs = new InputManager();
+        game.Inputs = new InputManager();
         // start the game
-        mainLoop();
+        game.mainLoop();
     }
 
     function mainLoop() {
         var now = Date.now();
-        var dt = (now - this.lastTime) / 1000.0;
+        var dt = (now - game.lastTime) / 1000.0;
 
-        this.Inputs.processInputs();
+        game.Inputs.processInputs();
         // update entities, animations, and such, with dt
         // update(dt)
         render();
 
-        this.lastTime = now;
-        requestAnimFrame(mainLoop);
+        game.lastTime = now;
+        requestAnimFrame(game.mainLoop);
     }
 
     function changeState(newState) {
