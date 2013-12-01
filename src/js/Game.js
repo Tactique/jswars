@@ -26,7 +26,7 @@ function Game() {
 
         game.Inputs.processInputs();
         // update entities, animations, and such, with dt
-        // update(dt)
+        game.update(dt);
         render();
 
         game.lastTime = now;
@@ -35,6 +35,10 @@ function Game() {
 
     function changeState(newState) {
         this.currentState = newState;
+    }
+
+    function update(dt) {
+        this.stateMap[this.currentState].update(dt);
     }
 
     // this world initialization here is temporary
@@ -48,11 +52,13 @@ function Game() {
     this.stateMap = {
         "CAMERA_CONTROL" : {
             render : drawWorld,
+            update : updateEverything,
             mouse : handleCameraMouse,
             keyboard: handleCameraKeyboard
         },
         "UNIT_CONTROL" : {
             render : drawWorld,
+            update : updateEverything,
             mouse : handleUnitMouse,
             keyboard: handleUnitKeyboard
         }
@@ -61,4 +67,9 @@ function Game() {
     this.init = init;
     this.mainLoop = mainLoop;
     this.changeState = changeState;
+    this.update = update;
+}
+
+function updateEverything(dt) {
+    assets.sprites.update(dt);
 }
