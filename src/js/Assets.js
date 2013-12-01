@@ -88,8 +88,8 @@ function GatherAssets(readyFunc) {
                 url: asset_json[i],
                 dataType: 'json',
                 complete: ParseAssetInfo,
-                error: function() {
-                    console.log("Couldn't find asset at url: ", asset_json[i]);
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error fetching asset: ", errorThrown);
                 }
             });
         }
