@@ -101,8 +101,16 @@ function GatherAssets(readyFunc) {
 }
 
 function ParseAssetInfo(response) {
-
-    console.log(response.responseJSON);
+    var json = response.responseJSON;
+    for (var i = 0; i < json.sprites.length; i++) {
+        ParseSpriteInfo(json.sprites[i]);
+    }
 
     assets.completed();
+}
+
+function ParseSpriteInfo(sprite) {
+    assets.sprites.addSprite(sprite.name, sprite.url, sprite.srcPos,
+                             sprite.width, sprite.height,
+                             sprite.animRate, sprite.animSeq);
 }
