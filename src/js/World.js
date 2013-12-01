@@ -1,3 +1,15 @@
+// This will eventually have much more information, including movement costs and such
+function Cell(spriteName) {
+    this.spriteName = spriteName;
+}
+
+// Units may deserve their own file eventually, as they will have to track
+// attack and defense information for the various weapon types
+function Unit(player, spriteName) {
+    this.player = player;
+    this.spriteName = spriteName;
+}
+
 function World(width, height) {
 
     function getWidth() {
