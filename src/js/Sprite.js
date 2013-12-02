@@ -11,7 +11,7 @@ function SpriteManager() {
                                             srcSprite.height,
                                             srcSprite.animRate,
                                             srcSprite.animSeq,
-                                            srcSprite.animate);
+                                            true);
     }
 
     function getSprite(name) {

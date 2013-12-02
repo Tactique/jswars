@@ -5,9 +5,9 @@ function Cell(spriteName) {
 
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
-function Unit(player, spriteName) {
-    this.player = player;
+function Unit(spriteName, pos) {
     this.spriteName = spriteName;
+    this.pos = pos;
 }
 
 function World(width, height) {
@@ -37,10 +37,38 @@ function World(width, height) {
         }
     }
 
+    // unit sprite's have to be cloned, so we have to wrap their creation
+    function addUnit(player, srcSpriteName, pos) {
+        if (units[player] == null) {
+            units[player] = [];
+        }
+        var newSpriteName = player + srcSpriteName + units[player].length;
+        assets.sprites.cloneSprite(srcSpriteName, newSpriteName);
+        var newUnit = new Unit(newSpriteName, pos);
+        units[player].push(newUnit);
+    }
+
+    // If player is null, this will return all units as a list
+    function getUnits(player) {
+        var output = [];
+        for (var key in units) {
+            if (units.hasOwnProperty(key)) {
+                if (player == null || key == player) {
+                    for (var i in units[key]) {
+                        output.push(units[key][i]);
+                    }
+                }
+            }
+        }
+        return output;
+    }
+
     var w = width;
     var h = height;
 
     var cells = new Array(width);
+
+    var units = {};
 
     for (var x = 0; x < width; x++) {
         cells[x] = new Array(height);
@@ -60,5 +88,13 @@ function World(width, height) {
 
     this.initialize = function(entryCells) {
         initialize(entryCells);
+    }
+
+    this.addUnit = function(player, srcSpriteName, pos) {
+        addUnit(player, srcSpriteName, pos);
+    }
+
+    this.getUnits = function(player) {
+        return getUnits(player);
     }
 }

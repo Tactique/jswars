@@ -16,6 +16,10 @@ function Game() {
     function init() {
         // setup the game state, hook up inputs, so on...
         game.Inputs = new InputManager();
+        // temporary. The fact remains units can't be added until the sprites
+        // have been loaded, so that'll have to be kept in mind for when the
+        // networking happens
+        game.world.addUnit("1", "wizard", {'x':2, 'y':2});
         // start the game
         game.mainLoop();
     }

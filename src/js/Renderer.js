@@ -13,6 +13,8 @@ function drawLine(sx, sy, dx, dy) {
 function drawWorld() {
     drawEnvironment(game.world);
 
+    drawUnits(game.world);
+
     drawGrid(game.world);
 }
 
@@ -26,6 +28,16 @@ function drawEnvironment(world) {
         }
     }
 }
+
+function drawUnits(world) {
+    var units = world.getUnits();
+    for (var i in units) {
+        var position = units[i].pos;
+        var sprite = assets.sprites.getSprite(units[i].spriteName);
+        drawSprite(position['x'], position['y'], sprite);
+    }
+}
+
 function drawSprite(x, y, sprite) {
     var img = assets.get(sprite.url);
     var pos = sprite.getFramePosition();
