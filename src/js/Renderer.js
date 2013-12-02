@@ -11,10 +11,21 @@ function drawLine(sx, sy, dx, dy) {
 }
 
 function drawWorld() {
+    drawEnvironment(game.world);
 
     drawGrid(game.world);
 }
 
+function drawEnvironment(world) {
+    for (var x = 0; x < world.getWidth(); x++) {
+        for (var y = 0; y < world.getHeight(); y++) {
+            // Should only be rendering the sprite if it can be seen by the camera
+            var current_cell = world.getCell(x, y);
+            var sprite = assets.sprites.getSprite(current_cell.spriteName);
+            drawSprite(x, y, sprite);
+        }
+    }
+}
 function drawSprite(x, y, sprite) {
     var img = assets.get(sprite.url);
     var pos = sprite.getFramePosition();
