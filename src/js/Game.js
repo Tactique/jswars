@@ -75,5 +75,6 @@ function Game() {
 }
 
 function updateEverything(dt) {
-    assets.sprites.update(dt);
+    // dt is in seconds, so convert to ms before passing to sprites
+    assets.sprites.update(dt * 1000);
 }
