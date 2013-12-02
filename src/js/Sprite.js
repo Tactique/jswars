@@ -1,6 +1,6 @@
 function SpriteManager() {
-    function addSprite(spriteName, url, srcPos, width, height, animRate, animSeq) {
-        sprites[spriteName] = new Sprite(url, srcPos, width, height, animRate, animSeq);
+    function addSprite(spriteName, url, srcPos, width, height, animRate, animSeq, animate) {
+        sprites[spriteName] = new Sprite(url, srcPos, width, height, animRate, animSeq, animate);
     }
 
     function cloneSprite(srcSpriteName, newSpriteName) {
@@ -10,7 +10,8 @@ function SpriteManager() {
                                             srcSprite.width,
                                             srcSprite.height,
                                             srcSprite.animRate,
-                                            srcSprite.animSeq);
+                                            srcSprite.animSeq,
+                                            srcSprite.animate);
     }
 
     function getSprite(name) {
