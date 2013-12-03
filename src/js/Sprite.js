@@ -55,10 +55,12 @@ function Sprite(url, srcPos, width, height, animRate, animSeq, animate) {
     this.animate = animate != null ? animate : false;
 
     this.update = function(dt) {
-        currentTime -= dt;
-        if (currentTime <= 0 && this.animate) {
-            currentTime = this.animRate;
-            currentFrame = (currentFrame + 1) % this.animSeq.length;
+        if (this.animate) {
+            this.currentTime -= dt;
+            if (this.currentTime <= 0) {
+                this.currentTime = this.animRate;
+                this.currentFrame = (this.currentFrame + 1) % this.animSeq.length;
+            }
         }
     }
 
@@ -66,9 +68,9 @@ function Sprite(url, srcPos, width, height, animRate, animSeq, animate) {
         if (this.animRate == 0 || !this.animate) {
             return this.srcPos;
         }
-        return this.animSeq[currentFrame];
+        return this.animSeq[this.currentFrame];
     }
 
-    currentTime = this.animRate;
-    currentFrame = 0;
+    this.currentTime = this.animRate;
+    this.currentFrame = 0;
 }
