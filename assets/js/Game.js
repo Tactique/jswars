@@ -20,6 +20,8 @@ function Game() {
         // have been loaded, so that'll have to be kept in mind for when the
         // networking happens
         game.world.addUnit("1", "wizard", {'x':2, 'y':2});
+        game.world.addUnit("1", "wizard", {'x':2, 'y':1});
+        game.world.addUnit("1", "wizard", {'x':2, 'y':0});
         // start the game
         game.mainLoop();
     }

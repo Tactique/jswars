@@ -2,7 +2,7 @@
     "sprites": [
         {
             "name": "road",
-            "url": "assets/env_sprites.png",
+            "url": "assets/sprites/env_sprites.png",
             "srcPos": {"x": 0, "y": 0},
             "width": 16,
             "height": 16,

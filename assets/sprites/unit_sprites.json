@@ -2,7 +2,7 @@
     "sprites": [
         {
             "name": "wizard",
-            "url": "assets/unit_sprites.png",
+            "url": "assets/sprites/unit_sprites.png",
             "srcPos": {"x": 0, "y": 0},
             "width": 16,
             "height": 16,
