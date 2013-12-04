@@ -8,7 +8,7 @@ import (
 )
 
 // matches for urls which contain file name extensions, ie static files
-var static_regex = regexp.MustCompile("/([^/]*\\.[^/]*)$"); 
+var static_regex = regexp.MustCompile("/assets/.*\\..*$");
 
 func serveIndex(w http.ResponseWriter, r *http.Request) {
     // check for and process static file requests
