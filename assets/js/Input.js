@@ -37,11 +37,12 @@ function InputManager() {
         }
         // This may not deal with the possibility of a moving window
         mouse.UpdatePosition(ev.clientX, ev.clientY);
+        mouse.events.push(new MouseEvent(buttonCodeToChar[ev.which], ev.type));
     }
 
     function processInputs() {
         game.stateMap[game.currentState].keyboard(keyboard);
-        game.stateMap[game.currentState].mouse(mouse);
+        game.stateMap[game.currentState].mouse(mouse, mouse.events.shift());
     }
 
     initInputs();
@@ -71,13 +72,17 @@ function handleCameraKeyboard(keyboard) {
     camera.processMove(camMove);
 }
 
-function handleCameraMouse(mouse) {
-    var camMove = {'x': 0, 'y': 0};
-    if (mouse.ButtonDown("Right")) {
-        camMove['x'] = mouse.dx;
-        camMove['y'] = mouse.dy;
+function handleCameraMouse(mouse, last_ev) {
+    // click and drag can definitely be better controlled via a real state machine
+    if (mouse.ButtonDown("Left") && mouse.dx != 0 && mouse.dy != 0) {
+        var camMove = {'x': mouse.dx, 'y': mouse.dy};
+        mouse.dx = 0;
+        mouse.dy = 0;
+        camera.processMove(camMove);
+    } else if (last_ev != null && last_ev.button == "Left" &&
+        last_ev.action == "mouseup" && mouse.dx == 0 && mouse.dy == 0) {
+        console.log(camera.transformToWorldSpace(mouse.x, mouse.y));
     }
-    camera.processMove(camMove);
 }
 
 function handleUnitKeyboard(keyboard) {
