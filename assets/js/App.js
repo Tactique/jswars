@@ -1,4 +1,6 @@
 var edgeMargin = 100;
+// cache the canvas so we can get information about it later
+var canvas;
 
 var gfx = {
     ctx: null,
@@ -29,12 +31,16 @@ var initialize = function() {
 }
 
 var initCanvas = function(width, height) {
-    var canvas = document.createElement("canvas");
+    canvas = document.createElement("canvas");
     canvas.id = "canvas";
     document.getElementById("canvas_land").appendChild(canvas);
     resizeCanvas(width, height);
 
     gfx.ctx = setupContext(canvas.getContext("2d"));
+
+    // we want the jquery version of this object, but that has to happen after
+    // the initialization above
+    canvas = $(canvas);
 }
 
 var setupContext = function(ctx) {
