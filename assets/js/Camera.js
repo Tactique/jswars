@@ -47,6 +47,13 @@ function Camera() {
         }
     }
 
+    function transformToWorldSpace(c_x, c_y) {
+        return {
+            world_x : Math.floor((c_x + x) / zoomLevel),
+            world_y : Math.floor((c_y + y) / zoomLevel)
+        }
+    }
+
     var x = 0;
     var y = 0;
     var width = gfx.width;
@@ -88,5 +95,9 @@ function Camera() {
 
     this.transformToCameraSpace = function(w_x, w_y) {
         return transformToCameraSpace(w_x, w_y);
+    }
+
+    this.transformToWorldSpace = function(c_x, c_y) {
+        return transformToWorldSpace(c_x, c_y);
     }
 }
