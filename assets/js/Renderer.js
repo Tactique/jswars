@@ -48,7 +48,7 @@ function drawSprite(x, y, sprite) {
     var cam_size = camera.multZoomFactor(1, 1);
 
     gfx.ctx.drawImage(img,
-                      pos['x'] * sprite.width, pos['y'] * sprite.height,
+                      pos['x'], pos['y'],
                       sprite.width, sprite.height,
                       cam_pos.cam_x, cam_pos.cam_y,
                       cam_size.cam_w, cam_size.cam_h);
