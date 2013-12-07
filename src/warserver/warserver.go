@@ -10,6 +10,8 @@ var static_http = http.NewServeMux()
 func Main() {
     logger.SetupLogger(logger.DEBUG, logger.USUAL)
 
+    go gamehub.handleConnections()
+
     static_http.Handle("/", http.FileServer(http.Dir("./")))
 
     http.HandleFunc("/", serveIndex)

@@ -14,7 +14,7 @@ const (
 )
 
 type connection struct {
-    ws *websocket.Conn
+    ws []*websocket.Conn
     sock net.Conn
 }
 
@@ -41,10 +41,10 @@ func (p *proxy) sockReadPump() {
     }
 }
 
-func (p *proxy) wsReadPump() {
-    p.proxyConn.ws.SetReadLimit(RECV_BUF_LEN)
+func (p *proxy) wsReadPump(wsNum int) {
+    p.proxyConn.ws[wsNum].SetReadLimit(RECV_BUF_LEN)
     for {
-        _, msg, err := p.proxyConn.ws.ReadMessage()
+        _, msg, err := p.proxyConn.ws[wsNum].ReadMessage()
         if err != nil {
             logger.Errorf("Error while reading from websocket: %s", err)
             break
@@ -67,16 +67,31 @@ func (p *proxy) sockWritePump() {
 
 func (p *proxy) wsWritePump() {
     for msg := range p.proxyPipes.wsRecv {
-        logger.Debugf("Writing %s to websocket", msg)
-        err := p.proxyConn.ws.WriteMessage(websocket.TextMessage, msg)
-        if err != nil {
-            logger.Errorf("Error while writing to websocket: %s", err)
-            break
+        for i := range p.proxyConn.ws {
+            logger.Debugf("Writing %s to websocket", msg)
+            err := p.proxyConn.ws[i].WriteMessage(websocket.TextMessage, msg)
+            if err != nil {
+                logger.Errorf("Error while writing to websocket: %s", err)
+                break
+            }
         }
     }
 }
 
-func ServeWs(w http.ResponseWriter, r *http.Request) {
+func (p *proxy) launchProxy() {
+    go p.sockReadPump()
+    for i := 0; i < len(p.proxyConn.ws); i++ {
+        go p.wsReadPump(i)
+    }
+    go p.sockWritePump()
+    go p.wsWritePump()
+}
+
+func connectToServer() (net.Conn, error) {
+    return net.Dial("tcp", SERVER_IP + ":" + SERVER_PORT)
+}
+
+func serveWs(w http.ResponseWriter, r *http.Request) {
     if r.Method != "GET" {
             http.Error(w, "Method not allowed", 405)
             return
@@ -93,19 +108,5 @@ func ServeWs(w http.ResponseWriter, r *http.Request) {
             logger.Errorf("Websocket upgrade error: %s", err)
             return
     }
-    // with the websocket in hand, connect to the server
-    sock, err := net.Dial("tcp", SERVER_IP + ":" + SERVER_PORT)
-    if err != nil {
-        logger.Errorf("Could not connect to server: %s", err)
-        return
-    }
-    // create our resources
-    c := connection{ws: ws, sock: sock}
-    p := pipe{wsRecv: make(chan []byte, 1024), sockRecv: make(chan []byte, 1024)}
-    prox := &proxy{proxyConn: c, proxyPipes: p}
-    logger.Info("Connections successfully established. Proxying...")
-    go prox.sockReadPump()
-    go prox.wsReadPump()
-    go prox.sockWritePump()
-    prox.wsWritePump()
+    gamehub.wsRegister <- ws
 }
