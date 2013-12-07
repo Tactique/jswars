@@ -49,11 +49,11 @@ function Game() {
 
     // this world initialization here is temporary
     this.world = new World(5, 5);
-    this.world.initialize([[new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road")],
-                           [new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road")],
-                           [new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road")],
-                           [new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road")],
-                           [new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road"), new Cell("road")]]);
+    this.world.initialize([[new Cell("road_bottom_right"), new Cell("road"), new Cell("road_bottom_left"), new Cell("plains"), new Cell("plains")],
+                           [new Cell("road_vert"), new Cell("plains"), new Cell("road_vert"), new Cell("plains"), new Cell("plains")],
+                           [new Cell("road_top_right"), new Cell("road"), new Cell("road_cross"), new Cell("road"), new Cell("road_bottom_left")],
+                           [new Cell("plains"), new Cell("plains"), new Cell("road_vert"), new Cell("plains"), new Cell("road_vert")],
+                           [new Cell("plains"), new Cell("plains"), new Cell("road_top_right"), new Cell("road"), new Cell("road_top_left")]]);
 
     this.lastTime = 0;
     this.currentState = "CAMERA_CONTROL";
