@@ -1,4 +1,4 @@
-package proxy
+package warserver
 
 import (
     "github.com/gorilla/websocket"
@@ -9,8 +9,8 @@ import (
 
 const (
     RECV_BUF_LEN = 1024
-    SERVER_IP = "localhost"
-    SERVER_PORT = "9999"
+    SERVER_IP = "192.168.0.100"
+    SERVER_PORT = "5269"
 )
 
 type connection struct {

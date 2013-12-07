@@ -2,7 +2,6 @@ package warserver
 
 import (
     "warserver/logger"
-    "warserver/proxy"
     "net/http"
 )
 
@@ -14,7 +13,7 @@ func Main() {
     static_http.Handle("/", http.FileServer(http.Dir("./")))
 
     http.HandleFunc("/", serveIndex)
-    http.HandleFunc("/ws", proxy.ServeWs)
+    http.HandleFunc("/ws", serveWs)
 
     logger.Debug("Http server listening on port 8888")
     http.ListenAndServe(":8888", nil)
