@@ -5,17 +5,23 @@ import (
     "net"
     "net/http"
     "warserver/logger"
+    "time"
 )
 
 const (
     RECV_BUF_LEN = 1024
-    SERVER_IP = "192.168.0.100"
+    SERVER_IP = "localhost"
     SERVER_PORT = "5269"
 )
 
-type connection struct {
-    ws []*websocket.Conn
-    sock net.Conn
+type websocketHandler interface {
+    handleWebsocket(message []byte)
+}
+
+type clientConnection struct {
+    ws *websocket.Conn
+    currentHandler websocketHandler
+    handlers chan websocketHandler
 }
 
 type pipe struct {
@@ -24,67 +30,42 @@ type pipe struct {
 }
 
 type proxy struct {
-    proxyConn connection
+    proxyConn clientConnection
     proxyPipes pipe
 }
 
-func (p *proxy) sockReadPump() {
+func (pc *clientConnection) wsReadPump() {
+    pc.ws.SetReadLimit(RECV_BUF_LEN)
     for {
-        buf := make([]byte, RECV_BUF_LEN)
-        _, err := p.proxyConn.sock.Read(buf)
-        if err != nil {
-            logger.Errorf("Error while reading from socket: %s", err)
-            break
-        }
-        logger.Debugf("Received %s from socket", buf)
-        p.proxyPipes.wsRecv <- buf
-    }
-}
-
-func (p *proxy) wsReadPump(wsNum int) {
-    p.proxyConn.ws[wsNum].SetReadLimit(RECV_BUF_LEN)
-    for {
-        _, msg, err := p.proxyConn.ws[wsNum].ReadMessage()
+        _, msg, err := pc.ws.ReadMessage()
         if err != nil {
             logger.Errorf("Error while reading from websocket: %s", err)
             break
         }
         logger.Debugf("Received %s from websocket", msg)
-        p.proxyPipes.sockRecv <- msg
-    }
-}
-
-func (p *proxy) sockWritePump() {
-    for msg := range p.proxyPipes.sockRecv {
-        logger.Debugf("Writing %s to socket", msg)
-        _, err := p.proxyConn.sock.Write(msg)
-        if err != nil {
-            logger.Errorf("Error while writing to socket: %s", err)
-            break
+        select {
+        case newHandler := <-pc.handlers:
+            pc.currentHandler = newHandler
+        default:
         }
+        pc.currentHandler.handleWebsocket(msg)
     }
 }
 
-func (p *proxy) wsWritePump() {
-    for msg := range p.proxyPipes.wsRecv {
-        for i := range p.proxyConn.ws {
-            logger.Debugf("Writing %s to websocket", msg)
-            err := p.proxyConn.ws[i].WriteMessage(websocket.TextMessage, msg)
-            if err != nil {
-                logger.Errorf("Error while writing to websocket: %s", err)
-                break
-            }
-        }
-    }
+type test1 struct {
+
 }
 
-func (p *proxy) launchProxy() {
-    go p.sockReadPump()
-    for i := 0; i < len(p.proxyConn.ws); i++ {
-        go p.wsReadPump(i)
-    }
-    go p.sockWritePump()
-    go p.wsWritePump()
+func (t test1) handleWebsocket(message []byte) {
+    logger.Debugf("TEST1: %s", message)
+}
+
+type test2 struct {
+
+}
+
+func (t test2) handleWebsocket(message []byte) {
+    logger.Debugf("TEST2: %s", message)
 }
 
 func connectToServer() (net.Conn, error) {
@@ -108,5 +89,10 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
             logger.Errorf("Websocket upgrade error: %s", err)
             return
     }
-    gamehub.wsRegister <- ws
+    t1 := test1{}
+    t2 := test2{}
+    conn := clientConnection{ws: ws, currentHandler: t1, handlers: make(chan websocketHandler)}
+    go conn.wsReadPump()
+    time.Sleep(10 * time.Second)
+    conn.handlers<- t2
 }
