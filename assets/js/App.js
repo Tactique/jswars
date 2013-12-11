@@ -56,4 +56,6 @@ var resizeCanvas = function(width, height) {
 
     gfx.width = canvas.width;
     gfx.height = canvas.height;
+
+    gfx.ctx = setupContext(canvas.getContext("2d"));
 }
