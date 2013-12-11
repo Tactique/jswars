@@ -5,15 +5,15 @@ conn = new WebSocket(ws_addr);
 
 // When the connection is open, send some data to the server
 conn.onopen = function () {
-  conn.send('Ping'); // Send the message 'Ping' to the server
+    // eventually send some login info
 };
 
 // Log errors
 conn.onerror = function (error) {
-  console.log('WebSocket Error ' + error);
+    console.log('WebSocket Error ' + error);
 };
 
 // Log messages from the server
 conn.onmessage = function (e) {
-  console.log('Server: ' + e.data);
+    console.log('Server: ' + e.data);
 };
