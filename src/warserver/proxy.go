@@ -72,4 +72,5 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
             logger.Errorf("Websocket upgrade error: %s", err)
             return
     }
+    gamehub.wsRegister<- ws
 }
