@@ -5,7 +5,6 @@ import (
     "net"
     "net/http"
     "warserver/logger"
-    "time"
 )
 
 const (
@@ -52,22 +51,6 @@ func (pc *clientConnection) wsReadPump() {
     }
 }
 
-type test1 struct {
-
-}
-
-func (t test1) handleWebsocket(message []byte) {
-    logger.Debugf("TEST1: %s", message)
-}
-
-type test2 struct {
-
-}
-
-func (t test2) handleWebsocket(message []byte) {
-    logger.Debugf("TEST2: %s", message)
-}
-
 func connectToServer() (net.Conn, error) {
     return net.Dial("tcp", SERVER_IP + ":" + SERVER_PORT)
 }
@@ -89,10 +72,4 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
             logger.Errorf("Websocket upgrade error: %s", err)
             return
     }
-    t1 := test1{}
-    t2 := test2{}
-    conn := clientConnection{ws: ws, currentHandler: t1, handlers: make(chan websocketHandler)}
-    go conn.wsReadPump()
-    time.Sleep(10 * time.Second)
-    conn.handlers<- t2
 }
