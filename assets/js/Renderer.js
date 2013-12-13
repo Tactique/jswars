@@ -28,8 +28,7 @@ function drawEnvironment(world) {
         for (var y = 0; y < world.getHeight(); y++) {
             // Should only be rendering the sprite if it can be seen by the camera
             var current_cell = world.getCell(x, y);
-            var sprite = assets.sprites.getSprite(current_cell.spriteName);
-            drawSprite(x, y, sprite);
+            drawSprite(x, y, current_cell.spriteName)
         }
     }
 }
@@ -38,12 +37,12 @@ function drawUnits(world) {
     var units = world.getUnits();
     for (var i in units) {
         var position = units[i].pos;
-        var sprite = assets.sprites.getSprite(units[i].spriteName);
-        drawSprite(position['x'], position['y'], sprite);
+        drawSprite(position['x'], position['y'], units[i].spriteName);
     }
 }
 
-function drawSprite(x, y, sprite) {
+function drawSprite(x, y, spriteName) {
+    var sprite = assets.sprites.getSprite(spriteName)
     var img = assets.get(sprite.url);
     var pos = sprite.getFramePosition();
 
