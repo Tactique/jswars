@@ -61,13 +61,11 @@ function Game() {
     // using strings sucks here, should probably use an array
     this.stateMap = {
         "CAMERA_CONTROL" : {
-            render : drawWorld,
             update : updateEverything,
             mouse : handleCameraMouse,
             keyboard: handleCameraKeyboard
         },
         "UNIT_CONTROL" : {
-            render : drawWorld,
             update : updateEverything,
             mouse : handleUnitMouse,
             keyboard: handleUnitKeyboard

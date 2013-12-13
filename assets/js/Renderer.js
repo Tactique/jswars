@@ -1,3 +1,8 @@
+var renderers = {
+    "CAMERA_CONTROL": drawWorld,
+    "UNIT_CONTROL": drawWorld,
+}
+
 function clearBack() {
     gfx.ctx.fillStyle = "#FFFFFF";
     gfx.ctx.fillRect(0, 0, gfx.width, gfx.height);
@@ -75,5 +80,5 @@ function drawGrid(world) {
 function render() {
     clearBack();
 
-    game.stateMap[game.currentState].render()
+    renderers[game.currentState]()
 }
