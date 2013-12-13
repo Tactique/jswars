@@ -13,10 +13,11 @@ const (
 )
 
 type newGame struct {
-    numPlayers float64
+    numPlayers int
 }
 
 type game_hub struct {
+    gameRequests chan *newGame
     uncommittedGames *list.List
     committedGames *list.List
     wsRegister chan *websocket.Conn
@@ -36,7 +37,7 @@ func (gh *game_hub) handleWebsocket(message []byte) {
     }
 }
 
-func (gh game_hub) handleNewGame(message string) {
+func (gh *game_hub) handleNewGame(message string) {
     ng := newGame{}
     err := json.Unmarshal([]byte(message), &ng)
     if err != nil {
@@ -45,6 +46,7 @@ func (gh game_hub) handleNewGame(message string) {
     }
     logger.Infof("%s", ng.numPlayers)
     logger.Infof("Got new game %s", ng)
+    gh.gameRequests <- &ng
 }
 
 type game struct {
@@ -53,12 +55,25 @@ type game struct {
 }
 
 var gamehub = game_hub {
+    gameRequests: make(chan *newGame),
     wsRegister: make(chan *websocket.Conn),
     localHandlers: make(map [string]func(message string)),
 }
 
+func (gh *game_hub) processNewGameRequests() {
+    for ng := range gh.gameRequests {
+        // look for an existing game to satisfy the new request
+        // create a game if one can't be found
+        // in game, create slice of websocket pointers with enough
+        // room to hold all the incoming sockets
+        logger.Infof("Got a new game: %s", ng)
+    }
+}
+
 func setupGamehub() {
     gamehub.localHandlers["newGame"] = gamehub.handleNewGame
+
+    go gamehub.processNewGameRequests()
 }
 
 func (gh *game_hub) handleConnections() {
