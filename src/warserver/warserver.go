@@ -9,6 +9,7 @@ var static_http = http.NewServeMux()
 
 func Main() {
     logger.SetupLogger(logger.DEBUG, logger.USUAL)
+    setupGamehub()
 
     go gamehub.handleConnections()
 
