@@ -13,7 +13,7 @@ const (
 )
 
 type newGame struct {
-    numPlayers int
+    NumPlayers int
 }
 
 type game_hub struct {
@@ -44,7 +44,6 @@ func (gh *game_hub) handleNewGame(message string) {
         logger.Warnf("Error unmarshalling json: %s", err)
         return
     }
-    logger.Infof("%s", ng.numPlayers)
     logger.Infof("Got new game %s", ng)
     gh.gameRequests <- &ng
 }
