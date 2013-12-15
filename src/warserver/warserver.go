@@ -19,5 +19,8 @@ func Main() {
     http.HandleFunc("/ws", serveWs)
 
     logger.Debug("Http server listening on port 8888")
-    http.ListenAndServe(":8888", nil)
+    err := http.ListenAndServe(":8888", nil)
+    if err != nil {
+        logger.Fatalf("ListenAndServe: %s", err.Error())
+    }
 }
