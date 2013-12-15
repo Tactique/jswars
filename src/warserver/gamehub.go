@@ -82,7 +82,7 @@ func (gh *game_hub) handleDisconnection(message string, cconn *clientConnection)
 func (gh *game_hub) handleConnections() {
     for conn := range gh.wsRegister {
         cconn := clientConnection{ws: conn, currentHandler: gh,
-                                  handlers: make(chan websocketHandler),
+                                  handlers: make(chan websocketHandler, 5),
                                   toClient: make(chan []byte)}
         go cconn.wsReadPump()
         go cconn.wsWritePump()
