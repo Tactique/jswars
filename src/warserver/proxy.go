@@ -21,6 +21,7 @@ type clientConnection struct {
     ws *websocket.Conn
     currentHandler websocketHandler
     handlers chan websocketHandler
+    toClient chan []byte
 }
 
 type pipe struct {
@@ -55,6 +56,17 @@ func (pc *clientConnection) wsReadPump() {
         default:
         }
         pc.currentHandler.handleWebsocket(msg, pc)
+    }
+}
+
+func (pc *clientConnection) wsWritePump() {
+    for msg := range pc.toClient {
+        logger.Debugf("Writing %s to websocket", msg)
+        err := pc.ws.WriteMessage(websocket.TextMessage, msg)
+        if err != nil {
+            logger.Errorf("Error while writing to websocket: %s", err)
+            break
+        }
     }
 }
 

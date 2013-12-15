@@ -52,8 +52,11 @@ func (gh *game_hub) handleNewGame(message string, cconn *clientConnection) {
 
 func (gh *game_hub) handleConnections() {
     for conn := range gh.wsRegister {
-        cconn := clientConnection{ws: conn, currentHandler: gh, handlers: make(chan websocketHandler)}
+        cconn := clientConnection{ws: conn, currentHandler: gh,
+                                  handlers: make(chan websocketHandler),
+                                  toClient: make(chan []byte)}
         go cconn.wsReadPump()
+        go cconn.wsWritePump()
     }
 }
 
