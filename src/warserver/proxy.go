@@ -46,7 +46,7 @@ func (p *proxy) slotClientConnection(slot int, cconn *clientConnection) {
 func (p *proxy) removeClientConnection(pos int) {
     j := pos + 1
     copy(p.proxyConns[pos:], p.proxyConns[j:])
-    for k, n := len(p.proxyConns)- j + pos, len(p.proxyConns); k < n; k ++ {
+    for k, n := len(p.proxyConns) - j + pos, len(p.proxyConns); k < n; k ++ {
         p.proxyConns[k] = nil // or the zero value of T
     } // for k
     p.proxyConns = p.proxyConns[:len(p.proxyConns) - j + pos]
