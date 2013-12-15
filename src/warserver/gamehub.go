@@ -48,33 +48,6 @@ func (gh *game_hub) handleNewGame(message string) {
     gh.gameRequests <- &ng
 }
 
-type game struct {
-    numPlayers int
-    proxy proxy
-}
-
-var gamehub = game_hub {
-    gameRequests: make(chan *newGame),
-    wsRegister: make(chan *websocket.Conn),
-    localHandlers: make(map [string]func(message string)),
-}
-
-func (gh *game_hub) processNewGameRequests() {
-    for ng := range gh.gameRequests {
-        // look for an existing game to satisfy the new request
-        // create a game if one can't be found
-        // in game, create slice of websocket pointers with enough
-        // room to hold all the incoming sockets
-        logger.Infof("Got a new game: %s", ng)
-    }
-}
-
-func setupGamehub() {
-    gamehub.localHandlers["newGame"] = gamehub.handleNewGame
-
-    go gamehub.processNewGameRequests()
-}
-
 func (gh *game_hub) handleConnections() {
     for conn := range gh.wsRegister {
         cconn := clientConnection{ws: conn, currentHandler: gh, handlers: make(chan websocketHandler)}
@@ -90,4 +63,27 @@ func (gh *game_hub) makeGame(numPlayers int) {
     }
 
     logger.Info("Connections successfully established. Proxying...")
+}
+
+func (gh *game_hub) processNewGameRequests() {
+    for ng := range gh.gameRequests {
+        // look for an existing game to satisfy the new request
+        // create a game if one can't be found
+        // in game, create slice of websocket pointers with enough
+        // room to hold all the incoming sockets
+        logger.Infof("Got a new game: %s", ng)
+    }
+}
+
+var gamehub = game_hub {
+    gameRequests: make(chan *newGame),
+    wsRegister: make(chan *websocket.Conn),
+    localHandlers: make(map [string]func(message string)),
+}
+
+
+func setupGamehub() {
+    gamehub.localHandlers["newGame"] = gamehub.handleNewGame
+
+    go gamehub.processNewGameRequests()
 }
