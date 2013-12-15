@@ -17,11 +17,16 @@ type websocketHandler interface {
     handleWebsocket(message []byte, cconn *clientConnection)
 }
 
+type clientInfo struct {
+    Id int
+}
+
 type clientConnection struct {
     ws *websocket.Conn
     currentHandler websocketHandler
     handlers chan websocketHandler
     toClient chan []byte
+    info clientInfo
 }
 
 type pipe struct {

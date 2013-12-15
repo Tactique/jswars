@@ -38,6 +38,17 @@ func (gh *game_hub) handleWebsocket(message []byte, cconn *clientConnection) {
     }
 }
 
+func (gh *game_hub) handleClientInfo(message string, cconn *clientConnection) {
+    ci := clientInfo{}
+    // I hate repeating this unmarshalling code, does Go allow something more general?
+    err := json.Unmarshal([]byte(message), &ci)
+    if err != nil {
+        logger.Warnf("Error unmarshalling json: %s", err)
+        return
+    }
+    cconn.info = ci
+}
+
 func (gh *game_hub) handleNewGame(message string, cconn *clientConnection) {
     ng := newGame{}
     err := json.Unmarshal([]byte(message), &ng)
@@ -112,6 +123,8 @@ var gamehub = game_hub {
 
 
 func setupGamehub() {
+    gamehub.localHandlers["clientInfo"] = gamehub.handleClientInfo
+    // I need to make sure a client has sent their info before requesting a new game
     gamehub.localHandlers["newGame"] = gamehub.handleNewGame
 
     go gamehub.processNewGameRequests()
