@@ -19,7 +19,7 @@ type newGame struct {
 
 type game_hub struct {
     gameRequests chan *newGame
-    uncommittedGames *list.List
+    uncommittedGames map[int]*game
     committedGames *list.List
     wsRegister chan *websocket.Conn
     localHandlers map[string]func(message string, cconn *clientConnection)
@@ -79,22 +79,20 @@ func (gh *game_hub) processNewGameRequests() {
         }
         gm.proxy.slotClientConnection(gm.currentPlayers, ng.cconn)
         gm.currentPlayers += 1
+        if gm.currentPlayers == gm.numPlayers {
+            gh.commitGame(gm)
+        }
     }
 }
 
 func (gh *game_hub) findGame(ng *newGame) *game {
-    for e := gh.uncommittedGames.Front(); e != nil; e = e.Next() {
-        currGame := e.Value.(*game)
-        if ng.NumPlayers == currGame.numPlayers {
-            return currGame
-        }
-    }
-    return nil
+    game := gh.uncommittedGames[ng.NumPlayers]
+    return game
 }
 
 var gamehub = game_hub {
     gameRequests: make(chan *newGame),
-    uncommittedGames: list.New(),
+    uncommittedGames: make(map [int]*game),
     committedGames: list.New(),
     wsRegister: make(chan *websocket.Conn),
     localHandlers: make(map [string]func(message string, cconn *clientConnection)),
