@@ -14,7 +14,7 @@ const (
 )
 
 type websocketHandler interface {
-    handleWebsocket(message []byte)
+    handleWebsocket(message []byte, cconn *clientConnection)
 }
 
 type clientConnection struct {
@@ -47,7 +47,7 @@ func (pc *clientConnection) wsReadPump() {
             pc.currentHandler = newHandler
         default:
         }
-        pc.currentHandler.handleWebsocket(msg)
+        pc.currentHandler.handleWebsocket(msg, pc)
     }
 }
 

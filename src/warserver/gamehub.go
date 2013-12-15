@@ -14,6 +14,7 @@ const (
 
 type newGame struct {
     NumPlayers int
+    cconn *clientConnection
 }
 
 type game_hub struct {
@@ -21,14 +22,14 @@ type game_hub struct {
     uncommittedGames *list.List
     committedGames *list.List
     wsRegister chan *websocket.Conn
-    localHandlers map[string]func(message string)
+    localHandlers map[string]func(message string, cconn *clientConnection)
 }
 
-func (gh *game_hub) handleWebsocket(message []byte) {
+func (gh *game_hub) handleWebsocket(message []byte, cconn *clientConnection) {
     cmds := strings.SplitN(string(message), ":", 2)
     if len(cmds) == 2 {
         if fun, ok := gh.localHandlers[cmds[0]]; ok {
-            fun(cmds[1])
+            fun(cmds[1], cconn)
         } else {
             logger.Warnf("Unrecognized command: %s", cmds[0])
         }
@@ -37,13 +38,14 @@ func (gh *game_hub) handleWebsocket(message []byte) {
     }
 }
 
-func (gh *game_hub) handleNewGame(message string) {
+func (gh *game_hub) handleNewGame(message string, cconn *clientConnection) {
     ng := newGame{}
     err := json.Unmarshal([]byte(message), &ng)
     if err != nil {
         logger.Warnf("Error unmarshalling json: %s", err)
         return
     }
+    ng.cconn = cconn
     logger.Infof("Got new game %s", ng)
     gh.gameRequests <- &ng
 }
@@ -55,30 +57,45 @@ func (gh *game_hub) handleConnections() {
     }
 }
 
-func (gh *game_hub) makeGame(numPlayers int) {
-    _, err := connectToServer()
-    if err != nil {
-        logger.Errorf("Could not connect to server: %s", err)
-        return
-    }
+func (gh *game_hub) makeGame(numPlayers int) *game {
+    proxy := proxy{proxyConns: make([]*clientConnection, numPlayers)}
+    game := game{numPlayers: numPlayers,
+               proxy: proxy}
+    gh.uncommittedGames.PushBack(&game)
 
-    logger.Info("Connections successfully established. Proxying...")
+    return &game
 }
 
 func (gh *game_hub) processNewGameRequests() {
     for ng := range gh.gameRequests {
         // look for an existing game to satisfy the new request
+        gm := gh.findGame(ng)
         // create a game if one can't be found
-        // in game, create slice of websocket pointers with enough
-        // room to hold all the incoming sockets
-        logger.Infof("Got a new game: %s", ng)
+        if gm == nil {
+            logger.Info("Couldn't find an available game. Creating a new one")
+            gm = gh.makeGame(ng.NumPlayers)
+        } else {
+            logger.Info("Found existing game. Slotting in")
+        }
     }
+}
+
+func (gh *game_hub) findGame(ng *newGame) *game {
+    for e := gh.uncommittedGames.Front(); e != nil; e = e.Next() {
+        currGame := e.Value.(*game)
+        if ng.NumPlayers == currGame.numPlayers {
+            return currGame
+        }
+    }
+    return nil
 }
 
 var gamehub = game_hub {
     gameRequests: make(chan *newGame),
+    uncommittedGames: list.New(),
+    committedGames: list.New(),
     wsRegister: make(chan *websocket.Conn),
-    localHandlers: make(map [string]func(message string)),
+    localHandlers: make(map [string]func(message string, cconn *clientConnection)),
 }
 
 
