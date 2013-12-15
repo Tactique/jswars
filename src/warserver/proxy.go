@@ -32,8 +32,12 @@ type proxy struct {
     proxyConns []*clientConnection
 }
 
-func (p *proxy) slotClientConnection(slot int, ccon *clientConnection) {
-    p.proxyConns[slot] = ccon;
+func (p *proxy) slotClientConnection(slot int, cconn *clientConnection) {
+    p.proxyConns[slot] = cconn;
+}
+
+func (p *proxy) handleWebsocket(message []byte, cconn *clientConnection) {
+    logger.Infof("Proxying message: %s", message)
 }
 
 func (pc *clientConnection) wsReadPump() {

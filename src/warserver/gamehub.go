@@ -60,10 +60,19 @@ func (gh *game_hub) handleConnections() {
 func (gh *game_hub) makeGame(numPlayers int) *game {
     proxy := proxy{proxyConns: make([]*clientConnection, numPlayers)}
     game := game{numPlayers: numPlayers, currentPlayers: 0,
-                 proxy: proxy}
-    gh.uncommittedGames.PushBack(&game)
+                 proxy: &proxy}
+    gh.uncommittedGames[numPlayers] = &game
 
     return &game
+}
+
+func (gh *game_hub) commitGame(game *game) {
+    delete(gh.uncommittedGames, game.numPlayers)
+    // make connection to server
+
+    game.channelInHandler(game.proxy)
+
+    gh.committedGames.PushBack(game)
 }
 
 func (gh *game_hub) processNewGameRequests() {
