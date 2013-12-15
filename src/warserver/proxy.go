@@ -2,6 +2,7 @@ package warserver
 
 import (
     "github.com/gorilla/websocket"
+    "io"
     "net"
     "net/http"
     "warserver/logger"
@@ -42,16 +43,34 @@ func (p *proxy) slotClientConnection(slot int, cconn *clientConnection) {
     p.proxyConns[slot] = cconn;
 }
 
+func (p *proxy) removeClientConnection(pos int) {
+    j := pos + 1
+    copy(p.proxyConns[pos:], p.proxyConns[j:])
+    for k, n := len(p.proxyConns)- j + pos, len(p.proxyConns); k < n; k ++ {
+        p.proxyConns[k] = nil // or the zero value of T
+    } // for k
+    p.proxyConns = p.proxyConns[:len(p.proxyConns) - j + pos]
+}
+
 func (p *proxy) handleWebsocket(message []byte, cconn *clientConnection) {
     logger.Infof("Proxying message: %s", message)
 }
 
 func (pc *clientConnection) wsReadPump() {
+    defer func() {
+        pc.ws.Close()
+    }()
     pc.ws.SetReadLimit(RECV_BUF_LEN)
     for {
         _, msg, err := pc.ws.ReadMessage()
         if err != nil {
-            logger.Errorf("Error while reading from websocket: %s", err)
+            if err == io.EOF {
+                // the client ID here is redundant...
+                killcconn := fmt.Sprintf("killClient:{\"Id\": %d}", pc.info.Id)
+                pc.currentHandler.handleWebsocket([]byte(killcconn), pc)
+            } else {
+                logger.Errorf("Error while reading from websocket: %s", err)
+            }
             break
         }
         logger.Debugf("Received %s from websocket", msg)

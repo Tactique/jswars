@@ -61,6 +61,24 @@ func (gh *game_hub) handleNewGame(message string, cconn *clientConnection) {
     gh.gameRequests <- &ng
 }
 
+func (gh *game_hub) handleDisconnection(message string, cconn *clientConnection) {
+    // Find the connection and kill it, cleaning up its game if necessary
+    logger.Info("Client Disconnected. Cleaning up...")
+    for np, game := range gh.uncommittedGames {
+        for i := 0; i < game.currentPlayers; i++ {
+            if game.proxy.proxyConns[i].info.Id == cconn.info.Id {
+                game.proxy.removeClientConnection(i)
+                game.currentPlayers -= 1
+                if game.currentPlayers == 0 {
+                    logger.Infof("%d player uncommitted game empty. Dropping", np)
+                    delete(gh.uncommittedGames, np)
+                }
+                break
+            }
+        }
+    }
+}
+
 func (gh *game_hub) handleConnections() {
     for conn := range gh.wsRegister {
         cconn := clientConnection{ws: conn, currentHandler: gh,
@@ -126,6 +144,7 @@ func setupGamehub() {
     gamehub.localHandlers["clientInfo"] = gamehub.handleClientInfo
     // I need to make sure a client has sent their info before requesting a new game
     gamehub.localHandlers["newGame"] = gamehub.handleNewGame
+    gamehub.localHandlers["killClient"] = gamehub.handleDisconnection
 
     go gamehub.processNewGameRequests()
 }
