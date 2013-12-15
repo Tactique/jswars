@@ -40,52 +40,52 @@ func SetupLogger(lev Level, flags Flags) {
 
 func logIfLevelf(level Level, format string, v ...interface{}) {
     if (int(level) >= int(logs.level)) {
-        log.Printf(format, v)
+        log.Printf(format, v...)
     }
 }
 
 func Debugf(format string, v ...interface{}) {
-    formatted := fmt.Sprintf(format, v)
+    formatted := fmt.Sprintf(format, v...)
     logIfLevelf(DEBUG, "[DEBUG] %v", formatted)
 }
 
 func Debug(v ...interface{}) {
-    Debugf("%v", v)
+    Debugf("%v", v...)
 }
 
 func Infof(format string, v ...interface{}) {
-    formatted := fmt.Sprintf(format, v)
+    formatted := fmt.Sprintf(format, v...)
     logIfLevelf(INFO, "[INFO] %v", formatted)
 }
 
 func Info(v ...interface{}) {
-    Infof("%v", v)
+    Infof("%v", v...)
 }
 
 func Warnf(format string, v ...interface{}) {
-    formatted := fmt.Sprintf(format, v)
+    formatted := fmt.Sprintf(format, v...)
     logIfLevelf(WARN, "[WARN] %v", formatted)
 }
 
 func Warn(v ...interface{}) {
-    Warnf("%v", v)
+    Warnf("%v", v...)
 }
 
 func Errorf(format string, v ...interface{}) {
-    formatted := fmt.Sprintf(format, v)
+    formatted := fmt.Sprintf(format, v...)
     logIfLevelf(ERROR, "[ERROR] %v", formatted)
 }
 
 func Error(v ...interface{}) {
-    Errorf("%v", v)
+    Errorf("%v", v...)
 }
 
 func Fatalf(format string, v ...interface{}) {
-    formatted := fmt.Sprintf(format, v)
+    formatted := fmt.Sprintf(format, v...)
     logIfLevelf(FATAL, "[FATAL] %v", formatted)
     os.Exit(1)
 }
 
 func Fatal(v ...interface{}) {
-    Fatalf("%v", v)
+    Fatalf("%v", v...)
 }
