@@ -59,8 +59,8 @@ func (gh *game_hub) handleConnections() {
 
 func (gh *game_hub) makeGame(numPlayers int) *game {
     proxy := proxy{proxyConns: make([]*clientConnection, numPlayers)}
-    game := game{numPlayers: numPlayers,
-               proxy: proxy}
+    game := game{numPlayers: numPlayers, currentPlayers: 0,
+                 proxy: proxy}
     gh.uncommittedGames.PushBack(&game)
 
     return &game
@@ -77,6 +77,8 @@ func (gh *game_hub) processNewGameRequests() {
         } else {
             logger.Info("Found existing game. Slotting in")
         }
+        gm.proxy.slotClientConnection(gm.currentPlayers, ng.cconn)
+        gm.currentPlayers += 1
     }
 }
 

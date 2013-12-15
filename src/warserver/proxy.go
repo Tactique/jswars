@@ -29,8 +29,11 @@ type pipe struct {
 }
 
 type proxy struct {
-    proxyConn clientConnection
-    proxyPipes pipe
+    proxyConns []*clientConnection
+}
+
+func (p *proxy) slotClientConnection(slot int, ccon *clientConnection) {
+    p.proxyConns[slot] = ccon;
 }
 
 func (pc *clientConnection) wsReadPump() {
