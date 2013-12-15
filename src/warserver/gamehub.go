@@ -102,7 +102,15 @@ func (gh *game_hub) commitGame(game *game) {
     delete(gh.uncommittedGames, game.numPlayers)
     // make connection to server
 
+    conn, err := connectToServer()
+    if err != nil {
+        logger.Fatalf("Could not connect to server, dying...")
+        return
+    }
+    game.proxy.server = &serverConnection{conn: conn}
     game.channelInHandler(game.proxy)
+    go game.proxy.serverReadPump()
+    logger.Info("Committed a game, proxying its messages")
 
     gh.committedGames.PushBack(game)
 }

@@ -1,6 +1,7 @@
 package warserver
 
 import (
+    "fmt"
     "github.com/gorilla/websocket"
     "io"
     "net"
@@ -30,6 +31,10 @@ type clientConnection struct {
     info clientInfo
 }
 
+type serverConnection struct {
+    conn net.Conn
+}
+
 type pipe struct {
     wsRecv chan []byte
     sockRecv chan []byte
@@ -37,6 +42,7 @@ type pipe struct {
 
 type proxy struct {
     proxyConns []*clientConnection
+    server *serverConnection
 }
 
 func (p *proxy) slotClientConnection(slot int, cconn *clientConnection) {
@@ -53,7 +59,33 @@ func (p *proxy) removeClientConnection(pos int) {
 }
 
 func (p *proxy) handleWebsocket(message []byte, cconn *clientConnection) {
-    logger.Infof("Proxying message: %s", message)
+    logger.Infof("Proxying message from client: %s", message)
+    _, err := p.server.conn.Write(message)
+    if err != nil {
+        logger.Errorf("Error while writing to socket: %s", err)
+    }
+}
+
+func (p *proxy) serverReadPump() {
+    defer func() {
+        p.server.conn.Close()
+    }()
+    for {
+        buf := make([]byte, RECV_BUF_LEN)
+        _, err := p.server.conn.Read(buf)
+        if err != nil {
+            logger.Errorf("Error while reading from socket: %s", err)
+            break
+        }
+        logger.Debugf("Received %s from socket", buf)
+        p.broadcast(buf)
+    }
+}
+
+func (p *proxy) broadcast(message []byte) {
+    for i := 0; i < len(p.proxyConns); i++ {
+        p.proxyConns[i].toClient <- message
+    }
 }
 
 func (pc *clientConnection) wsReadPump() {
