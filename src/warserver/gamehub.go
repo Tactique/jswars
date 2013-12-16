@@ -32,6 +32,7 @@ func (gh *game_hub) handleWebsocket(message []byte, cconn *clientConnection) {
             fun(cmds[1], cconn)
         } else {
             logger.Warnf("Unrecognized command: %s", cmds[0])
+            cconn.toClient <- []byte("unrecognized:")
         }
     } else {
         logger.Errorf("Malformed command: %s", cmds)
