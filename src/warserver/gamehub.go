@@ -47,6 +47,12 @@ func (gh *game_hub) handleClientInfo(message string, cconn *clientConnection) {
         return
     }
     cconn.info = ci
+    gh.hookupLobbyHandlers()
+}
+
+func (gh *game_hub) hookupLobbyHandlers() {
+    gamehub.localHandlers["newGame"] = gamehub.handleNewGame
+    gamehub.localHandlers["killClient"] = gamehub.handleDisconnection
 }
 
 func (gh *game_hub) handleNewGame(message string, cconn *clientConnection) {
@@ -150,9 +156,6 @@ var gamehub = game_hub {
 
 func setupGamehub() {
     gamehub.localHandlers["clientInfo"] = gamehub.handleClientInfo
-    // I need to make sure a client has sent their info before requesting a new game
-    gamehub.localHandlers["newGame"] = gamehub.handleNewGame
-    gamehub.localHandlers["killClient"] = gamehub.handleDisconnection
 
     go gamehub.processNewGameRequests()
 }
