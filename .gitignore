@@ -1,3 +1,5 @@
 # go stuff to ignore
 pkg
 src/github.com
+jswars
+server.log
