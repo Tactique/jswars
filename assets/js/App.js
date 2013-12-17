@@ -10,6 +10,7 @@ var gfx = {
 
 var game;
 var camera;
+var network;
 
 $(document).ready(function() {
     initialize();
@@ -28,6 +29,8 @@ var initialize = function() {
     game = new Game();
     // load sprites and other assets from the server
     GatherAssets(game.init);
+    // load the network
+    network = new Network();
 }
 
 var initCanvas = function(width, height) {
