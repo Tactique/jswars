@@ -96,7 +96,7 @@ func (pc *clientConnection) wsReadPump() {
     for {
         _, msg, err := pc.ws.ReadMessage()
         if err != nil {
-            if err == io.EOF {
+            if err == io.EOF || err == io.ErrUnexpectedEOF {
                 // the client ID here is redundant...
                 killcconn := fmt.Sprintf("killClient:{\"Id\": %d}", pc.info.Id)
                 pc.currentHandler.handleWebsocket([]byte(killcconn), pc)
