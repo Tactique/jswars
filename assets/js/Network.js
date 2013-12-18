@@ -1,10 +1,16 @@
 function Network() {
     function sendGameRequest(numPlayers) {
         var message = {"NumPlayers": numPlayers}
-        sendMessage(GAMEREQUEST, message)
+        sendMessage(NEW_GAME_CMD, message)
     }
 
-    GAMEREQUEST = "newGame";
+    function sendClientInfo(playerId) {
+        var message = {"Id": playerId}
+        sendMessage(CLIENT_INFO_CMD, message);
+    }
+
+    CLIENT_INFO_CMD = "clientInfo";
+    NEW_GAME_CMD = "newGame";
 
     host = window.location.host.split(":")[0];
     port = "8888"
@@ -21,7 +27,7 @@ function Network() {
 
     // When the connection is open, send some data to the server
     conn.onopen = function () {
-        // eventually send some login info
+        network.sendClientInfo(getPlayerId());
     };
 
     // Log errors
@@ -35,6 +41,10 @@ function Network() {
     };
 
     this.sendGameRequest = function(numPlayers) {
-        sendGameRequest(numPlayers)
+        sendGameRequest(numPlayers);
+    }
+
+    this.sendClientInfo = function(playerId) {
+        sendClientInfo(playerId);
     }
 }
