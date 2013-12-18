@@ -88,6 +88,17 @@ func (p *proxy) broadcast(message []byte) {
     }
 }
 
+func (p *proxy) sendInitialGameInfo() {
+    // I'll send basically this once the server can accept it
+    // message := "new:{UserIds: ["
+    // for i := 0; i < len(p.proxyConns); i++ {
+    //     message = message + string(p.proxyConns[i].info.Id) + ","
+    // }
+    // message = message + "]}"
+    message := "new:{\"uid1\": 1, \"uid2\": 2}"
+    p.server.conn.Write([]byte(message))
+}
+
 func (pc *clientConnection) wsReadPump() {
     defer func() {
         pc.ws.Close()

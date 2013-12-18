@@ -111,6 +111,7 @@ func (gh *game_hub) commitGame(game *game) {
     game.proxy.server = &serverConnection{conn: conn}
     game.channelInHandler(game.proxy)
     go game.proxy.serverReadPump()
+    game.proxy.sendInitialGameInfo()
     logger.Info("Committed a game, proxying its messages")
 
     gh.committedGames.PushBack(game)
