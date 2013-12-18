@@ -33,6 +33,10 @@ var initialize = function() {
     network = new Network();
 }
 
+var getPlayerId = function() {
+    return parseInt($("#playerId").text());
+}
+
 var initCanvas = function(width, height) {
     canvas = document.createElement("canvas");
     canvas.id = "canvas";
