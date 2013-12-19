@@ -84,5 +84,10 @@ function Network() {
 
 String.prototype.actualSplit = function(sep, maxsplit) {
     var split = this.split(sep);
-    return maxsplit ? split.slice(0, maxsplit - 1).concat(split.slice(maxsplit - 1, split.length).join(":")) : split;
+    var excess = split.slice(maxsplit - 1, split.length).join(":");
+    if (excess.length > 0) {
+        return maxsplit ? split.slice(0, maxsplit - 1).concat(excess) : split;
+    } else {
+        return maxsplit ? split.slice(0, maxsplit - 1) : split;
+    }
 }
