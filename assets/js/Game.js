@@ -19,9 +19,6 @@ function Game() {
         // temporary. The fact remains units can't be added until the sprites
         // have been loaded, so that'll have to be kept in mind for when the
         // networking happens
-        game.world.addUnit("1", "wizard", {'x':2, 'y':2});
-        game.world.addUnit("1", "wizard", {'x':2, 'y':1});
-        game.world.addUnit("1", "wizard", {'x':2, 'y':0});
         // start the game
         game.mainLoop();
     }
@@ -46,14 +43,6 @@ function Game() {
     function update(dt) {
         this.stateMap[this.currentState].update(dt);
     }
-
-    // this world initialization here is temporary
-    this.world = new World(5, 5);
-    this.world.initialize([[new Cell("road_bottom_right"), new Cell("road"), new Cell("road_bottom_left"), new Cell("plains"), new Cell("plains")],
-                           [new Cell("road_vert"), new Cell("plains"), new Cell("road_vert"), new Cell("plains"), new Cell("plains")],
-                           [new Cell("road_top_right"), new Cell("road"), new Cell("road_cross"), new Cell("road"), new Cell("road_bottom_left")],
-                           [new Cell("plains"), new Cell("plains"), new Cell("road_vert"), new Cell("plains"), new Cell("road_vert")],
-                           [new Cell("plains"), new Cell("plains"), new Cell("road_top_right"), new Cell("road"), new Cell("road_top_left")]]);
 
     this.lastTime = 0;
     this.currentState = "MENU_CONTROL";
