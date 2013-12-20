@@ -42,6 +42,7 @@ function Network() {
 
     // When the connection is open, send some data to the server
     conn.onopen = function () {
+        // TODO figure out the bind call to allow "this"
         network.sendClientInfo(getPlayerId());
     };
 
@@ -52,15 +53,14 @@ function Network() {
 
     // Log messages from the server
     conn.onmessage = function (e) {
-        var cmds = e.data.actualSplit(DELIM, 3);
-        console.log(cmds);
+        var cmds = trimSocketChars(e.data.actualSplit(DELIM, 3));
         var pkt_type = cmds[0];
         var status = cmds[1];
         if (cmds.length > 2) {
             console.log(cmds[2]);
             var dataObj = JSON.parse(cmds[2]);
-            console.log(pkt_type, status, dataObj);
-            var handler = this.packetHandlers[pkt_type];
+            // TODO figure out the bind call to allow "this"
+            var handler = network.packetHandlers[pkt_type];
             if (handler != null) {
                 handler(status, dataObj);
             } else {
@@ -80,6 +80,11 @@ function Network() {
     this.sendViewWorld = function() {
         sendViewWorld();
     }
+}
+
+function trimSocketChars(cmds) {
+    cmds[cmds.length - 1] = cmds[cmds.length - 1].replace(/\x00/gi, "");
+    return cmds;
 }
 
 String.prototype.actualSplit = function(sep, maxsplit) {
