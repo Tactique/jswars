@@ -1,6 +1,7 @@
 var renderers = {
     "CAMERA_CONTROL": drawWorld,
     "UNIT_CONTROL": drawWorld,
+    "MENU_CONTROL" : drawMenu
 }
 
 function clearBack() {
@@ -13,6 +14,10 @@ function drawLine(sx, sy, dx, dy) {
     gfx.ctx.moveTo(sx, sy);
     gfx.ctx.lineTo(dx, dy);
     gfx.ctx.stroke();
+}
+
+function drawMenu() {
+    // TODO actually render something for the menu
 }
 
 function drawWorld() {

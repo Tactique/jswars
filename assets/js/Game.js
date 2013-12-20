@@ -56,7 +56,7 @@ function Game() {
                            [new Cell("plains"), new Cell("plains"), new Cell("road_top_right"), new Cell("road"), new Cell("road_top_left")]]);
 
     this.lastTime = 0;
-    this.currentState = "CAMERA_CONTROL";
+    this.currentState = "MENU_CONTROL";
 
     // using strings sucks here, should probably use an array
     this.stateMap = {
@@ -69,6 +69,11 @@ function Game() {
             update : updateEverything,
             mouse : handleUnitMouse,
             keyboard: handleUnitKeyboard
+        },
+        "MENU_CONTROL" : {
+            update : updateEverything,
+            mouse : handleCameraMouse,
+            keyboard : handleCameraKeyboard
         }
     }
 
