@@ -98,3 +98,16 @@ function World(width, height) {
         return getUnits(player);
     }
 }
+
+function Plains() {
+    return new Cell("plains");
+}
+
+var terrainTable = [
+    Plains,
+]
+
+function terrainLookup(id) {
+    // TODO This data should come from some JSON source on the server
+    return new terrainTable[id];
+}

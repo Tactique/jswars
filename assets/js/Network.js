@@ -37,7 +37,19 @@ function Network() {
     }
 
     function parseViewWorld(status, world) {
-        console.log(world);
+        terrain = world.terrain;
+        if (game.world == null) {
+            // TODO check if the terrain actually exists first
+            game.world = new World(terrain.length, terrain[0].length);
+            game.currentState = "CAMERA_CONTROL";
+        }
+        for (var y = 0; y < terrain.length; y++) {
+            for (var x = 0; x < terrain.length; x++) {
+                // TODO terrain cells may someday be the actual JSON
+                terrain[x][y] = terrainLookup(terrain[x][y]);
+            }
+        }
+        game.world.initialize(terrain);
     }
 
     // When the connection is open, send some data to the server
