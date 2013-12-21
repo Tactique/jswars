@@ -54,6 +54,11 @@ function Camera() {
         }
     }
 
+    function positionVisible(c_x, c_y) {
+        return (c_x + zoomLevel >= 0 && c_x <= width) &&
+               (c_y + zoomLevel >= 0 && c_y <= height);
+    }
+
     var x = 0;
     var y = 0;
     var width = gfx.width;
@@ -99,5 +104,9 @@ function Camera() {
 
     this.transformToWorldSpace = function(c_x, c_y) {
         return transformToWorldSpace(c_x, c_y);
+    }
+
+    this.positionVisible = function(c_x, c_y) {
+        return positionVisible(c_x, c_y);
     }
 }

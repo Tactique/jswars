@@ -47,22 +47,24 @@ function drawUnits(world) {
 }
 
 function drawSprite(x, y, spriteName) {
-    var sprite = assets.sprites.getSprite(spriteName)
-    var img = assets.get(sprite.url);
-    var pos = sprite.getFramePosition();
-
     var cam_pos = camera.transformToCameraSpace(x, y);
-    // this is incorrect, but is ok for now since all sprites so far will
-    // only be 1 cell in size
-    var rel_width = sprite.width / assets.sprites.minWidth;
-    var rel_height = sprite.height / assets.sprites.minHeight;
-    var cam_size = camera.multZoomFactor(rel_width, rel_height);
+    if (camera.positionVisible(cam_pos.cam_x, cam_pos.cam_y)) {
+        var sprite = assets.sprites.getSprite(spriteName)
+        var img = assets.get(sprite.url);
+        var pos = sprite.getFramePosition();
 
-    gfx.ctx.drawImage(img,
-                      pos['x'], pos['y'],
-                      sprite.width, sprite.height,
-                      cam_pos.cam_x, cam_pos.cam_y,
-                      cam_size.cam_w, cam_size.cam_h);
+        // this is incorrect, but is ok for now since all sprites so far will
+        // only be 1 cell in size
+        var rel_width = sprite.width / assets.sprites.minWidth;
+        var rel_height = sprite.height / assets.sprites.minHeight;
+        var cam_size = camera.multZoomFactor(rel_width, rel_height);
+
+        gfx.ctx.drawImage(img,
+                          pos['x'], pos['y'],
+                          sprite.width, sprite.height,
+                          cam_pos.cam_x, cam_pos.cam_y,
+                          cam_size.cam_w, cam_size.cam_h);
+    }
 }
 
 function drawGrid(world) {
