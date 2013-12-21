@@ -68,16 +68,17 @@ function Network() {
         if (cmds.length >= 2) {
             var pkt_type = cmds[0];
             var status = cmds[1];
+            var dataObj;
             if (status != "failure") {
                 if (cmds.length > 2) {
-                    var dataObj = JSON.parse(cmds[2]);
-                    // TODO figure out the bind call to allow "this"
-                    var handler = network.packetHandlers[pkt_type];
-                    if (handler != null) {
-                        handler(status, dataObj);
-                    } else {
-                        console.log("Recieved unknown command:", pkt_type);
-                    }
+                    dataObj = JSON.parse(cmds[2]);
+                }
+                // TODO figure out the bind call to allow "this"
+                var handler = network.packetHandlers[pkt_type];
+                if (handler != null) {
+                    handler(status, dataObj);
+                } else {
+                    console.log("Recieved unknown command:", pkt_type);
                 }
             } else {
                 console.log("Received failure from server:", cmds);
