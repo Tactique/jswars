@@ -106,6 +106,12 @@ function ParseAssetInfo(response) {
         ParseSpriteInfo(json.sprites[i]);
     }
 
+    if (json.minWidth && json.minHeight) {
+        console.log("Resetting minWidth and minHeight to:", json.minWidth, json.minHeight);
+        assets.sprites.minWidth = json.minWidth;
+        assets.sprites.minHeight = json.minHeight;
+    }
+
     assets.completed();
 }
 

@@ -54,7 +54,9 @@ function drawSprite(x, y, spriteName) {
     var cam_pos = camera.transformToCameraSpace(x, y);
     // this is incorrect, but is ok for now since all sprites so far will
     // only be 1 cell in size
-    var cam_size = camera.multZoomFactor(1, 1);
+    var rel_width = sprite.width / assets.sprites.minWidth;
+    var rel_height = sprite.height / assets.sprites.minHeight;
+    var cam_size = camera.multZoomFactor(rel_width, rel_height);
 
     gfx.ctx.drawImage(img,
                       pos['x'], pos['y'],

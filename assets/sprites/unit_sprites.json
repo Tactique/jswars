@@ -19,5 +19,7 @@
             },
             "defaultAnimation" : "spin"
         }
-    ]
+    ],
+    "minWidth": 16,
+    "minHeight": 16
 }
