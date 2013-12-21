@@ -34,6 +34,7 @@ function Network() {
     // From server functions and constants
     this.packetHandlers = {
         "view": parseViewWorld,
+        "new": parseGameRequestSuccess
     }
 
     function parseViewWorld(status, world) {
@@ -50,6 +51,11 @@ function Network() {
             }
         }
         game.world.initialize(terrain);
+    }
+
+    function parseGameRequestSuccess(status) {
+        console.log("Congratulations, you've been matched to a game!");
+        network.sendViewWorld();
     }
 
     conn.onopen = function () {
