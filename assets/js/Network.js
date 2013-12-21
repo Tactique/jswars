@@ -65,18 +65,25 @@ function Network() {
     // Log messages from the server
     conn.onmessage = function (e) {
         var cmds = trimSocketChars(e.data.actualSplit(DELIM, 3));
-        var pkt_type = cmds[0];
-        var status = cmds[1];
-        if (cmds.length > 2) {
-            console.log(cmds[2]);
-            var dataObj = JSON.parse(cmds[2]);
-            // TODO figure out the bind call to allow "this"
-            var handler = network.packetHandlers[pkt_type];
-            if (handler != null) {
-                handler(status, dataObj);
+        if (cmds.length >= 2) {
+            var pkt_type = cmds[0];
+            var status = cmds[1];
+            if (status != "failure") {
+                if (cmds.length > 2) {
+                    var dataObj = JSON.parse(cmds[2]);
+                    // TODO figure out the bind call to allow "this"
+                    var handler = network.packetHandlers[pkt_type];
+                    if (handler != null) {
+                        handler(status, dataObj);
+                    } else {
+                        console.log("Recieved unknown command:", pkt_type);
+                    }
+                }
             } else {
-                console.log("Recieved unknown command:", pkt_type);
+                console.log("Received failure from server:", cmds);
             }
+        } else {
+            console.log("Received malformed command:", cmds);
         }
     };
 
