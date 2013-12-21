@@ -6,13 +6,18 @@
             "srcPos": {"x": 0, "y": 0},
             "width": 16,
             "height": 16,
-            "animRate": 500,
-            "animSeq": [
-                {"x": 0, "y": 0},
-                {"x": 17, "y": 0},
-                {"x": 34, "y": 0},
-                {"x": 51, "y": 0}
-            ]
+            "animations" : {
+                "spin" : {
+                    "rate": 500,
+                    "sequence": [
+                        {"x": 0, "y": 0},
+                        {"x": 17, "y": 0},
+                        {"x": 34, "y": 0},
+                        {"x": 51, "y": 0}
+                    ]
+                }
+            },
+            "defaultAnimation" : "spin"
         }
     ]
 }
