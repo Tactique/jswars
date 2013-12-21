@@ -19,6 +19,12 @@ function Camera() {
 
     function zoom(factor) {
         zoomLevel += factor;
+        if (zoomLevel < 10) {
+            zoomLevel = 10;
+        }
+        if (zoomLevel > 500) {
+            zoomLevel = 500;
+        }
     }
 
     function zoomIn() {
