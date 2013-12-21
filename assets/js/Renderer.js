@@ -31,7 +31,6 @@ function drawWorld() {
 function drawEnvironment(world) {
     for (var x = 0; x < world.getWidth(); x++) {
         for (var y = 0; y < world.getHeight(); y++) {
-            // Should only be rendering the sprite if it can be seen by the camera
             var current_cell = world.getCell(x, y);
             drawSprite(x, y, current_cell.spriteName)
         }
@@ -53,8 +52,6 @@ function drawSprite(x, y, spriteName) {
         var img = assets.get(sprite.url);
         var pos = sprite.getFramePosition();
 
-        // this is incorrect, but is ok for now since all sprites so far will
-        // only be 1 cell in size
         var rel_width = sprite.width / assets.sprites.minWidth;
         var rel_height = sprite.height / assets.sprites.minHeight;
         var cam_size = camera.multZoomFactor(rel_width, rel_height);
@@ -84,7 +81,6 @@ function drawGrid(world) {
     }
 }
 
-// should probably render the current state, not necessarily the world
 function render() {
     clearBack();
 

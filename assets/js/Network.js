@@ -52,7 +52,6 @@ function Network() {
         game.world.initialize(terrain);
     }
 
-    // When the connection is open, send some data to the server
     conn.onopen = function () {
         // TODO figure out the bind call to allow "this"
         network.sendClientInfo(getPlayerId());

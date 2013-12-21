@@ -35,7 +35,6 @@ function InputManager() {
         } else if (ev.type === "mouseup") {
             mouse[buttonCodeToChar[ev.which]] = false;
         }
-        // This may not deal with the possibility of a moving window
         var canvas_off = canvas.offset();
         mouse.UpdatePosition(ev.clientX - canvas_off.left, ev.clientY - canvas_off.top);
         mouse.events.push(new MouseEvent(buttonCodeToChar[ev.which], ev.type));

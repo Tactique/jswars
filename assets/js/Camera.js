@@ -64,7 +64,6 @@ function Camera() {
     var width = gfx.width;
     var height = gfx.height;
     var zoomLevel = 100;
-    // var that = this;
 
     this.print = function() {
         return _print();
