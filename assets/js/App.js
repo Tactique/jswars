@@ -1,4 +1,4 @@
-var edgeMargin = 100;
+var edgeMargin = 15;
 // cache the canvas so we can get information about it later
 var canvas;
 
