@@ -28,7 +28,7 @@ var initialize = function() {
     // create the Game object in preparation to play
     game = new Game();
     // load sprites and other assets from the server
-    GatherAssets(game.init);
+    GatherAssets(game.init.bind(game));
     // load the network
     network = new Network();
 }

@@ -33,8 +33,8 @@ function Network() {
 
     // From server functions and constants
     this.packetHandlers = {
-        "view": parseViewWorld,
-        "new": parseGameRequestSuccess
+        "view": parseViewWorld.bind(this),
+        "new": parseGameRequestSuccess.bind(this)
     }
 
     function parseViewWorld(status, world) {
@@ -55,13 +55,12 @@ function Network() {
 
     function parseGameRequestSuccess(status) {
         console.log("Congratulations, you've been matched to a game!");
-        network.sendViewWorld();
+        this.sendViewWorld();
     }
 
     conn.onopen = function () {
-        // TODO figure out the bind call to allow "this"
-        network.sendClientInfo(getPlayerId());
-    };
+        this.sendClientInfo(getPlayerId());
+    }.bind(this);
 
     // Log errors
     conn.onerror = function (error) {
@@ -79,8 +78,7 @@ function Network() {
                 if (cmds.length > 2) {
                     dataObj = JSON.parse(cmds[2]);
                 }
-                // TODO figure out the bind call to allow "this"
-                var handler = network.packetHandlers[pkt_type];
+                var handler = this.packetHandlers[pkt_type];
                 if (handler != null) {
                     handler(status, dataObj);
                 } else {
@@ -92,7 +90,7 @@ function Network() {
         } else {
             console.log("Received malformed command:", cmds);
         }
-    };
+    }.bind(this);
 
     this.sendGameRequest = function(numPlayers) {
         sendGameRequest(numPlayers);
