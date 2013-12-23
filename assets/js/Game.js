@@ -44,6 +44,17 @@ function Game() {
         this.stateMap[this.currentState].update(dt);
     }
 
+    function selectWorld(x, y) {
+        this.selector = {
+            pos: {
+                x: x,
+                y: y,
+            },
+            spriteName: "selector"
+        }
+        sprites.selector.animate = true;
+    }
+
     this.lastTime = 0;
     this.currentState = "MENU_CONTROL";
 
@@ -70,6 +81,9 @@ function Game() {
     this.mainLoop = mainLoop;
     this.changeState = changeState;
     this.update = update;
+    this.selectWorld = selectWorld;
+
+    this.selector = null;
 }
 
 function updateEverything(dt) {

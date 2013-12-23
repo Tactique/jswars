@@ -26,6 +26,8 @@ function drawWorld() {
     drawUnits(game.world);
 
     drawGrid(game.world);
+
+    drawSelector(game.selector);
 }
 
 function drawEnvironment(world) {
@@ -42,6 +44,13 @@ function drawUnits(world) {
     for (var i in units) {
         var position = units[i].pos;
         drawSprite(position['x'], position['y'], units[i].spriteName);
+    }
+}
+
+function drawSelector(selector) {
+    if (selector) {
+        var position = selector.pos;
+        drawSprite(position['x'], position['y'], selector.spriteName);
     }
 }
 

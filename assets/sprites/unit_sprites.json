@@ -18,6 +18,25 @@
                 }
             },
             "defaultAnimation" : "spin"
+        },
+        {
+            "name": "selector",
+            "url": "assets/sprites/unit_sprites.png",
+            "srcPos": {"x": 0, "y": 17},
+            "width": 22,
+            "height": 22,
+            "animations" : {
+                "selected" : {
+                    "rate": 500,
+                    "sequence": [
+                        {"x": 0, "y": 17},
+                        {"x": 23, "y": 17},
+                        {"x": 46, "y": 17},
+                        {"x": 23, "y": 17}
+                    ]
+                }
+            },
+            "defaultAnimation" : "selected"
         }
     ],
     "minWidth": 16,
