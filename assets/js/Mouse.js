@@ -8,8 +8,10 @@ function Mouse() {
     this.dx = 0;
     this.dy = 0;
     this.events = [];
+    this.timeout = null;
 
     this.UpdatePosition = function(nx, ny) {
+        clearTimeout(this.timeout);
         // It's impossible to know where the mouse is when it's first created,
         // before a mousemove event is fired. If we do nothing the initial
         // dx and dy are incorrect, so we hack this to not update the dx and dy
@@ -23,6 +25,7 @@ function Mouse() {
             this.x = nx;
             this.y = ny;
         }
+        this.timeout = setTimeout(this.StoppedMoving.bind(this), 100);
     }
 
     this.ButtonDown = function(button) {
@@ -33,6 +36,11 @@ function Mouse() {
             return false;
         }
         return true;
+    }
+
+    this.StoppedMoving = function() {
+        this.dx = 0;
+        this.dy = 0;
     }
 }
 
