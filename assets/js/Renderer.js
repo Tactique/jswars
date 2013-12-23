@@ -55,11 +55,16 @@ function drawSprite(x, y, spriteName) {
         var rel_width = sprite.width / assets.sprites.minWidth;
         var rel_height = sprite.height / assets.sprites.minHeight;
         var cam_size = camera.multZoomFactor(rel_width, rel_height);
+        var centered_offset = camera.multZoomFactor(rel_width - 1.0,
+                                                    rel_height - 1.0);
+        centered_offset.cam_w = centered_offset.cam_w / 2;
+        centered_offset.cam_h = centered_offset.cam_h / 2;
 
         gfx.ctx.drawImage(img,
                           pos['x'], pos['y'],
                           sprite.width, sprite.height,
-                          cam_pos.cam_x, cam_pos.cam_y,
+                          cam_pos.cam_x - centered_offset.cam_w,
+                          cam_pos.cam_y - centered_offset.cam_h,
                           cam_size.cam_w, cam_size.cam_h);
     }
 }
