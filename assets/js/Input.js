@@ -73,15 +73,15 @@ function handleCameraKeyboard(keyboard) {
 }
 
 function handleCameraMouse(mouse, last_ev) {
-    // click and drag can definitely be better controlled via a real state machine
-    if (mouse.ButtonDown("Left") && mouse.dx != 0 && mouse.dy != 0) {
+    if (mouse.currentState == mouseStates.LeftDrag) {
         var camMove = {'x': mouse.dx, 'y': mouse.dy};
         mouse.dx = 0;
         mouse.dy = 0;
         camera.processMove(camMove);
-    } else if (last_ev != null && last_ev.button == "Left" &&
-        last_ev.action == "mouseup" && mouse.dx == 0 && mouse.dy == 0) {
-        console.log(camera.transformToWorldSpace(mouse.x, mouse.y));
+    } else if(mouse.lastState == mouseStates.LeftDown &&
+              mouse.currentState == mouseStates.LeftUp) {
+        wp = camera.transformToWorldSpace(mouse.x, mouse.y);
+        game.selectWorld(wp.world_x, wp.world_y);
     }
 }
 
