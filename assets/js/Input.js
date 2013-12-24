@@ -38,11 +38,20 @@ function InputManager() {
         var canvas_off = canvas.offset();
         mouse.UpdatePosition(ev.clientX - canvas_off.left, ev.clientY - canvas_off.top);
         mouse.events.push(new MouseEvent(buttonCodeToChar[ev.which], ev.type));
+        processMouse();
     }
 
     function processInputs() {
         game.stateMap[game.currentState].keyboard(keyboard);
         game.stateMap[game.currentState].mouse(mouse, mouse.events.shift());
+    }
+
+    function processMouse() {
+        game.stateMap[game.currentState].mouse(mouse, mouse.events.shift());
+    }
+
+    function processKeyboard() {
+        game.stateMap[game.currentState].keyboard(keyboard);
     }
 
     initInputs();
@@ -52,6 +61,14 @@ function InputManager() {
 
     this.processInputs = function() {
         processInputs();
+    }
+
+    this.processMouse = function() {
+        processMouse();
+    }
+
+    this.processKeyboard = function() {
+        processKeyboard();
     }
 }
 

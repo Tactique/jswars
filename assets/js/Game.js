@@ -27,7 +27,7 @@ function Game() {
         var now = Date.now();
         var dt = (now - this.lastTime) / 1000.0;
 
-        this.Inputs.processInputs();
+        this.Inputs.processKeyboard();
         // update entities, animations, and such, with dt
         this.update(dt);
         render();
