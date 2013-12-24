@@ -85,6 +85,10 @@ function Sprite(url, srcPos, width, height, animations, currentAnimation, animat
         return this.currentAnimation.sequence[this.currentFrame];
     }
 
+    this.resetCurrentFrame = function() {
+        this.currentFrame = 0;
+    }
+
     this.currentTime = this.currentAnimation.rate;
     this.currentFrame = 0;
 }
