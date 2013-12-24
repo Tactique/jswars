@@ -74,7 +74,7 @@
         isReady: isReady,
         onCompletion: onCompletion,
         completed: completed,
-        sprites: new SpriteManager()
+        spriteManager: new SpriteManager()
     };
 })();
 
@@ -108,15 +108,15 @@ function ParseAssetInfo(response) {
 
     if (json.minWidth && json.minHeight) {
         console.log("Resetting minWidth and minHeight to:", json.minWidth, json.minHeight);
-        assets.sprites.minWidth = json.minWidth;
-        assets.sprites.minHeight = json.minHeight;
+        assets.spriteManager.minWidth = json.minWidth;
+        assets.spriteManager.minHeight = json.minHeight;
     }
 
     assets.completed();
 }
 
 function ParseSpriteInfo(sprite) {
-    assets.sprites.addSprite(sprite.name, sprite.url, sprite.srcPos,
+    assets.spriteManager.addSprite(sprite.name, sprite.url, sprite.srcPos,
                              sprite.width, sprite.height,
                              sprite.animations, sprite.defaultAnimation, false);
 }

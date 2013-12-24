@@ -57,12 +57,12 @@ function drawSelector(selector) {
 function drawSprite(x, y, spriteName) {
     var cam_pos = camera.transformToCameraSpace(x, y);
     if (camera.positionVisible(cam_pos.cam_x, cam_pos.cam_y)) {
-        var sprite = assets.sprites.getSprite(spriteName)
+        var sprite = assets.spriteManager.getSprite(spriteName)
         var img = assets.get(sprite.url);
         var pos = sprite.getFramePosition();
 
-        var rel_width = sprite.width / assets.sprites.minWidth;
-        var rel_height = sprite.height / assets.sprites.minHeight;
+        var rel_width = sprite.width / assets.spriteManager.minWidth;
+        var rel_height = sprite.height / assets.spriteManager.minHeight;
         var cam_size = camera.multZoomFactor(rel_width, rel_height);
         var centered_offset = camera.multZoomFactor(rel_width - 1.0,
                                                     rel_height - 1.0);

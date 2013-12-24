@@ -43,7 +43,7 @@ function World(width, height) {
             units[player] = [];
         }
         var newSpriteName = player + srcSpriteName + units[player].length;
-        assets.sprites.cloneSprite(srcSpriteName, newSpriteName);
+        assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName);
         var newUnit = new Unit(newSpriteName, pos);
         units[player].push(newUnit);
     }
