@@ -63,6 +63,16 @@ function World(width, height) {
         return output;
     }
 
+    function findUnit(wx, wy) {
+        var units = getUnits();
+        for (var i in units) {
+            if (units[i].pos.x == wx && units[i].pos.y == wy) {
+                return units[i];
+            }
+        }
+        return null;
+    }
+
     var w = width;
     var h = height;
 
@@ -96,6 +106,10 @@ function World(width, height) {
 
     this.getUnits = function(player) {
         return getUnits(player);
+    }
+
+    this.findUnit = function(wx, wy) {
+        return findUnit(wx, wy);
     }
 }
 
