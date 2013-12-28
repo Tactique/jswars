@@ -11,9 +11,21 @@ var gfx = {
 var game;
 var camera;
 var network;
+var desiredPlayers;
+var playerID;
 
 $(document).ready(function() {
-    initialize();
+    $("#submitGameRequest").click(function() {
+        playerID = $("#enteredPlayerId").val();
+        if (playerID == "") {
+            playerID = 1;
+        }
+        desiredPlayers = $("#numPlayers").val();
+        if (desiredPlayers == "") {
+            desiredPlayers = 1;
+        }
+        initialize();
+    });
 });
 
 $(window).resize(function() {
@@ -34,7 +46,7 @@ var initialize = function() {
 }
 
 var getPlayerId = function() {
-    return parseInt($("#playerId").text());
+    return parseInt(playerID);
 }
 
 var initCanvas = function(width, height) {

@@ -48,6 +48,7 @@ func (gh *game_hub) handleClientInfo(message string, cconn *clientConnection) {
         return
     }
     cconn.info = ci
+    cconn.toClient <- []byte("clientinfo:success")
 }
 
 func (gh *game_hub) handleNewGame(message string, cconn *clientConnection) {

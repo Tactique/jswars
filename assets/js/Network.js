@@ -34,6 +34,7 @@ function Network() {
     // From server functions and constants
     this.packetHandlers = {
         "view": parseViewWorld.bind(this),
+        "clientinfo": parseClientInfo.bind(this),
         "new": parseGameRequestSuccess.bind(this)
     }
 
@@ -51,6 +52,11 @@ function Network() {
             }
         }
         game.world.initialize(terrain);
+    }
+
+    function parseClientInfo(status) {
+        console.log("Your client info has been received, sending game request");
+        this.sendGameRequest(desiredPlayers);
     }
 
     function parseGameRequestSuccess(status) {
