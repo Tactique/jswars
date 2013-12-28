@@ -25,6 +25,7 @@ $(document).ready(function() {
             desiredPlayers = 1;
         }
         initialize();
+        removeNewGameInterface();
     });
 });
 
@@ -47,6 +48,10 @@ var initialize = function() {
 
 var getPlayerId = function() {
     return parseInt(playerID);
+}
+
+var removeNewGameInterface = function() {
+    $("#gameinfo").remove();
 }
 
 var initCanvas = function(width, height) {
