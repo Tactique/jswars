@@ -11,7 +11,6 @@ function Mouse() {
     this.y = -1;
     this.dx = 0;
     this.dy = 0;
-    this.events = [];
     this.timeout = null;
 
     this.currentState = mouseStates.Idle;
@@ -103,7 +102,3 @@ function Mouse() {
     }
 }
 
-function MouseEvent(button, action) {
-    this.button = button;
-    this.action = action;
-}

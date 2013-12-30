@@ -37,17 +37,16 @@ function InputManager() {
         }
         var canvas_off = canvas.offset();
         mouse.UpdatePosition(ev.clientX - canvas_off.left, ev.clientY - canvas_off.top);
-        mouse.events.push(new MouseEvent(buttonCodeToChar[ev.which], ev.type));
         processMouse();
     }
 
     function processInputs() {
         game.stateMap[game.currentState].keyboard(keyboard);
-        game.stateMap[game.currentState].mouse(mouse, mouse.events.shift());
+        game.stateMap[game.currentState].mouse(mouse);
     }
 
     function processMouse() {
-        game.stateMap[game.currentState].mouse(mouse, mouse.events.shift());
+        game.stateMap[game.currentState].mouse(mouse);
     }
 
     function processKeyboard() {
@@ -89,7 +88,7 @@ function handleCameraKeyboard(keyboard) {
     camera.processMove(camMove);
 }
 
-function handleCameraMouse(mouse, last_ev) {
+function handleCameraMouse(mouse) {
     if (mouse.currentState == mouseStates.LeftDrag) {
         var camMove = {'x': mouse.dx, 'y': mouse.dy};
         mouse.dx = 0;
