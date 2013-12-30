@@ -24,6 +24,10 @@ function World(width, height) {
         return cells[x][y];
     }
 
+    function withinWorld(x, y) {
+        return x >= 0 && x < w && y >= 0 && y < h;
+    }
+
     function initialize(entryCells) {
         if (entryCells.length == w && entryCells[0].length == h)
         {
@@ -110,6 +114,10 @@ function World(width, height) {
 
     this.findUnit = function(wx, wy) {
         return findUnit(wx, wy);
+    }
+
+    this.withinWorld = function(x, y) {
+        return withinWorld(x, y);
     }
 }
 
