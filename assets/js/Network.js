@@ -56,7 +56,7 @@ function Network() {
 
     function parseClientInfo(status) {
         console.log("Your client info has been received, sending game request");
-        this.sendGameRequest(desiredPlayers);
+        this.sendGameRequest(parseInt(desiredPlayers));
     }
 
     function parseGameRequestSuccess(status) {
