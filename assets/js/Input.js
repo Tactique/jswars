@@ -100,6 +100,8 @@ function handleCameraMouse(mouse) {
         wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (game.world.withinWorld(wp.world_x, wp.world_y)) {
             game.selectWorld(wp.world_x, wp.world_y);
+            console.log(game.world.getCell(wp.world_x, wp.world_y));
+            console.log(game.world.findUnit(wp.world_x, wp.world_y));
         }
     }
 }
