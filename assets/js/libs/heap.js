@@ -3,7 +3,11 @@
 
 function BinaryHeap(scoreFunction){
     this.content = [];
-    this.scoreFunction = scoreFunction;
+    this.scoreFunction = scoreFunction == null ? DefaultScore : scoreFunction;
+}
+
+function DefaultScore(x) {
+    return x;
 }
 
 BinaryHeap.prototype = {
