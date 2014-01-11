@@ -1,16 +1,31 @@
 // Borrowed with great respect from this post:
 // http://eloquentjavascript.net/appendix2.html
 
-function BinaryHeap(scoreFunction){
+function BinaryHeap(scoreFunction, equalFunction){
     this.content = [];
     this.scoreFunction = scoreFunction == null ? DefaultScore : scoreFunction;
+    this.equalFunction = equalFunction == null ? DefaultEqual : equalFunction;
 }
 
 function DefaultScore(x) {
     return x;
 }
 
+function DefaultEqual(x, y) {
+    console.log(x, y, x == y);
+    return x == y;
+}
+
 BinaryHeap.prototype = {
+    contains: function(desired) {
+        for (var i = 0; i < this.content.length; i++) {
+            if (this.equalFunction(this.content[i], desired)) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     push: function(element) {
         // Add the new element to the end of the array.
         this.content.push(element);
