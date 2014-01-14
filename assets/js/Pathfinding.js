@@ -15,7 +15,7 @@ function pathNode(position, costModifier, passable) {
 function pathNodeScore(node) {
     // for now, my heap is a min heap, so -1 * score is the easiest way to
     // flip it
-    return -1 * pathNode.totalCost();
+    return -1 * node.totalCost();
 }
 
 function pathNodeEqual(n1, n2) {
@@ -48,23 +48,20 @@ function PathFinder(world, start) {
         var current = this.start;
 
         while (!this.atGoal(current, goal)) {
+            console.log(current);
             this.updateOpenList(current, goal, openlist, closedlist);
             current = openlist.pop();
+            if (openlist.size() > 100) {
+                break;
+            }
         }
     }
 
     this.updateOpenList = function(current, goal, open, closed) {
-        var leftN = this.world[current.position.x - 1][current.position.y];
-        this.processNeighbor(current, leftN, goal, open, closed);
-
-        var rightN = this.world[current.position.x + 1][current.position.y];
-        this.processNeighbor(current, rightN, goal, open, closed);
-
-        var upN = this.world[current.position.x][current.position.y - 1];
-        this.processNeighbor(current, upN, goal, open, closed);
-
-        var downN = this.world[current.position.x][current.position.y + 1];
-        this.processNeighbor(current, downN, goal, open, closed);
+        var neighbors = this.getNeighbors(current);
+        for (var i in neighbors) {
+            this.processNeighbor(current, neighbors[i], goal, open, closed);
+        }
     }
 
     this.processNeighbor = function(current, neighbor, goal, open, closed) {
@@ -76,7 +73,7 @@ function PathFinder(world, start) {
                 neighbor.pathparent = current;
             }
         } else {
-            if (neighbor.passable && !closedlist.contains(neighbor)) {
+            if (neighbor.passable && !closed.contains(neighbor)) {
                 // calculate the F = G + H cost of the neighbor
                 var g = this.movementCostFunc(current, neighbor);
                 var h = this.heuristicCostFunc(current, goal);
@@ -89,11 +86,42 @@ function PathFinder(world, start) {
         }
     }
 
+    this.getNeighbors = function(current) {
+        console.log(current);
+        var neighbors = [];
+        var curpos = current.position;
+        var leftpos = {x: curpos.x - 1, y: curpos.y};
+        if (this.withinWorld(leftpos)) {
+            neighbors.push(this.world[leftpos.x][leftpos.y]);
+        }
+
+        var rightpos = {x: curpos.x + 1, y: curpos.y};
+        if (this.withinWorld(rightpos)) {
+            neighbors.push(this.world[rightpos.x][rightpos.y]);
+        }
+
+        var uppos = {x: curpos.x, y: curpos.y - 1};
+        if (this.withinWorld(uppos)) {
+            neighbors.push(this.world[uppos.x][uppos.y]);
+        }
+
+        var downpos = {x: curpos.x, y: curpos.y + 1};
+        if (this.withinWorld(downpos)) {
+            neighbors.push(this.world[downpos.x][downpos.y]);
+        }
+        return neighbors;
+    }
+
+    this.withinWorld = function(position) {
+        return position.x >= 0 && position.x < this.world.length &&
+               position.y >= 0 && position.y < this.world[0].length;
+    }
+
     this.atGoal = function(current, goal) {
         return (current.position.x == goal.position.x &&
                 current.position.y == goal.position.y);
     }
-    
+
     // world is a 2d array of pathNodes
     this.world = world;
     this.start = start;
