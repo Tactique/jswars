@@ -20,6 +20,8 @@ function drawMenu() {
     // TODO actually render something for the menu
 }
 
+var pathpath;
+
 function drawWorld() {
     drawEnvironment(game.world);
 
@@ -28,6 +30,17 @@ function drawWorld() {
     drawGrid(game.world);
 
     drawSelector(game.selector);
+
+    if (pathpath) {
+        drawPath(pathpath);
+    }
+}
+
+function drawPath(path) {
+    for (var i in path) {
+        var pos = camera.transformToCameraSpace(path[i].position.x, path[i].position.y);
+        gfx.ctx.fillRect(pos.cam_x + 25, pos.cam_y + 25, 50, 50);
+    }
 }
 
 function drawEnvironment(world) {
