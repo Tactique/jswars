@@ -125,7 +125,7 @@ function PathFinder(world, start) {
                position.y >= 0 && position.y < this.world[0].length;
     }
 
-    this.atGoal = function(current, goal) {
+    this.defaultGoal = function(current, goal) {
         return (current.position.x == goal.position.x &&
                 current.position.y == goal.position.y);
     }
@@ -135,6 +135,7 @@ function PathFinder(world, start) {
     this.start = start;
     this.movementCostFunc = this.GCost;
     this.heuristicCostFunc = this.ManhattanDistance;
+    this.atGoal = this.defaultGoal;
 }
 
 var pathworld;
