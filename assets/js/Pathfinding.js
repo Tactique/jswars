@@ -50,11 +50,19 @@ function PathFinder(world, start) {
         while (!this.atGoal(current, goal)) {
             console.log(current);
             this.updateOpenList(current, goal, openlist, closedlist);
+            closedlist.push(current);
             current = openlist.pop();
-            if (openlist.size() > 100) {
+            if (openlist.size() > 50) {
                 break;
             }
         }
+        console.log("Found path, retracing steps");
+        var path = [];
+        while (!this.atGoal(current, this.start)) {
+            path.push(current);
+            current = current.pathparent;
+        }
+        console.log("Path:", path);
     }
 
     this.updateOpenList = function(current, goal, open, closed) {
