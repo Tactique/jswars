@@ -63,6 +63,8 @@ function PathFinder(world, start) {
             current = current.pathparent;
         }
         console.log("Path:", path);
+
+        return path;
     }
 
     this.updateOpenList = function(current, goal, open, closed) {
