@@ -133,3 +133,17 @@ function terrainLookup(id) {
     // TODO This data should come from some JSON source on the server
     return new terrainTable[id];
 }
+
+function convertWorldToPathNodes(world, unit) {
+    var pathworld = new Array(world.getWidth());
+    for (var x = 0; x < world.getWidth(); x++) {
+        pathworld[x] = new Array(world.getHeight());
+        for (var y = 0; y < world.getHeight(); y++) {
+            // The cost modifier could/should come from a combination of
+            // the cell type and the unit's movement modifiers. Likewise for
+            // passable
+            pathworld[x][y] = new pathNode({x: x, y: y}, 1, true);
+        }
+    }
+    return pathworld;
+}
