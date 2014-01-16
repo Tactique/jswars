@@ -20,6 +20,8 @@ function drawMenu() {
     // TODO actually render something for the menu
 }
 
+var pathpath;
+
 function drawWorld() {
     drawEnvironment(game.world);
 
@@ -28,6 +30,115 @@ function drawWorld() {
     drawGrid(game.world);
 
     drawSelector(game.selector);
+
+    if (pathpath) {
+        drawPath(pathpath);
+    }
+}
+
+function drawPath(path) {
+    var turnTable = Object.freeze({
+        LEFTUP: "LEFTUP", RIGHTUP: "RIGHTUP",
+        LEFTDOWN: "LEFTDOWN", RIGHTDOWN: "RIGHTDOWN"
+    });
+
+    function straightPath(before, current, after) {
+        return (current.position.x == before.position.x &&
+                current.position.x == after.position.x) ||
+               (current.position.y == before.position.y &&
+                current.position.y == after.position.y);
+    }
+
+    function determineTurn(before, current, after) {
+        //      a
+        //      |
+        //  b - c
+        if ((before.position.x + 1 == current.position.x &&
+             before.position.y == current.position.y &&
+             current.position.x == after.position.x &&
+             current.position.y - 1 == after.position.y) ||
+            (after.position.x + 1 == current.position.x &&
+             after.position.y == current.position.y &&
+             current.position.x == before.position.x &&
+             current.position.y - 1 == before.position.y))
+        {
+            return turnTable.LEFTUP;
+        }
+        //      b
+        //      |
+        //      c - a
+        if ((before.position.x == current.position.x &&
+             before.position.y + 1 == current.position.y &&
+             current.position.x + 1 == after.position.x &&
+             current.position.y == after.position.y) ||
+            (after.position.x == current.position.x &&
+             after.position.y + 1 == current.position.y &&
+             current.position.x + 1 == before.position.x &&
+             current.position.y == before.position.y))
+        {
+            return turnTable.RIGHTUP;
+        }
+        //  b - c
+        //      |
+        //      a
+        if ((before.position.x + 1 == current.position.x &&
+             before.position.y == current.position.y &&
+             current.position.x == after.position.x &&
+             current.position.y + 1 == after.position.y) ||
+            (after.position.x + 1 == current.position.x &&
+             after.position.y == current.position.y &&
+             current.position.x == before.position.x &&
+             current.position.y + 1 == before.position.y))
+        {
+            return turnTable.LEFTDOWN;
+        }
+        //      c - a
+        //      |
+        //      b
+        if ((before.position.x == current.position.x &&
+             before.position.y - 1 == current.position.y &&
+             current.position.x + 1 == after.position.x &&
+             current.position.y == after.position.y) ||
+            (after.position.x == current.position.x &&
+             after.position.y - 1 == current.position.y &&
+             current.position.x + 1 == before.position.x &&
+             current.position.y == before.position.y))
+        {
+            return turnTable.RIGHTDOWN;
+        }
+    }
+
+    for (var i = 0; i < path.length; i++) {
+        if (i == 0) {
+            // start path sprite
+            gfx.ctx.fillStyle = "#FF0000";
+        } else if (i == path.length - 1) {
+            // end path sprite
+            gfx.ctx.fillStyle = "#00FF00";
+        } else {
+            if (straightPath(path[i - 1], path[i], path[i + 1])) {
+                gfx.ctx.fillStyle = "#F0F000";
+            } else {
+                var turn = determineTurn(path[i - 1], path[i], path[i + 1]);
+                switch(turn) {
+                    case turnTable.LEFTUP:
+                        gfx.ctx.fillStyle = "#0F0F00";
+                        break;
+                    case turnTable.RIGHTUP:
+                        gfx.ctx.fillStyle = "#0F00F0";
+                        break;
+                    case turnTable.LEFTDOWN:
+                        gfx.ctx.fillStyle = "#0F000F";
+                        break;
+                    case turnTable.RIGHTDOWN:
+                        gfx.ctx.fillStyle = "#0F0FF0";
+                        break;
+                }
+            }
+        }
+        var pos = camera.transformToCameraSpace(path[i].position.x, path[i].position.y);
+        gfx.ctx.fillRect(pos.cam_x + 25, pos.cam_y + 25, 50, 50);
+    }
 }
 
 function drawEnvironment(world) {
