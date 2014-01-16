@@ -13,9 +13,7 @@ function pathNode(position, costModifier, passable) {
 }
 
 function pathNodeScore(node) {
-    // for now, my heap is a min heap, so -1 * score is the easiest way to
-    // flip it
-    return -1 * node.totalCost();
+    return node.totalCost();
 }
 
 function pathNodeEqual(n1, n2) {
