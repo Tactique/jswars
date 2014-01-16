@@ -46,22 +46,22 @@ function PathFinder(world, start) {
         var current = this.start;
 
         while (!this.atGoal(current, goal)) {
-            console.log(current);
             this.updateOpenList(current, goal, openlist, closedlist);
             closedlist.push(current);
             current = openlist.pop();
-            if (openlist.size() > 50) {
-                break;
-            }
         }
-        console.log("Found path, retracing steps");
+
+        return this.reconstructPath(current, this.start);
+    }
+
+    this.reconstructPath = function(goal, start) {
+        var current = goal;
         var path = [];
-        while (!this.atGoal(current, this.start)) {
+        while (!this.atGoal(current, start)) {
             path.push(current);
             current = current.pathparent;
         }
         path.push(current);
-        console.log("Path:", path);
 
         return path;
     }
