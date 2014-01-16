@@ -60,6 +60,7 @@ function PathFinder(world, start) {
             path.push(current);
             current = current.pathparent;
         }
+        path.push(current);
         console.log("Path:", path);
 
         return path;
