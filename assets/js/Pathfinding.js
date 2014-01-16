@@ -29,7 +29,7 @@ function PathFinder(world, start) {
                   (current.position.x - neighbor.position.x);
         var ysq = (current.position.y - neighbor.position.y) * 
                   (current.position.y - neighbor.position.y);
-        return Math.sqrt(xsq + ysq) * neighbor.costModifier + current.Gcost;
+        return Math.sqrt(xsq + ysq) * neighbor.costModifier;
     }
 
     // current and goal are pathNodes
@@ -76,7 +76,7 @@ function PathFinder(world, start) {
     this.processNeighbor = function(current, neighbor, goal, open, closed) {
         if (open.contains(neighbor)) {
         // Recalculate G cost and update parentage if necessary
-            var g = this.GCost(current, neighbor);
+            var g = this.GCost(current, neighbor) + current.Gcost;
             if (g < neighbor.Gcost) {
                 neighbor.Gcost = g;
                 neighbor.pathparent = current;
@@ -84,7 +84,7 @@ function PathFinder(world, start) {
         } else {
             if (neighbor.passable && !closed.contains(neighbor)) {
                 // calculate the F = G + H cost of the neighbor
-                var g = this.movementCostFunc(current, neighbor);
+                var g = this.movementCostFunc(current, neighbor) + current.Gcost;
                 var h = this.heuristicCostFunc(current, goal);
                 neighbor.pathparent = current;
                 neighbor.Gcost = g;
