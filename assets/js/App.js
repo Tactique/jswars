@@ -40,6 +40,8 @@ var initialize = function() {
     camera = new Camera();
     // create the Game object in preparation to play
     game = new Game();
+    // connect render hooks and such
+    initRenderers();
     // load sprites and other assets from the server
     GatherAssets(game.init.bind(game));
     // load the network

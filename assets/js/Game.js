@@ -52,7 +52,7 @@ function Game() {
             },
             spriteName: "selector"
         }
-        sprites.selector.animate = true;
+        this.selectorCallback(this.selector);
     }
 
     this.lastTime = 0;

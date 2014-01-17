@@ -4,6 +4,51 @@ var renderers = {
     "MENU_CONTROL" : drawMenu
 }
 
+var specialRenderer;
+function SpecialRenderer() {
+    function addLayer(key, renderfunc, renderable) {
+        renderers[key] = renderfunc.bind(null, renderable);
+    }
+
+    function removeLayer(key) {
+        delete renderers.key;
+    }
+
+    function render() {
+        for (var renderer in renderers) {
+            if (renderers.hasOwnProperty(renderer)) {
+                renderers[renderer]();
+            }
+        }
+    }
+
+    var renderers = {};
+
+    this.addLayer = function(key, renderfunc, renderable) {
+        addLayer(key, renderfunc, renderable);
+    }
+
+    this.removeLayer = function(key) {
+        removeLayer(key);
+    }
+
+    this.render = function() {
+        render();
+    }
+}
+
+function initRenderers() {
+    specialRenderer = new SpecialRenderer();
+
+    game.selectorCallback = handleSelectorRendering;
+}
+
+function handleSelectorRendering(selector) {
+    specialRenderer.removeLayer("selector");
+    sprites.selector.animate = true;
+    specialRenderer.addLayer("selector", drawSelector, selector);
+}
+
 function clearBack() {
     gfx.ctx.fillStyle = "#FFFFFF";
     gfx.ctx.fillRect(0, 0, gfx.width, gfx.height);
@@ -20,8 +65,6 @@ function drawMenu() {
     // TODO actually render something for the menu
 }
 
-var pathpath;
-
 function drawWorld() {
     drawEnvironment(game.world);
 
@@ -29,10 +72,10 @@ function drawWorld() {
 
     drawGrid(game.world);
 
-    drawSelector(game.selector);
+    specialRenderer.render();
 
-    if (pathpath) {
-        drawPath(pathpath);
+    if (null) {
+        drawPath(null);
     }
 }
 
@@ -161,10 +204,8 @@ function drawUnits(world) {
 }
 
 function drawSelector(selector) {
-    if (selector) {
-        var position = selector.pos;
-        drawSprite(position['x'], position['y'], selector.spriteName);
-    }
+    var position = selector.pos;
+    drawSprite(position['x'], position['y'], selector.spriteName);
 }
 
 function drawSprite(x, y, spriteName) {
