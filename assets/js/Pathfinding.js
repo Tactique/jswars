@@ -63,7 +63,7 @@ function PathFinder(world, start) {
         }
         path.push(current);
 
-        return path;
+        return path.reverse();
     }
 
     this.updateOpenList = function(current, goal, open, closed) {
