@@ -41,12 +41,19 @@ function initRenderers() {
     specialRenderer = new SpecialRenderer();
 
     game.selectorCallback = handleSelectorRendering;
+
+    game.pathCallback = handlePathRendering;
 }
 
 function handleSelectorRendering(selector) {
     specialRenderer.removeLayer("selector");
     sprites.selector.animate = true;
     specialRenderer.addLayer("selector", drawSelector, selector);
+}
+
+function handlePathRendering(path) {
+    specialRenderer.removeLayer("path");
+    specialRenderer.addLayer("path", drawPath, path);
 }
 
 function clearBack() {
@@ -73,10 +80,6 @@ function drawWorld() {
     drawGrid(game.world);
 
     specialRenderer.render();
-
-    if (null) {
-        drawPath(null);
-    }
 }
 
 function drawPath(path) {

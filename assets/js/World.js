@@ -121,6 +121,13 @@ function World(width, height) {
     }
 }
 
+function testPath(start, end) {
+    var pathworld = convertWorldToPathNodes(game.world);
+    var pathfinder = new PathFinder(pathworld, pathworld[start.x][start.y]);
+    var path = pathfinder.findPath(pathworld[end.x][end.y]);
+    game.pathCallback(path);
+}
+
 function Plains() {
     return new Cell("plains");
 }

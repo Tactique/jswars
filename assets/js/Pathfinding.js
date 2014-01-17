@@ -96,7 +96,6 @@ function PathFinder(world, start) {
     }
 
     this.getNeighbors = function(current) {
-        console.log(current);
         var neighbors = [];
         var curpos = current.position;
         var leftpos = {x: curpos.x - 1, y: curpos.y};
@@ -139,19 +138,3 @@ function PathFinder(world, start) {
     this.atGoal = this.defaultGoal;
 }
 
-var pathworld;
-var pf;
-function testpath() {
-    var width = 5;
-    var height = 5;
-    pathworld = new Array(width);
-    for (var x = 0; x < width; x++) {
-        pathworld[x] = new Array(height);
-    }
-    for (var y = 0; y < height; y++){
-        for (var x = 0; x < width; x++) {
-            pathworld[x][y] = new pathNode({x: x, y: y}, 1.0, true);
-        }
-    }
-    pf = new PathFinder(pathworld, pathworld[0][0]);
-}
