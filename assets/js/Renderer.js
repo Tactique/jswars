@@ -62,10 +62,8 @@ function clearBack() {
 }
 
 function drawLine(sx, sy, dx, dy) {
-    gfx.ctx.beginPath();
     gfx.ctx.moveTo(sx, sy);
     gfx.ctx.lineTo(dx, dy);
-    gfx.ctx.stroke();
 }
 
 function drawMenu() {
@@ -237,6 +235,7 @@ function drawSprite(x, y, spriteName) {
 
 function drawGrid(world) {
     gfx.ctx.strokeStyle = "#000000";
+    gfx.ctx.beginPath();
     for (var x = 0; x <= world.getWidth(); x++) {
         var draw_x = camera.transformToCameraSpace(x, 0).cam_x;
         var top = camera.transformToCameraSpace(x, 0).cam_y;
@@ -250,6 +249,7 @@ function drawGrid(world) {
         var right = camera.transformToCameraSpace(world.getWidth(), y).cam_x;
         drawLine(left, draw_y, right, draw_y);
     }
+    gfx.ctx.stroke();
 }
 
 function render() {
