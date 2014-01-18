@@ -1,13 +1,31 @@
+var terrainTypes = Object.freeze({Plains: "Plains"});
+
 // This will eventually have much more information, including movement costs and such
-function Cell(spriteName) {
+function Cell(spriteName, type) {
     this.spriteName = spriteName;
+    this.type = type;
 }
 
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
-function Unit(spriteName, pos) {
+function Unit(spriteName, pos, distance, movementType, speeds) {
     this.spriteName = spriteName;
     this.pos = pos;
+    // The total distance the unit can move
+    this.distance = distance;
+    // treads, feet, wheels, that sort of thing
+    this.movementType = movementType;
+    // map of cell types to movement costs, ie plains -> 1.0
+    this.speeds = speeds;
+}
+
+function addWizard(player, pos) {
+    var mtype = "feet";
+    var speed = {
+        "Plains": 1.0,
+    }
+    var distance = 4;
+    game.world.addUnit(player, "wizard", pos, distance, mtype, speed);
 }
 
 function World(width, height) {
@@ -42,13 +60,13 @@ function World(width, height) {
     }
 
     // unit sprite's have to be cloned, so we have to wrap their creation
-    function addUnit(player, srcSpriteName, pos) {
+    function addUnit(player, srcSpriteName, pos, distance, movementType, speeds) {
         if (units[player] == null) {
             units[player] = [];
         }
         var newSpriteName = player + srcSpriteName + units[player].length;
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName);
-        var newUnit = new Unit(newSpriteName, pos);
+        var newUnit = new Unit(newSpriteName, pos, distance, movementType, speeds);
         units[player].push(newUnit);
     }
 
@@ -104,8 +122,8 @@ function World(width, height) {
         initialize(entryCells);
     }
 
-    this.addUnit = function(player, srcSpriteName, pos) {
-        addUnit(player, srcSpriteName, pos);
+    this.addUnit = function(player, srcSpriteName, pos, distance, movementType, speeds) {
+        addUnit(player, srcSpriteName, pos, distance, movementType, speeds);
     }
 
     this.getUnits = function(player) {
@@ -129,7 +147,7 @@ function testPath(start, end) {
 }
 
 function Plains() {
-    return new Cell("plains");
+    return new Cell("plains", terrainTypes.Plains);
 }
 
 var terrainTable = [
