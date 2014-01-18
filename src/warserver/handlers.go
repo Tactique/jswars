@@ -22,7 +22,7 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
         if (err != nil) {
             panic(err)
         }
-        t.Execute(w, "")
+        t.Execute(w, port)
         logger.Debug("Fetch for home page")
     }
 }

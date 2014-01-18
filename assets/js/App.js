@@ -63,6 +63,10 @@ var removeNewGameInterface = function() {
     $("#gameinfo").remove();
 }
 
+var getPortNum = function() {
+    return $("#wsport").text().slice(1);
+}
+
 var initCanvas = function(width, height) {
     canvas = document.createElement("canvas");
     canvas.id = "canvas";
