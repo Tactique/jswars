@@ -27,6 +27,13 @@ $(document).ready(function() {
         initialize();
         removeNewGameInterface();
     });
+
+    $("#quintenbutton").click(function() {
+        playerID = 1;
+        desiredPlayers = 1;
+        initialize();
+        removeNewGameInterface();
+    })
 });
 
 $(window).resize(function() {
