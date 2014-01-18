@@ -11,7 +11,7 @@ function SpecialRenderer() {
     }
 
     function removeLayer(key) {
-        delete renderers.key;
+        delete renderers[key];
     }
 
     function render() {
