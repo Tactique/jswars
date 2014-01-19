@@ -33,7 +33,7 @@ function Game() {
         render();
 
         this.lastTime = now;
-        requestAnimFrame(this.mainLoop.bind(this));
+        requestAnimFrame(this.mainLoop);
     }
 
     function changeState(newState) {
@@ -78,7 +78,7 @@ function Game() {
     }
 
     this.init = init;
-    this.mainLoop = mainLoop;
+    this.mainLoop = mainLoop.bind(this);
     this.changeState = changeState;
     this.update = update;
     this.selectWorld = selectWorld;
