@@ -96,33 +96,7 @@ function PathFinder(world, start) {
     }
 
     this.getNeighbors = function(current) {
-        var neighbors = [];
-        var curpos = current.position;
-        var leftpos = {x: curpos.x - 1, y: curpos.y};
-        if (this.withinWorld(leftpos)) {
-            neighbors.push(this.world[leftpos.x][leftpos.y]);
-        }
-
-        var rightpos = {x: curpos.x + 1, y: curpos.y};
-        if (this.withinWorld(rightpos)) {
-            neighbors.push(this.world[rightpos.x][rightpos.y]);
-        }
-
-        var uppos = {x: curpos.x, y: curpos.y - 1};
-        if (this.withinWorld(uppos)) {
-            neighbors.push(this.world[uppos.x][uppos.y]);
-        }
-
-        var downpos = {x: curpos.x, y: curpos.y + 1};
-        if (this.withinWorld(downpos)) {
-            neighbors.push(this.world[downpos.x][downpos.y]);
-        }
-        return neighbors;
-    }
-
-    this.withinWorld = function(position) {
-        return position.x >= 0 && position.x < this.world.length &&
-               position.y >= 0 && position.y < this.world[0].length;
+        return getMatrixNeighbors(this.world, current.position);
     }
 
     this.defaultGoal = function(current, goal) {
@@ -138,3 +112,33 @@ function PathFinder(world, start) {
     this.atGoal = this.defaultGoal;
 }
 
+
+function getMatrixNeighbors(matrix, curPos) {
+    function withinMatrix(position) {
+        return position.x >= 0 && position.x < matrix.length &&
+               position.y >= 0 && position.y < matrix[0].length;
+    }
+
+    var neighbors = [];
+    var leftpos = {x: curPos.x - 1, y: curPos.y};
+    if (withinMatrix(leftpos)) {
+        neighbors.push(matrix[leftpos.x][leftpos.y]);
+    }
+
+    var rightpos = {x: curPos.x + 1, y: curPos.y};
+    if (withinMatrix(rightpos)) {
+        neighbors.push(matrix[rightpos.x][rightpos.y]);
+    }
+
+    var uppos = {x: curPos.x, y: curPos.y - 1};
+    if (withinMatrix(uppos)) {
+        neighbors.push(matrix[uppos.x][uppos.y]);
+    }
+
+    var downpos = {x: curPos.x, y: curPos.y + 1};
+    if (withinMatrix(downpos)) {
+        neighbors.push(matrix[downpos.x][downpos.y]);
+    }
+
+    return neighbors;
+}
