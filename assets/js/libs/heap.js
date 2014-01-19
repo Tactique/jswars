@@ -18,7 +18,7 @@ function DefaultEqual(x, y) {
 
 BinaryHeap.prototype = {
     contains: function(desired) {
-        for (var i = 0; i < this.content.length; i++) {
+        for (var i = this.content.length - 1; i >= 0; i--) {
             if (this.equalFunction(this.content[i], desired)) {
                 return true;
             }
