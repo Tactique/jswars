@@ -52,6 +52,18 @@ function Network() {
             }
         }
         game.world.initialize(terrain);
+
+        var myUnits = world[getPlayerId()];
+        for (var i in myUnits) {
+            if (myUnits.hasOwnProperty(i)) {
+                // this should be tank, but I've only got wizards right now
+                // not sent movementType right now
+                var position = myUnits[i].loc;
+                game.world.addUnit(getPlayerId(), "wizard", position,
+                                   myUnits[i].distance, "none",
+                                   myUnits[i].movement);
+            }
+        }
     }
 
     function parseClientInfo(status) {
