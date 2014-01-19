@@ -26,6 +26,15 @@ BinaryHeap.prototype = {
         return false;
     },
 
+    get: function(desired) {
+        for (var i = this.content.length - 1; i >= 0; i--) {
+            if (this.equalFunction(this.content[i], desired)) {
+                return this.content[i];
+            }
+        }
+        return null;
+    },
+
     push: function(element) {
         // Add the new element to the end of the array.
         this.content.push(element);
