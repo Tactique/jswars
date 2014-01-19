@@ -48,7 +48,7 @@ function Network() {
         for (var y = 0; y < terrain.length; y++) {
             for (var x = 0; x < terrain.length; x++) {
                 // TODO terrain cells may someday be the actual JSON
-                terrain[x][y] = terrainLookup(terrain[x][y]);
+                terrain[x][y] = terrainLookup(terrain[x][y], x, y);
             }
         }
         game.world.initialize(terrain);

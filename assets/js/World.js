@@ -1,7 +1,8 @@
 var terrainTypes = Object.freeze({Plains: "Plains"});
 
 // This will eventually have much more information, including movement costs and such
-function Cell(spriteName, type) {
+function Cell(x, y, spriteName, type) {
+    this.position = {x: x, y: y};
     this.spriteName = spriteName;
     this.type = type;
 }
@@ -87,12 +88,54 @@ function World(width, height) {
 
     function findUnit(wx, wy) {
         var units = getUnits();
-        for (var i in units) {
+        for (var i = units.length - 1; i >= 0; i--) {
             if (units[i].pos.x == wx && units[i].pos.y == wy) {
                 return units[i];
             }
         }
         return null;
+    }
+
+    function findAvailableMoves(unit) {
+        function cellEqual(cell1, cell2) {
+            return cell1.cell.position.x == cell2.cell.position.x &&
+                   cell1.cell.position.y == cell2.cell.position.y;
+        }
+
+        var visited = new BinaryHeap(function() { return 1; }, cellEqual);
+
+        function processCell(cell, remainingmoves) {
+            visited.push({cell: cell, remainingmoves: remainingmoves});
+            if (remainingmoves > 0) {
+                var neighbors = getMatrixNeighbors(cells, cell.position);
+                for (var i = neighbors.length - 1; i >= 0; i--) {
+                    var neighbor = {cell: neighbors[i],
+                                    remainingmoves: neighbors[i].remainingmoves};
+                    if (visited.contains(neighbor)) {
+                        neighbor.remainingmoves = visited.get(neighbor).remainingmoves;
+                    } else {
+                        neighbor.remainingmoves = 0;
+                    }
+                    if (!visited.contains(neighbor) ||
+                        remainingmoves > neighbor.remainingmoves) {
+                        var moveCost = unit.speeds[cell.type];
+                        processCell(neighbors[i], remainingmoves - moveCost);
+                    }
+                }
+            }
+        }
+
+        processCell(cells[unit.pos.x][unit.pos.y], unit.distance);
+
+        var moves = new BinaryHeap(function() { return 1; }, cellEqual);
+        for (var i = visited.content.length - 1; i >= 0; i--) {
+            if (!moves.contains(visited.content[i])) {
+                moves.push(visited.content[i]);
+            }
+        };
+
+        game.movesAvailableCallback(moves.content);
+        return moves.content;
     }
 
     var w = width;
@@ -137,6 +180,10 @@ function World(width, height) {
     this.withinWorld = function(x, y) {
         return withinWorld(x, y);
     }
+
+    this.findAvailableMoves = function(unit) {
+        return findAvailableMoves(unit);
+    }
 }
 
 function testPath(start, end) {
@@ -146,17 +193,17 @@ function testPath(start, end) {
     game.pathCallback(path);
 }
 
-function Plains() {
-    return new Cell("plains", terrainTypes.Plains);
+function Plains(x, y) {
+    return new Cell(x, y, "plains", terrainTypes.Plains);
 }
 
 var terrainTable = [
     Plains,
 ]
 
-function terrainLookup(id) {
+function terrainLookup(id, x, y) {
     // TODO This data should come from some JSON source on the server
-    return new terrainTable[id];
+    return new terrainTable[id](x, y);
 }
 
 function convertWorldToPathNodes(world, unit) {

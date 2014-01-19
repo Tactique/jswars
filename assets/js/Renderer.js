@@ -43,6 +43,8 @@ function initRenderers() {
     game.selectorCallback = handleSelectorRendering;
 
     game.pathCallback = handlePathRendering;
+
+    game.movesAvailableCallback = handleMovesRendering;
 }
 
 function handleSelectorRendering(selector) {
@@ -54,6 +56,11 @@ function handleSelectorRendering(selector) {
 function handlePathRendering(path) {
     specialRenderer.removeLayer("path");
     specialRenderer.addLayer("path", drawPath, path);
+}
+
+function handleMovesRendering(moves) {
+    specialRenderer.removeLayer("moves");
+    specialRenderer.addLayer("moves", drawMoves, moves);
 }
 
 function clearBack() {
@@ -184,6 +191,14 @@ function drawPath(path) {
         }
         var pos = camera.transformToCameraSpace(path[i].position.x, path[i].position.y);
         gfx.ctx.fillRect(pos.cam_x + 25, pos.cam_y + 25, 50, 50);
+    }
+}
+
+function drawMoves(moves) {
+    gfx.ctx.fillStyle = "rgba(0, 0, 150, 0.5)";
+    for (var i in moves) {
+        var pos = camera.transformToCameraSpace(moves[i].cell.position.x, moves[i].cell.position.y);
+        gfx.ctx.fillRect(pos.cam_x, pos.cam_y, 100, 100);
     }
 }
 
