@@ -214,7 +214,12 @@ function convertWorldToPathNodes(world, unit) {
             // The cost modifier could/should come from a combination of
             // the cell type and the unit's movement modifiers. Likewise for
             // passable
-            pathworld[x][y] = new pathNode({x: x, y: y}, 1, true);
+            var cost = unit.speeds[world.getCell(x, y).type];
+            var passable = false;
+            if (cost > 0) {
+                passable = true;
+            }
+            pathworld[x][y] = new pathNode({x: x, y: y}, cost, passable);
         }
     }
     return pathworld;
