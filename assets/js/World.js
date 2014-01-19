@@ -52,7 +52,7 @@ function World(width, height) {
         {
             for (var x = 0; x < w; x++) {
                 for (var y = 0; y < h; y++) {
-                    cells[x][y] = entryCells[y][x];
+                    cells[x][y] = entryCells[x][y];
                 }
             }
         } else {
