@@ -32,7 +32,7 @@ function Mouse() {
             this.y = ny;
             this.UpdateState();
         }
-        this.timeout = setTimeout(this.StoppedMoving.bind(this), 100);
+        this.timeout = setTimeout(this.StoppedMoving, 100);
     }
 
     this.UpdateState = function() {
@@ -61,7 +61,7 @@ function Mouse() {
             }
             break;
         case mouseStates.LeftDown:
-            if (Math.abs(this.dx) >= 5 || Math.abs(this.dy) >= 5 &&
+            if ((Math.abs(this.dx) >= 5 || Math.abs(this.dy)) >= 5 &&
                 this.ButtonDown("Left")) {
                 this.currentState = mouseStates.LeftDrag;
             } else if (!this.ButtonDown("Left")) {
@@ -95,10 +95,12 @@ function Mouse() {
         return true;
     }
 
-    this.StoppedMoving = function() {
+    function StoppedMoving() {
         this.dx = 0;
         this.dy = 0;
         this.UpdateState();
     }
+
+    this.StoppedMoving = StoppedMoving.bind(this);
 }
 
