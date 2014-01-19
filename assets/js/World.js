@@ -22,11 +22,11 @@ function Unit(spriteName, pos, distance, movementType, speeds) {
 
 function addWizard(player, pos) {
     var mtype = "feet";
-    var speed = {
+    var speeds = {
         "Plains": 1.0,
     }
     var distance = 4;
-    game.world.addUnit(player, "wizard", pos, distance, mtype, speed);
+    game.world.addUnit(player, "wizard", pos, distance, mtype, speeds);
 }
 
 function World(width, height) {
@@ -186,10 +186,10 @@ function World(width, height) {
     }
 }
 
-function testPath(start, end) {
-    var pathworld = convertWorldToPathNodes(game.world);
-    var pathfinder = new PathFinder(pathworld, pathworld[start.x][start.y]);
-    var path = pathfinder.findPath(pathworld[end.x][end.y]);
+function testPath(unit, goal) {
+    var pathworld = convertWorldToPathNodes(game.world, unit);
+    var pathfinder = new PathFinder(pathworld, pathworld[unit.pos.x][unit.pos.y]);
+    var path = pathfinder.findPath(pathworld[goal.x][goal.y]);
     game.pathCallback(path);
 }
 
