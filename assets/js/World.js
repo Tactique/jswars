@@ -186,8 +186,9 @@ function World(width, height) {
     }
 }
 
-function testPath(unit, goal) {
-    var pathworld = convertWorldToPathNodes(game.world, unit);
+function routePath(unit, goal) {
+    var moves = game.world.findAvailableMoves(unit);
+    var pathworld = convertWorldToPathNodes(game.world, unit, moves);
     var pathfinder = new PathFinder(pathworld, pathworld[unit.pos.x][unit.pos.y]);
     var path = pathfinder.findPath(pathworld[goal.x][goal.y]);
     game.pathCallback(path);
@@ -206,7 +207,12 @@ function terrainLookup(id, x, y) {
     return new terrainTable[id](x, y);
 }
 
-function convertWorldToPathNodes(world, unit) {
+function cellEqual(cell1, cell2) {
+    return cell1.cell.position.x == cell2.position.x &&
+           cell1.cell.position.y == cell2.position.y;
+}
+
+function convertWorldToPathNodes(world, unit, moves) {
     var pathworld = new Array(world.getWidth());
     for (var x = 0; x < world.getWidth(); x++) {
         pathworld[x] = new Array(world.getHeight());
@@ -216,7 +222,7 @@ function convertWorldToPathNodes(world, unit) {
             // passable
             var cost = unit.movement[world.getCell(x, y).type];
             var passable = false;
-            if (cost > 0) {
+            if (cost > 0 && arrayContains(moves, world.getCell(x, y), cellEqual)) {
                 passable = true;
             }
             pathworld[x][y] = new pathNode({x: x, y: y}, cost, passable);

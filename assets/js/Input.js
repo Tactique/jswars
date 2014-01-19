@@ -97,19 +97,51 @@ function handleCameraMouse(mouse) {
     } else if(mouse.lastState == mouseStates.LeftDown &&
               mouse.currentState == mouseStates.LeftUp) {
         sprites["selector"].resetCurrentFrame();
-        wp = camera.transformToWorldSpace(mouse.x, mouse.y);
+        var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (game.world.withinWorld(wp.world_x, wp.world_y)) {
             game.selectWorld(wp.world_x, wp.world_y);
-            console.log(game.world.getCell(wp.world_x, wp.world_y));
-            console.log(game.world.findUnit(wp.world_x, wp.world_y));
+            var selectedUnit = game.world.findUnit(wp.world_x, wp.world_y);
+            var selectedCell = game.world.getCell(wp.world_x, wp.world_y);
+            if (selectedUnit) {
+                game.currentState = "UNIT_CONTROL";
+                unitControlState.unit = selectedUnit;
+            } else {
+                game.currentState = "CAMERA_CONTROL";
+                unitControlState.unit = null;
+            }
         }
     }
 }
 
+var unitControlState = {
+    unit: null,
+    moving: false,
+    moves: null,
+}
+
 function handleUnitKeyboard(keyboard) {
-    
+    if (keyboard.KeyDown("M")) {
+        unitControlState.moving = true;
+        unitControlState.moves = game.world.findAvailableMoves(unitControlState.unit);
+    } else if (keyboard.KeyDown("Esc")) {
+        unitControlState.moving = false;
+        specialRenderer.removeLayer("moves");
+        specialRenderer.removeLayer("path");
+    }
 }
 
 function handleUnitMouse(mouse) {
-
+    if (!unitControlState.moving) {
+        handleCameraMouse(mouse);
+    } else {
+        if (mouse.lastState == mouseStates.LeftDown &&
+            mouse.currentState == mouseStates.LeftUp) {
+            var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
+            if (game.world.withinWorld(wp.world_x, wp.world_y)) {
+                game.selectWorld(wp.world_x, wp.world_y);
+                var goal = game.world.getCell(wp.world_x, wp.world_y);
+                routePath(unitControlState.unit, goal.position);
+            }
+        }
+    }
 }
