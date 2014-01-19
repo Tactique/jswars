@@ -1,4 +1,4 @@
-var terrainTypes = Object.freeze({Plains: "Plains"});
+var terrainTypes = Object.freeze({Plains: 0});
 
 // This will eventually have much more information, including movement costs and such
 function Cell(x, y, spriteName, type) {
@@ -9,7 +9,7 @@ function Cell(x, y, spriteName, type) {
 
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
-function Unit(spriteName, pos, distance, movementType, speeds) {
+function Unit(spriteName, pos, distance, movementType, movement) {
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -17,16 +17,16 @@ function Unit(spriteName, pos, distance, movementType, speeds) {
     // treads, feet, wheels, that sort of thing
     this.movementType = movementType;
     // map of cell types to movement costs, ie plains -> 1.0
-    this.speeds = speeds;
+    this.movement = movement;
 }
 
 function addWizard(player, pos) {
     var mtype = "feet";
-    var speeds = {
-        "Plains": 1.0,
+    var movement = {
+        0: 1.0, // Plains
     }
     var distance = 4;
-    game.world.addUnit(player, "wizard", pos, distance, mtype, speeds);
+    game.world.addUnit(player, "wizard", pos, distance, mtype, movement);
 }
 
 function World(width, height) {
@@ -61,13 +61,13 @@ function World(width, height) {
     }
 
     // unit sprite's have to be cloned, so we have to wrap their creation
-    function addUnit(player, srcSpriteName, pos, distance, movementType, speeds) {
+    function addUnit(player, srcSpriteName, pos, distance, movementType, movement) {
         if (units[player] == null) {
             units[player] = [];
         }
         var newSpriteName = player + srcSpriteName + units[player].length;
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName);
-        var newUnit = new Unit(newSpriteName, pos, distance, movementType, speeds);
+        var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement);
         units[player].push(newUnit);
     }
 
@@ -118,7 +118,7 @@ function World(width, height) {
                     }
                     if (!visited.contains(neighbor) ||
                         remainingmoves > neighbor.remainingmoves) {
-                        var moveCost = unit.speeds[cell.type];
+                        var moveCost = unit.movement[cell.type];
                         processCell(neighbors[i], remainingmoves - moveCost);
                     }
                 }
@@ -165,8 +165,8 @@ function World(width, height) {
         initialize(entryCells);
     }
 
-    this.addUnit = function(player, srcSpriteName, pos, distance, movementType, speeds) {
-        addUnit(player, srcSpriteName, pos, distance, movementType, speeds);
+    this.addUnit = function(player, srcSpriteName, pos, distance, movementType, movement) {
+        addUnit(player, srcSpriteName, pos, distance, movementType, movement);
     }
 
     this.getUnits = function(player) {
@@ -214,7 +214,7 @@ function convertWorldToPathNodes(world, unit) {
             // The cost modifier could/should come from a combination of
             // the cell type and the unit's movement modifiers. Likewise for
             // passable
-            var cost = unit.speeds[world.getCell(x, y).type];
+            var cost = unit.movement[world.getCell(x, y).type];
             var passable = false;
             if (cost > 0) {
                 passable = true;
