@@ -191,7 +191,11 @@ function routePath(unit, goal) {
     var pathworld = convertWorldToPathNodes(game.world, unit, moves);
     var pathfinder = new PathFinder(pathworld, pathworld[unit.pos.x][unit.pos.y]);
     var path = pathfinder.findPath(pathworld[goal.x][goal.y]);
-    game.pathCallback(path);
+    if (path) {
+        game.pathCallback(path);
+    } else {
+        alert("You can't get there!");
+    }
 }
 
 function Plains(x, y) {

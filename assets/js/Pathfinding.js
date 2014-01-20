@@ -39,6 +39,9 @@ function PathFinder(world, start) {
     }
 
     this.findPath = function(goal) {    
+        if (!goal.passable) {
+            return null;
+        }
         // the openlist is pathNodes
         var openlist = new BinaryHeap(pathNodeScore, pathNodeEqual);
         // The closedlist does not need to be a heap, but I'm lazy
@@ -48,6 +51,9 @@ function PathFinder(world, start) {
         while (!this.atGoal(current, goal)) {
             this.updateOpenList(current, goal, openlist, closedlist);
             closedlist.push(current);
+            if (openlist.size() == 0) {
+                return null;
+            }
             current = openlist.pop();
         }
 
