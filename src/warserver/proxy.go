@@ -98,8 +98,7 @@ func (p *proxy) sendInitialGameInfo() {
             message = message + ", "
         }
     }
-    message = message + "]}"
-    // message := "new:{\"uid1\": 1, \"uid2\": 2}"
+    message = message + "], \"debug\": 0}"
     logger.Infof("%s", message)
     p.server.conn.Write([]byte(message))
 }
