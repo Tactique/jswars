@@ -143,6 +143,45 @@ function World(width, height) {
         return moves.content;
     }
 
+    function serialize() {
+        var outUnits = serializeUnits();
+        var terrain = serializeTerrain();
+
+        var serialObject = {"units": outUnits,
+                            "terrain": terrain};
+
+        return JSON.stringify(serialObject);
+    }
+
+    function serializeTerrain() {
+        var terrain = new Array(w);
+        for (var x = 0; x < w; x++) {
+            terrain[x] = new Array(h);
+            for (var y = 0; y < h; y++) {
+                terrain[x][y] = cells[x][y].type;
+            }
+        }
+
+        return terrain;
+    }
+
+    function serializeUnits() {
+        var outUnits = {};
+        for (var player in units) {
+            if (units.hasOwnProperty(player)) {
+                outUnits[player] = [];
+                for (var i = 0; i < units[player].length; i++) {
+                    var unit = jQuery.extend(true, {}, units[player][i]);
+                    unit["loc"] = unit.pos;
+                    delete unit["pos"];
+                    outUnits[player].push(unit);
+                }
+            }
+        }
+
+        return outUnits;
+    }
+
     var w = width;
     var h = height;
 
@@ -190,6 +229,10 @@ function World(width, height) {
 
     this.findAvailableMoves = function(unit) {
         return findAvailableMoves(unit);
+    }
+
+    this.serialize = function() {
+        return serialize();
     }
 }
 
