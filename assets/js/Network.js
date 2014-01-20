@@ -61,7 +61,8 @@ function Network() {
                 var position = myUnits[i].loc;
                 game.world.addUnit(getPlayerId(), "wizard", position,
                                    myUnits[i].distance, "none",
-                                   myUnits[i].movement);
+                                   myUnits[i].movement, myUnits[i].health,
+                                   myUnits[i].team, myUnits[i].name);
             }
         }
     }

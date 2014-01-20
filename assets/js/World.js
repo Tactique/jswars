@@ -9,7 +9,8 @@ function Cell(x, y, spriteName, type) {
 
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
-function Unit(spriteName, pos, distance, movementType, movement) {
+function Unit(spriteName, pos, distance, movementType, movement,
+              health, team, name) {
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -18,6 +19,9 @@ function Unit(spriteName, pos, distance, movementType, movement) {
     this.movementType = movementType;
     // map of cell types to movement costs, ie plains -> 1.0
     this.movement = movement;
+    this.health = health;
+    this.team = team;
+    this.name = name;
 }
 
 function addWizard(player, pos) {
@@ -61,7 +65,8 @@ function World(width, height) {
     }
 
     // unit sprite's have to be cloned, so we have to wrap their creation
-    function addUnit(player, srcSpriteName, pos, distance, movementType, movement) {
+    function addUnit(player, srcSpriteName, pos, distance, movementType,
+                     movement, health, team, name) {
         if (units[player] == null) {
             units[player] = [];
         }
@@ -165,8 +170,10 @@ function World(width, height) {
         initialize(entryCells);
     }
 
-    this.addUnit = function(player, srcSpriteName, pos, distance, movementType, movement) {
-        addUnit(player, srcSpriteName, pos, distance, movementType, movement);
+    this.addUnit = function(player, srcSpriteName, pos, distance, movementType,
+                            movement, health, team, name) {
+        addUnit(player, srcSpriteName, pos, distance, movementType, movement,
+                health, team, name);
     }
 
     this.getUnits = function(player) {
