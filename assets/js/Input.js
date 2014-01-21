@@ -124,8 +124,14 @@ function handleUnitKeyboard(keyboard) {
     if (keyboard.KeyDown("M")) {
         unitControlState.moving = true;
         unitControlState.moves = game.world.findAvailableMoves(unitControlState.unit);
+        if (unitControlState.moving && unitControlState.path != null) {
+            network.sendUnitMove(unitControlState.unit, unitControlState.path);
+            keyboard["M"] = false;
+        }
     } else if (keyboard.KeyDown("Esc")) {
         unitControlState.moving = false;
+        unitControlState.moves = null;
+        unitControlState.path = null;
         specialRenderer.removeLayer("moves");
         specialRenderer.removeLayer("path");
     }

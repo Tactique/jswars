@@ -14,9 +14,20 @@ function Network() {
         sendMessage(VIEW_WORLD_CMD, {});
     }
 
+    function sendUnitMove(unit, move) {
+        var message = {unit: unit, move: []};
+        console.log(move);
+        for (var i = 0; i < move.length; i++) {
+            message.move.push(move[i].position);
+        };
+
+        sendMessage(MOVE_UNIT_CMD, message);
+    }
+
     CLIENT_INFO_CMD = "clientInfo";
     NEW_GAME_CMD = "newGame";
     VIEW_WORLD_CMD = "view";
+    MOVE_UNIT_CMD = "move";
 
     host = window.location.host.split(":")[0];
     port = getPortNum();
@@ -35,7 +46,8 @@ function Network() {
     this.packetHandlers = {
         "view": parseViewWorld.bind(this),
         "clientinfo": parseClientInfo.bind(this),
-        "new": parseGameRequestSuccess.bind(this)
+        "new": parseGameRequestSuccess.bind(this),
+        "move": parseMoveResponse.bind(this)
     }
 
     function parseViewWorld(status, world) {
@@ -75,6 +87,10 @@ function Network() {
     function parseGameRequestSuccess(status) {
         console.log("Congratulations, you've been matched to a game!");
         this.sendViewWorld();
+    }
+
+    function parseMoveResponse(status) {
+        console.log("Got a move response from the server", status);
     }
 
     conn.onopen = function () {
@@ -121,6 +137,10 @@ function Network() {
 
     this.sendViewWorld = function() {
         sendViewWorld();
+    }
+
+    this.sendUnitMove = function(unit, move) {
+        sendUnitMove(unit, move);
     }
 }
 
