@@ -117,6 +117,7 @@ var unitControlState = {
     unit: null,
     moving: false,
     moves: null,
+    path: null
 }
 
 function handleUnitKeyboard(keyboard) {
@@ -140,7 +141,8 @@ function handleUnitMouse(mouse) {
             if (game.world.withinWorld(wp.world_x, wp.world_y)) {
                 game.selectWorld(wp.world_x, wp.world_y);
                 var goal = game.world.getCell(wp.world_x, wp.world_y);
-                routePath(unitControlState.unit, goal.position);
+                var path = routePath(unitControlState.unit, goal.position);
+                unitControlState.path = path;
             }
         }
     }

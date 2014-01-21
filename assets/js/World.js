@@ -246,6 +246,7 @@ function routePath(unit, goal) {
     } else {
         alert("You can't get there!");
     }
+    return path;
 }
 
 function Plains(x, y) {
