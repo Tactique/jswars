@@ -116,6 +116,8 @@ function World(width, height) {
                 for (var i = neighbors.length - 1; i >= 0; i--) {
                     var neighbor = {cell: neighbors[i],
                                     remainingmoves: neighbors[i].remainingmoves};
+                    var neighborUnit = game.world.findUnit(neighbors[i].position.x,
+                                                           neighbors[i].position.y);
                     if (visited.contains(neighbor)) {
                         neighbor.remainingmoves = visited.get(neighbor).remainingmoves;
                     } else {
@@ -123,8 +125,10 @@ function World(width, height) {
                     }
                     if (!visited.contains(neighbor) ||
                         remainingmoves > neighbor.remainingmoves) {
-                        var moveCost = unit.movement[cell.type];
-                        processCell(neighbors[i], remainingmoves - moveCost);
+                        var moveCost = unit.movement[neighbor.cell.type];
+                        if (moveCost > 0 && neighborUnit == null) {
+                            processCell(neighbors[i], remainingmoves - moveCost);
+                        }
                     }
                 }
             }
