@@ -32,12 +32,6 @@ function PathFinder(world, start) {
         return Math.sqrt(xsq + ysq) * neighbor.costModifier;
     }
 
-    // current and goal are pathNodes
-    this.ManhattanDistance = function(current, goal) {
-        return (Math.abs(goal.position.x - current.position.x) +
-                Math.abs(goal.position.y - current.position.y));
-    }
-
     this.findPath = function(goal) {    
         if (!goal.passable) {
             return null;
@@ -91,7 +85,8 @@ function PathFinder(world, start) {
             if (neighbor.passable && !closed.contains(neighbor)) {
                 // calculate the F = G + H cost of the neighbor
                 var g = this.movementCostFunc(current, neighbor) + current.Gcost;
-                var h = this.heuristicCostFunc(current, goal);
+                var h = this.heuristicCostFunc(current.position,
+                                               goal.position);
                 neighbor.pathparent = current;
                 neighbor.Gcost = g;
                 neighbor.Hcost = h;
@@ -114,10 +109,14 @@ function PathFinder(world, start) {
     this.world = world;
     this.start = start;
     this.movementCostFunc = this.GCost;
-    this.heuristicCostFunc = this.ManhattanDistance;
+    this.heuristicCostFunc = ManhattanDistance;
     this.atGoal = this.defaultGoal;
 }
 
+function ManhattanDistance(current, goal) {
+    return (Math.abs(current.x - goal.x) +
+            Math.abs(current.y - goal.y));
+}
 
 function getMatrixNeighbors(matrix, curPos) {
     function withinMatrix(position) {
