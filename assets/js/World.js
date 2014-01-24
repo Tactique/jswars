@@ -126,7 +126,8 @@ function World(width, height) {
                     if (!visited.contains(neighbor) ||
                         remainingmoves > neighbor.remainingmoves) {
                         var moveCost = unit.movement[neighbor.cell.type];
-                        if (moveCost > 0 && neighborUnit == null) {
+                        if (moveCost > 0 && neighborUnit == null &&
+                            remainingmoves - moveCost > 0) {
                             processCell(neighbors[i], remainingmoves - moveCost);
                         }
                     }
