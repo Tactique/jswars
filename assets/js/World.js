@@ -102,12 +102,21 @@ function World(width, height) {
     }
 
     function findAvailableMoves(unit) {
-        var moves = findAvailableCells(unit, 0);
+        var moves = findAvailableCells(unit);
         game.movesAvailableCallback(moves);
         return moves;
     }
 
-    function findAvailableCells(unit, minWindow) {
+    function findAvailableAttacks(unit) {
+        // need to go through a different process for melee/range units
+        // ranged units need to get their attack range from somewhere, min and max
+        var moves = findAvailableCells(unit);
+        var attacks = processMeleeAttack(unit, moves);
+        game.attacksAvailableCallback(attacks);
+        return attacks;
+    }
+
+    function findAvailableCells(unit) {
         function cellEqual(cell1, cell2) {
             return cell1.cell.position.x == cell2.cell.position.x &&
                    cell1.cell.position.y == cell2.cell.position.y;
@@ -117,9 +126,7 @@ function World(width, height) {
         var source = cells[unit.pos.x][unit.pos.y];
 
         function processCell(cell, remainingmoves) {
-            if (ManhattanDistance(source.position, cell.position) > minWindow) {
-                visited.push({cell: cell, remainingmoves: remainingmoves});
-            }
+            visited.push({cell: cell, remainingmoves: remainingmoves});
             if (remainingmoves > 0) {
                 var neighbors = getMatrixNeighbors(cells, cell.position);
                 for (var i = neighbors.length - 1; i >= 0; i--) {
@@ -154,6 +161,39 @@ function World(width, height) {
         };
 
         return moves.content;
+    }
+
+    function processRangeAttack(unit, moves) {
+        var attacks = [];
+        for (var i = moves.length - 1; i >= 0; i--) {
+            // GLARING TODO: min range for units should be part of the unit object
+            if (ManhattanDistance(moves[i].cell.position, unit.pos) > 3) {
+                attacks.push(moves[i]);
+            }
+        }
+
+        return attacks;
+    }
+
+    function processMeleeAttack(unit, moves) {
+        // sorry!
+        function cellEqual(cell1, cell2) {
+            return cell1.cell.position.x == cell2.cell.position.x &&
+                   cell1.cell.position.y == cell2.cell.position.y;
+        }
+
+        var attacks = new BinaryHeap(function() { return 1; }, cellEqual);
+        for (var i = moves.length - 1; i >= 0; i--) {
+            var neighbors = getMatrixNeighbors(cells, moves[i].cell.position);
+            for (var j = neighbors.length - 1; j >= 0; j--) {
+                var neighbor = {cell: neighbors[j]};
+                if (!attacks.contains(neighbor)) {
+                    attacks.push(neighbor);
+                }
+            }
+        }
+
+        return attacks.content;
     }
 
     function serialize() {
@@ -242,6 +282,10 @@ function World(width, height) {
 
     this.findAvailableMoves = function(unit) {
         return findAvailableMoves(unit);
+    }
+
+    this.findAvailableAttacks = function(unit) {
+        return findAvailableAttacks(unit);
     }
 
     this.serialize = function() {
