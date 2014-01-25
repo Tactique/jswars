@@ -129,10 +129,8 @@ function handleUnitKeyboard(keyboard) {
             network.sendUnitMove(unitControlState.unit, unitControlState.path);
             keyboard["M"] = false;
         }
-        console.log("M");
     } else if (keyboard.KeyDown("A")) {
         unitControlState.attacks = game.world.findAvailableAttacks(unitControlState.unit);
-        console.log("A");
     } else if (keyboard.KeyDown("Esc")) {
         unitControlState.moving = false;
         unitControlState.moves = null;
