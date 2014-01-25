@@ -121,6 +121,16 @@ var unitControlState = {
     path: null
 }
 
+unitControlState.reset = function() {
+    unitControlState.moving = false;
+    unitControlState.moves = null;
+    unitControlState.attacks = null;
+    unitControlState.path = null;
+    specialRenderer.removeLayer("moves");
+    specialRenderer.removeLayer("path");
+    specialRenderer.removeLayer("attacks");
+}
+
 function handleUnitKeyboard(keyboard) {
     if (keyboard.KeyDown("M")) {
         unitControlState.moving = true;
@@ -132,13 +142,7 @@ function handleUnitKeyboard(keyboard) {
     } else if (keyboard.KeyDown("A")) {
         unitControlState.attacks = game.world.findAvailableAttacks(unitControlState.unit);
     } else if (keyboard.KeyDown("Esc")) {
-        unitControlState.moving = false;
-        unitControlState.moves = null;
-        unitControlState.attacks = null;
-        unitControlState.path = null;
-        specialRenderer.removeLayer("moves");
-        specialRenderer.removeLayer("path");
-        specialRenderer.removeLayer("attacks");
+        unitControlState.reset();
     }
 }
 

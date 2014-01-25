@@ -93,7 +93,20 @@ function Network() {
     }
 
     function parseMoveResponse(status) {
-        console.log("Got a move response from the server", status);
+        if (status == "success") {
+            var unit = unitControlState.unit;
+            var path = unitControlState.path;
+            if (path) {
+                var goal = path[path.length - 1];
+                unit.pos.x = goal.position.x;
+                unit.pos.y = goal.position.y;
+                unitControlState.reset();
+            } else {
+                console.log("Your path is null, man");
+            }
+        } else {
+            console.log("Go a bad status from server:", status);
+        }
     }
 
     conn.onopen = function () {
