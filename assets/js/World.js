@@ -257,7 +257,7 @@ function routePath(unit, goal) {
     if (path) {
         game.pathCallback(path);
     } else {
-        alert("You can't get there!");
+        console.log("You can't get there!");
     }
     return path;
 }
