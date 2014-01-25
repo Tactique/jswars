@@ -202,19 +202,14 @@ function drawPath(path) {
 }
 
 function drawMoves(moves) {
-    gfx.ctx.fillStyle = "rgba(0, 0, 150, 0.5)";
     for (var i in moves) {
-        var pos = camera.transformToCameraSpace(moves[i].cell.position.x, moves[i].cell.position.y);
-        gfx.ctx.fillRect(pos.cam_x, pos.cam_y, 100, 100);
+        drawSprite(moves[i].cell.position.x, moves[i].cell.position.y, "move");
     }
 }
 
 function drawAttacks(attacks) {
-    console.log("attacks and shit");
-    gfx.ctx.fillStyle = "rgba(150, 0, 0, 0.5)";
     for (var i in attacks) {
-        var pos = camera.transformToCameraSpace(attacks[i].cell.position.x, attacks[i].cell.position.y);
-        gfx.ctx.fillRect(pos.cam_x, pos.cam_y, 100, 100);
+        drawSprite(attacks[i].cell.position.x, attacks[i].cell.position.y, "attack");
     }
 }
 

@@ -37,6 +37,22 @@
                 }
             },
             "defaultAnimation" : "selected"
+        },
+        {
+            "name": "move",
+            "url": "assets/sprites/unit_sprites.png",
+            "srcPos": {"x": 69, "y": 0},
+            "width": 16,
+            "height": 16,
+            "animRate": 0
+        },
+        {
+            "name": "attack",
+            "url": "assets/sprites/unit_sprites.png",
+            "srcPos": {"x": 69, "y": 17},
+            "width": 16,
+            "height": 16,
+            "animRate": 0
         }
     ],
     "minWidth": 16,
