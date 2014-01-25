@@ -10,7 +10,7 @@ function Cell(x, y, spriteName, type) {
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
 function Unit(spriteName, pos, distance, movementType, movement,
-              health, team, name) {
+              health, nation, name) {
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -20,7 +20,7 @@ function Unit(spriteName, pos, distance, movementType, movement,
     // map of cell types to movement costs, ie plains -> 1.0
     this.movement = movement;
     this.health = health;
-    this.team = team;
+    this.nation = nation;
     this.name = name;
 }
 
@@ -66,13 +66,14 @@ function World(width, height) {
 
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
-                     movement, health, team, name) {
+                     movement, health, nation, name) {
         if (units[player] == null) {
             units[player] = [];
         }
         var newSpriteName = player + srcSpriteName + units[player].length;
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName);
-        var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement);
+        var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
+                               health, nation, name);
         units[player].push(newUnit);
     }
 
@@ -263,9 +264,9 @@ function World(width, height) {
     }
 
     this.addUnit = function(player, srcSpriteName, pos, distance, movementType,
-                            movement, health, team, name) {
+                            movement, health, nation, name) {
         addUnit(player, srcSpriteName, pos, distance, movementType, movement,
-                health, team, name);
+                health, nation, name);
     }
 
     this.getUnits = function(player) {

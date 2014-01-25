@@ -50,8 +50,10 @@ function Network() {
         "move": parseMoveResponse.bind(this)
     }
 
-    function parseViewWorld(status, world) {
-        terrain = world.terrain;
+    function parseViewWorld(status, viewWorld) {
+        var world = viewWorld.world;
+        var terrain = world.terrain;
+        testies = world;
         if (game.world == null) {
             // TODO check if the terrain actually exists first
             game.world = new World(terrain.length, terrain[0].length);
@@ -65,17 +67,19 @@ function Network() {
         }
         game.world.initialize(terrain);
 
-        var myUnits = world[getPlayerId()];
-        for (var i in myUnits) {
-            if (myUnits.hasOwnProperty(i)) {
-                // this should be tank, but I've only got wizards right now
-                // not sent movementType right now
-                var position = myUnits[i].loc;
-                game.world.addUnit(getPlayerId(), "wizard", position,
-                                   myUnits[i].distance, "none",
-                                   myUnits[i].movement, myUnits[i].health,
-                                   myUnits[i].team, myUnits[i].name);
-            }
+        var units = world.units;
+        for (var i = units.length - 1; i >= 0; i--) {
+            // this should be tank, but I've only got wizards right now
+            // not sent movementType right now
+            var unit = units[i].unit;
+            var position = unit.loc;
+            var movement = unit.movement;
+            var unitnation = parseInt(unit.nation) + unit.name;
+            var spriteName = UnitNationSprite[unitnation];
+            game.world.addUnit(unit.nation, spriteName, position,
+                               unit.distance, movement.name,
+                               movement.speeds, unit.health,
+                               unit.nation, unit.name);
         }
     }
 

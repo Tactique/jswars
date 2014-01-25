@@ -120,3 +120,8 @@ function ParseSpriteInfo(sprite) {
                              sprite.width, sprite.height,
                              sprite.animations, sprite.defaultAnimation, false);
 }
+
+// TODO this could definitely definitely be JSON
+var UnitNationSprite = {
+    "0Tank": "wizard"
+}
