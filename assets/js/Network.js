@@ -75,10 +75,14 @@ function Network() {
             var movement = unit.movement;
             var unitnation = parseInt(unit.nation) + unit.name;
             var spriteName = UnitNationSprite[unitnation];
-            game.world.addUnit(unit.nation, spriteName, position,
-                               unit.distance, movement.name,
-                               movement.speeds, unit.health,
-                               unit.nation, unit.name);
+            if (!game.world.findUnit(position.x, position.y)) {
+                game.world.addUnit(unit.nation, spriteName, position,
+                                   unit.distance, movement.name,
+                                   movement.speeds, unit.health,
+                                   unit.nation, unit.name);
+            } else {
+                console.log("Verifing the unit could be useful here");
+            }
         }
     }
 
