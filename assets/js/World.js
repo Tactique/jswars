@@ -102,15 +102,24 @@ function World(width, height) {
     }
 
     function findAvailableMoves(unit) {
+        var moves = findAvailableCells(unit, 0);
+        game.movesAvailableCallback(moves);
+        return moves;
+    }
+
+    function findAvailableCells(unit, minWindow) {
         function cellEqual(cell1, cell2) {
             return cell1.cell.position.x == cell2.cell.position.x &&
                    cell1.cell.position.y == cell2.cell.position.y;
         }
 
         var visited = new BinaryHeap(function() { return 1; }, cellEqual);
+        var source = cells[unit.pos.x][unit.pos.y];
 
         function processCell(cell, remainingmoves) {
-            visited.push({cell: cell, remainingmoves: remainingmoves});
+            if (ManhattanDistance(source.position, cell.position) > minWindow) {
+                visited.push({cell: cell, remainingmoves: remainingmoves});
+            }
             if (remainingmoves > 0) {
                 var neighbors = getMatrixNeighbors(cells, cell.position);
                 for (var i = neighbors.length - 1; i >= 0; i--) {
@@ -135,7 +144,7 @@ function World(width, height) {
             }
         }
 
-        processCell(cells[unit.pos.x][unit.pos.y], unit.distance);
+        processCell(source, unit.distance);
 
         var moves = new BinaryHeap(function() { return 1; }, cellEqual);
         for (var i = visited.content.length - 1; i >= 0; i--) {
@@ -144,7 +153,6 @@ function World(width, height) {
             }
         };
 
-        game.movesAvailableCallback(moves.content);
         return moves.content;
     }
 
