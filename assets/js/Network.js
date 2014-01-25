@@ -15,8 +15,7 @@ function Network() {
     }
 
     function sendUnitMove(unit, move) {
-        var message = {unit: unit, move: []};
-        console.log(move);
+        var message = {move: []};
         for (var i = 0; i < move.length; i++) {
             message.move.push(move[i].position);
         };
