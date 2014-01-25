@@ -86,6 +86,10 @@ function handleCameraKeyboard(keyboard) {
         camMove['y'] += 5;
     }
     camera.processMove(camMove);
+    if (keyboard.KeyDown("R")) {
+        network.sendViewWorld();
+        keyboard["R"] = false;
+    }
 }
 
 function handleCameraMouse(mouse) {
