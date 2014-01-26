@@ -24,6 +24,7 @@ var port PortInfo
 
 func Main() {
     portstring := flag.String("port", ":8888", "Server port")
+    debugEnabled := flag.Bool("debug", true, "Enable debug")
     flag.Parse()
 
     port = newPortInfo(*portstring)
@@ -37,6 +38,9 @@ func Main() {
 
     http.HandleFunc("/", serveIndex)
     http.HandleFunc("/ws", serveWs)
+    if (*debugEnabled) {
+        http.HandleFunc("/tests", serveTests)
+    }
 
     logger.Debugf("Http server listening on port %s", port);
     err := http.ListenAndServe(port.Port, nil)
