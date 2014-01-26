@@ -3,7 +3,7 @@ keyCharToCode = {"Backspace":8,"Tab":9,"Enter":13,"Shift":16,"Ctrl":17,"Alt":18,
 
 function Keyboard() {
     this.KeyDown = function(key) {
-        if (key instanceof Number) {
+        if (typeof(key) == "number") {
             key = keyCodeToChar[key];
         }
         if (this[key] == false || this[key] == null) {
