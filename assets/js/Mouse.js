@@ -5,13 +5,18 @@ mouseStates = Object.freeze({Idle: "Idle", Moving: "Moving",
                              LeftUp: "LeftUp",
                              LeftDrag: "LeftDrag"});
 
-function Mouse() {
+function Mouse(testing) {
     // It'd be good to get this info on construction
     this.x = -1;
     this.y = -1;
     this.dx = 0;
     this.dy = 0;
     this.timeout = null;
+    this.stopTimer = setTimeout.bind(this.StoppedMoving, 100);
+    if (testing) {
+        this.stopTimer = null;
+    }
+
 
     this.currentState = mouseStates.Idle;
     this.lastState = mouseStates.Idle;
@@ -32,7 +37,7 @@ function Mouse() {
             this.y = ny;
             this.UpdateState();
         }
-        this.timeout = setTimeout(this.StoppedMoving, 100);
+        this.timeout = this.stopTimer;
     }
 
     this.UpdateState = function() {
@@ -86,7 +91,7 @@ function Mouse() {
     }
 
     this.ButtonDown = function(button) {
-        if (button instanceof Number) {
+        if (typeof(button) == "number") {
             button = buttonCodeToChar(button);
         }
         if (this[button] == false || this[button] == null) {
