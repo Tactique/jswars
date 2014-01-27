@@ -26,6 +26,14 @@ function SpriteManager() {
         }
     }
 
+    function clearSprites() {
+        for (var sprite in sprites) {
+            if (sprites.hasOwnProperty(sprite)) {
+                delete sprites[sprite];
+            }
+        }
+    }
+
     sprites = {};
 
     this.addSprite = function(spriteName, url, srcPos, width, height, animations, defaultAnimation, animate) {
@@ -42,6 +50,10 @@ function SpriteManager() {
 
     this.update = function(dt) {
         update(dt);
+    }
+
+    this.clearSprites = function() {
+        clearSprites();
     }
 }
 
