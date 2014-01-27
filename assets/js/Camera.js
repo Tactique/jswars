@@ -60,6 +60,9 @@ function Camera() {
         }
     }
 
+    // This function does not account for the camera's x and y, because
+    // it is assumed the coordinates passed in have already been transformed
+    // to camera space
     function positionVisible(c_x, c_y) {
         return (c_x + zoomLevel >= 0 && c_x <= width) &&
                (c_y + zoomLevel >= 0 && c_y <= height);
