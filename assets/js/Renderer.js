@@ -6,26 +6,39 @@ var renderers = {
 
 var specialRenderer;
 function SpecialRenderer() {
-    function addLayer(key, renderfunc, renderable) {
-        renderers[key] = renderfunc.bind(null, renderable);
+    function addLayer(key, priority, renderfunc, renderable) {
+        renderer = {
+            key: key,
+            priority: priority,
+            rfunc: renderfunc.bind(null, renderable)
+        }
+        renderers.push(renderer);
     }
 
     function removeLayer(key) {
-        delete renderers[key];
+        // renderers are wrapped in objects which contain a key, so an
+        // object needs to be created and passed here to delete
+        renderers.remove({key: key})
     }
 
     function render() {
-        for (var renderer in renderers) {
-            if (renderers.hasOwnProperty(renderer)) {
-                renderers[renderer]();
-            }
-        }
+        for (var i = renderers.content.length - 1; i >= 0 ; i--) {
+            renderers.content[i].rfunc();
+        };
     }
 
-    var renderers = {};
+    function rendererScore(r) {
+        return r.priority;
+    }
 
-    this.addLayer = function(key, renderfunc, renderable) {
-        addLayer(key, renderfunc, renderable);
+    function rendererEquality(r1, r2) {
+        return r1.key == r2.key;
+    }
+
+    var renderers = new BinaryHeap(rendererScore, rendererEquality);
+
+    this.addLayer = function(key, priority, renderfunc, renderable) {
+        addLayer(key, priority, renderfunc, renderable);
     }
 
     this.removeLayer = function(key) {
@@ -52,22 +65,22 @@ function initRenderers() {
 function handleSelectorRendering(selector) {
     specialRenderer.removeLayer("selector");
     sprites.selector.animate = true;
-    specialRenderer.addLayer("selector", drawSelector, selector);
+    specialRenderer.addLayer("selector", 1, drawSelector, selector);
 }
 
 function handlePathRendering(path) {
     specialRenderer.removeLayer("path");
-    specialRenderer.addLayer("path", drawPath, path);
+    specialRenderer.addLayer("path", 2, drawPath, path);
 }
 
 function handleMovesRendering(moves) {
     specialRenderer.removeLayer("moves");
-    specialRenderer.addLayer("moves", drawMoves, moves);
+    specialRenderer.addLayer("moves", 3, drawMoves, moves);
 }
 
 function handleAttacksRendering(attacks) {
     specialRenderer.removeLayer("attacks");
-    specialRenderer.addLayer("attacks", drawAttacks, attacks);
+    specialRenderer.addLayer("attacks", 3, drawAttacks, attacks);
 }
 
 function clearBack() {
