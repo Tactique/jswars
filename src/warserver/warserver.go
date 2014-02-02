@@ -37,6 +37,7 @@ func Main() {
     static_http.Handle("/", http.FileServer(http.Dir("./")))
 
     http.HandleFunc("/", serveIndex)
+    http.HandleFunc("/editor", serveEditor)
     http.HandleFunc("/ws", serveWs)
     if (*debugEnabled) {
         http.HandleFunc("/tests", serveTests)
