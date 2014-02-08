@@ -1,3 +1,10 @@
+$(document).ready(function() {
+    innerInitialize();
+});
+
 var innerInitialize = function() {
-    console.log("It's the editor, man");
+    // Create the canvas and context
+    initCanvas($(window).width(), $(window).height());
+    // initialize the camera
+    camera = new Camera();
 }
