@@ -14,6 +14,7 @@
                 margin: auto;
             }
         </style>
+        <link rel="stylesheet" href="/assets/css/editor.css">
         <script type="text/javascript" src="assets/js/libs/jQuery.js"></script>
         <script type="text/javascript" src="assets/js/libs/heap.js"></script>
         <script type="text/javascript" src="assets/js/ArrayUtils.js"></script>
@@ -33,7 +34,14 @@
     </head>
     <body>
         <div id="content">
-            <div id="canvas_land">
+            <div id="canvas_land"></div>
+            <div class="interface" id="interfacing">
+                <div id="editor">
+                    <select id="cellType">
+                        <option value="Plains">Plains</option>
+                        <option value="Road">Road</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div id="userinfo" style="display: none;">

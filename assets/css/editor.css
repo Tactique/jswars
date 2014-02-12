@@ -1,0 +1,9 @@
+.interface {
+    position: absolute;
+    background-color: rgba(150, 0, 0, 100);
+    z-index: 3;
+    bottom: 10;
+    left: 0;
+    right: 0;
+    margin: auto;
+}

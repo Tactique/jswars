@@ -7,4 +7,11 @@ var innerInitialize = function() {
     initCanvas($(window).width(), $(window).height());
     // initialize the camera
     camera = new Camera();
+    // create the editor object and all its business
+    app = new Editor();
+    // collect assets and start the editor when they're ready
+    GatherAssets(app.init.bind(app));
+    magic = $("#interfacing");
+    magic.width(canvas.width() - 15);
+    magic.height(100);
 }
