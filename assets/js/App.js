@@ -8,7 +8,7 @@ var gfx = {
     height: 0
 };
 
-var game;
+var app;
 var camera;
 var network;
 var desiredPlayers;

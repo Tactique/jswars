@@ -20,17 +20,20 @@ $(document).ready(function() {
     })
 });
 
+var game;
+
 var innerInitialize = function() {
     // Create the canvas and context
     initCanvas($(window).width(), $(window).height());
     // initialize the camera
     camera = new Camera();
     // create the Game object in preparation to play
-    game = new Game();
+    app = new Game();
+    game = app;
     // connect render hooks and such
     initRenderers();
     // load sprites and other assets from the server
-    GatherAssets(game.init.bind(game));
+    GatherAssets(app.init.bind(app));
     // load the network
     network = new Network();
 }

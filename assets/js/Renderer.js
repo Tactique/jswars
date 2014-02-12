@@ -156,5 +156,5 @@ function drawGrid(world) {
 function render() {
     clearBack();
 
-    renderers[game.currentState]()
+    renderers[app.currentState]()
 }

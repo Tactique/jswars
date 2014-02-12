@@ -41,16 +41,16 @@ function InputManager() {
     }
 
     function processInputs() {
-        game.stateMap[game.currentState].keyboard(keyboard);
-        game.stateMap[game.currentState].mouse(mouse);
+        app.stateMap[app.currentState].keyboard(keyboard);
+        app.stateMap[app.currentState].mouse(mouse);
     }
 
     function processMouse() {
-        game.stateMap[game.currentState].mouse(mouse);
+        app.stateMap[app.currentState].mouse(mouse);
     }
 
     function processKeyboard() {
-        game.stateMap[game.currentState].keyboard(keyboard);
+        app.stateMap[app.currentState].keyboard(keyboard);
     }
 
     initInputs();
