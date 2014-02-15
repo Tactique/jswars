@@ -17,6 +17,10 @@ function Editor() {
         requestAnimFrame(this.mainLoop);
     }
 
+    function update(dt) {
+        this.stateMap[this.currentState].update(dt);
+    }
+
     this.stateMap = {
         "CELL_PLACEMENT": {
             update: updateNothing,
