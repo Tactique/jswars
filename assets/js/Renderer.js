@@ -1,7 +1,8 @@
 var renderers = {
     "CAMERA_CONTROL": drawWorld,
     "UNIT_CONTROL": drawWorld,
-    "MENU_CONTROL" : drawMenu
+    "MENU_CONTROL" : drawMenu,
+    "CELL_PLACEMENT": drawWorld
 }
 
 // A cross-browser requestAnimationFrame
