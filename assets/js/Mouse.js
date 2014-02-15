@@ -12,9 +12,8 @@ function Mouse(testing) {
     this.dx = 0;
     this.dy = 0;
     this.timeout = null;
-    this.stopTimer = setTimeout.bind(this.StoppedMoving, 100);
     if (testing) {
-        this.stopTimer = null;
+        this.StoppedMoving = null;
     }
 
 
@@ -37,7 +36,7 @@ function Mouse(testing) {
             this.y = ny;
             this.UpdateState();
         }
-        this.timeout = this.stopTimer;
+        this.timeout = setTimeout(this.StoppedMoving, 100);
     }
 
     this.UpdateState = function() {
