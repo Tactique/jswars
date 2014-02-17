@@ -33,6 +33,7 @@ function Editor() {
     this.lastTime = 0;
     this.init = init;
     this.mainLoop = mainLoop.bind(this);
+    this.update = update;
 }
 
 function updateNothing(dt) {
