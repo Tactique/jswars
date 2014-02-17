@@ -13,6 +13,13 @@ function handleCameraKeyboard(keyboard) {
         camMove['y'] += 5;
     }
     camera.processMove(camMove);
+    if (keyboard.KeyDown("C")) {
+        if (brush.position) {
+            var cell = app.world.getCell(brush.position.x, brush.position.y);
+            cell = brush.type(brush.position.x, brush.position.y);
+            keyboard["C"] = false;
+        }
+    }
 }
 
 function handleCameraMouse(mouse) {
@@ -23,7 +30,27 @@ function handleCameraMouse(mouse) {
         camera.processMove(camMove);
     } else if(mouse.lastState == mouseStates.LeftDown &&
               mouse.currentState == mouseStates.LeftUp) {
-
+        sprites["selector"].resetCurrentFrame();
+        var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
+        if (app.world.withinWorld(wp.world_x, wp.world_y)) {
+            app.selectWorld(wp.world_x, wp.world_y);
+            var selectedCell = app.world.getCell(wp.world_x, wp.world_y);
+            brush.position = {x: wp.world_x, y: wp.world_y};
+        }
     }
 }
 
+var brush = {
+    position: null,
+    type: terrainTable[terrainTypes.Plains]
+}
+
+// functions for handling the menu input go here:
+// it might be nice to isolate this so we're not making the direct jQuery calls
+// here
+$(document).ready(function() {
+    $("#cellType").change(function() {
+        var newBrush = $("#cellType").find(":selected").text();
+        brush.type = terrainTable[terrainTypes[newBrush]];
+    });
+});
