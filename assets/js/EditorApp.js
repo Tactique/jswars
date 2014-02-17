@@ -10,9 +10,13 @@ var innerInitialize = function() {
     // create the editor object and all its business
     app = new Editor();
     initRenderers();
+    initInterface();
     // collect assets and start the editor when they're ready
     GatherAssets(app.init.bind(app));
-    magic = $("#interfacing");
-    magic.width(canvas.width() - 15);
-    magic.height(100);
+}
+
+function initInterface() {
+    interface = $("#interfacing");
+    interface.width(canvas.width() - 15);
+    interface.height(100);
 }
