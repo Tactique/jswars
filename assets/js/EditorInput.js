@@ -17,8 +17,18 @@ function handleCameraKeyboard(keyboard) {
         if (brush.position) {
             var cell = app.world.getCell(brush.position.x, brush.position.y);
             cell = brush.type(brush.position.x, brush.position.y);
+            app.world.setCell(brush.position.x, brush.position.y, cell);
             keyboard["C"] = false;
         }
+    }
+    if (keyboard.KeyDown("=")) {
+        camera.zoomIn();
+        // this resetting of the keyboard could be a function...
+        keyboard["="] = false;
+    }
+    if (keyboard.KeyDown("-")) {
+        camera.zoomOut();
+        keyboard["-"] = false;
     }
 }
 

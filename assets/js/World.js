@@ -1,4 +1,4 @@
-var terrainTypes = Object.freeze({Plains: 0});
+var terrainTypes = Object.freeze({Plains: 0, Road: 1});
 
 // This will eventually have much more information, including movement costs and such
 function Cell(x, y, spriteName, type) {
@@ -45,6 +45,10 @@ function World(width, height) {
 
     function getCell(x, y) {
         return cells[x][y];
+    }
+
+    function setCell(x, y, cell) {
+        cells[x][y] = cell;
     }
 
     function withinWorld(x, y) {
@@ -259,6 +263,10 @@ function World(width, height) {
         return getCell(x, y);
     }
 
+    this.setCell = function(x, y, cell) {
+        setCell(x, y, cell);
+    }
+
     this.initialize = function(entryCells) {
         initialize(entryCells);
     }
@@ -327,8 +335,13 @@ function Plains(x, y) {
     return new Cell(x, y, "plains", terrainTypes.Plains);
 }
 
+function Road(x, y) {
+    return new Cell(x, y, "road", terrainTypes.Road);
+}
+
 var terrainTable = [
     Plains,
+    Road
 ]
 
 function terrainLookup(id, x, y) {
