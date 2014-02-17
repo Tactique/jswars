@@ -79,6 +79,12 @@ function drawMenu() {
     // TODO actually render something for the menu
 }
 
+function handleSelectorRendering(selector) {
+    specialRenderer.removeLayer("selector");
+    sprites.selector.animate = true;
+    specialRenderer.addLayer("selector", 1, drawSelector, selector);
+}
+
 function drawWorld() {
     drawEnvironment(app.world);
 

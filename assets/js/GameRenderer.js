@@ -8,12 +8,6 @@ function initRenderers() {
     game.attacksAvailableCallback = handleAttacksRendering;
 }
 
-function handleSelectorRendering(selector) {
-    specialRenderer.removeLayer("selector");
-    sprites.selector.animate = true;
-    specialRenderer.addLayer("selector", 1, drawSelector, selector);
-}
-
 function handlePathRendering(path) {
     specialRenderer.removeLayer("path");
     specialRenderer.addLayer("path", 2, drawPath, path);

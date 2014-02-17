@@ -25,9 +25,20 @@ function Editor() {
         this.stateMap[this.currentState].update(dt);
     }
 
+    function selectWorld(x, y) {
+        this.selector = {
+            pos: {
+                x: x,
+                y: y,
+            },
+            spriteName: "selector"
+        }
+        this.selectorCallback(this.selector);
+    }
+
     this.stateMap = {
         "CELL_PLACEMENT": {
-            update: updateNothing,
+            update: updateEverything,
             mouse: handleCameraMouse,
             keyboard: handleCameraKeyboard
         }
@@ -38,9 +49,9 @@ function Editor() {
     this.init = init;
     this.mainLoop = mainLoop.bind(this);
     this.update = update;
+    this.selectWorld = selectWorld;
 }
 
-function updateNothing(dt) {
-    // the editor doesn't animate right now, or need any notion of time,
-    // so this function is a nop
+function updateEverything(dt) {
+    assets.spriteManager.update(dt * 1000);
 }
