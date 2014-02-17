@@ -13,22 +13,18 @@ function handleCameraKeyboard(keyboard) {
         camMove['y'] += 5;
     }
     camera.processMove(camMove);
-    if (keyboard.KeyDown("C")) {
+    if (keyboard.ResetKeyDown("C")) {
         if (brush.position) {
             var cell = app.world.getCell(brush.position.x, brush.position.y);
             cell = brush.type(brush.position.x, brush.position.y);
             app.world.setCell(brush.position.x, brush.position.y, cell);
-            keyboard["C"] = false;
         }
     }
-    if (keyboard.KeyDown("=")) {
+    if (keyboard.ResetKeyDown("=")) {
         camera.zoomIn();
-        // this resetting of the keyboard could be a function...
-        keyboard["="] = false;
     }
-    if (keyboard.KeyDown("-")) {
+    if (keyboard.ResetKeyDown("-")) {
         camera.zoomOut();
-        keyboard["-"] = false;
     }
 }
 

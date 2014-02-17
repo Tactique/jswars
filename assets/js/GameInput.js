@@ -13,9 +13,8 @@ function handleCameraKeyboard(keyboard) {
         camMove['y'] += 5;
     }
     camera.processMove(camMove);
-    if (keyboard.KeyDown("R")) {
+    if (keyboard.ResetKeyDown("R")) {
         network.sendViewWorld();
-        keyboard["R"] = false;
     }
 }
 
@@ -63,16 +62,15 @@ unitControlState.reset = function() {
 }
 
 function handleUnitKeyboard(keyboard) {
-    if (keyboard.KeyDown("M")) {
+    if (keyboard.ResetKeyDown("M")) {
         unitControlState.moving = true;
         unitControlState.moves = game.world.findAvailableMoves(unitControlState.unit);
         if (unitControlState.moving && unitControlState.path != null) {
             network.sendUnitMove(unitControlState.unit, unitControlState.path);
-            keyboard["M"] = false;
         }
-    } else if (keyboard.KeyDown("A")) {
+    } else if (keyboard.ResetKeyDown("A")) {
         unitControlState.attacks = game.world.findAvailableAttacks(unitControlState.unit);
-    } else if (keyboard.KeyDown("Esc")) {
+    } else if (keyboard.ResetKeyDown("Esc")) {
         unitControlState.reset();
     }
 }

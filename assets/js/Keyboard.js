@@ -11,4 +11,18 @@ function Keyboard() {
         }
         return true;
     }
+
+    this.ResetKeyDown = function(key) {
+        if (typeof(key) == "number") {
+            key = keyCodeToChar[key];
+        }
+        if (this[key] == false || this[key] == null) {
+            return false;
+        }
+        // Given our polling scheme for testing the keyboard, if we want single
+        // key events to not occur repeatedly we have to clear the key's flag
+        // after reading it
+        this[key] = false;
+        return true;
+    }
 }
