@@ -294,6 +294,22 @@ function World(width, height) {
     }
 }
 
+function plainsWorld(width, height) {
+    var terrain = new Array(width);
+
+    for (var x = 0; x < width; x++) {
+        terrain[x] = new Array(height);
+        for (var y = 0; y < height; y++) {
+            terrain[x][y] = terrainLookup(terrainTypes.Plains, x, y);
+        }
+    }
+
+    var w = new World(width, height);
+    w.initialize(terrain);
+
+    return w;
+}
+
 function routePath(unit, goal) {
     var moves = game.world.findAvailableMoves(unit);
     var pathworld = convertWorldToPathNodes(game.world, unit, moves);

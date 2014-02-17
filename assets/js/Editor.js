@@ -1,6 +1,10 @@
 function Editor() {
     function init() {
         this.Inputs = new InputManager();
+
+        // Eventually this size can come from some ui
+        this.world = plainsWorld(20, 20);
+
         this.mainLoop();
     }
 
