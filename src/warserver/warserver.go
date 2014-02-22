@@ -7,8 +7,6 @@ import (
     "strings"
 )
 
-var static_http = http.NewServeMux()
-
 type PortInfo struct {
     Port string
 }
@@ -24,7 +22,6 @@ var port PortInfo
 
 func Main() {
     portstring := flag.String("port", ":8888", "Server port")
-    debugEnabled := flag.Bool("debug", true, "Enable debug")
     flag.Parse()
 
     port = newPortInfo(*portstring)
@@ -34,14 +31,7 @@ func Main() {
 
     go gamehub.handleConnections()
 
-    static_http.Handle("/", http.FileServer(http.Dir("./")))
-
-    http.HandleFunc("/", serveIndex)
-    http.HandleFunc("/editor", serveEditor)
     http.HandleFunc("/ws", serveWs)
-    if (*debugEnabled) {
-        http.HandleFunc("/tests", serveTests)
-    }
 
     logger.Debugf("Http server listening on port %s", port);
     err := http.ListenAndServe(port.Port, nil)
