@@ -7,6 +7,7 @@ import (
     "net"
     "net/http"
     "strconv"
+    "strings"
     "warserver/logger"
 )
 
@@ -150,7 +151,8 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Method not allowed", 405)
         return
     }
-    if r.Header.Get("Origin") != "http://"+r.Host {
+    if strings.Split(r.Header.Get("Origin"),":")[1] != strings.Split("http://"+r.Host,":")[1] {
+        logger.Warnf("Cross origin problem: %s", r.Host)
         http.Error(w, "Origin not allowed", 403)
         return
     }
