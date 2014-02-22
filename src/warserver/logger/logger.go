@@ -2,6 +2,7 @@ package logger
 
 import (
     "fmt"
+    "io"
     "log"
     "os"
 )
@@ -23,7 +24,7 @@ const (
 )
 
 type LevelLogger struct {
-    logger log.Logger
+    logger *log.Logger
     level Level
 }
 
@@ -33,14 +34,14 @@ func init() {
     logs.level = DEBUG
 }
 
-func SetupLogger(lev Level, flags Flags) {
-    logs.logger.SetFlags(int(flags))
+func SetupLogger(lev Level, flags Flags, w io.Writer) {
+    logs.logger = log.New(w, "", int(flags))
     logs.level = lev
 }
 
 func logIfLevelf(level Level, format string, v ...interface{}) {
     if (int(level) >= int(logs.level)) {
-        log.Printf(format, v...)
+        logs.logger.Printf(format, v...)
     }
 }
 

@@ -4,6 +4,7 @@ import (
     "flag"
     "warserver/logger"
     "net/http"
+    "os"
     "strings"
 )
 
@@ -18,15 +19,29 @@ func newPortInfo(portstring string) PortInfo {
     return PortInfo{Port: ":" + portstring}
 }
 
+func setupLogger(path string) {
+    if strings.Contains(path, "/dev/stderr") {
+        logfile := os.Stderr
+        logger.SetupLogger(logger.DEBUG, logger.USUAL, logfile)
+    } else {
+        reallog, err := os.Create(path)
+        if err != nil {
+            panic(err)
+        }
+        logger.SetupLogger(logger.DEBUG, logger.USUAL, reallog)
+    }
+}
+
 var port PortInfo
 
 func Main() {
     portstring := flag.String("port", ":8888", "Server port")
+    logpath := flag.String("logpath", "/dev/stderr", "Logging location")
     flag.Parse()
 
     port = newPortInfo(*portstring)
 
-    logger.SetupLogger(logger.DEBUG, logger.USUAL)
+    setupLogger(*logpath)
     setupGamehub()
 
     go gamehub.handleConnections()
