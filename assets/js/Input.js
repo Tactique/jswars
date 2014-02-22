@@ -8,15 +8,15 @@ function InputManager() {
             handleKeyboard(ev);
         });
 
-        $(document).mousedown(function(ev) {
+        $("#canvas_land").mousedown(function(ev) {
             handleMouse(ev);
         });
 
-        $(document).mouseup(function(ev) {
+        $("#canvas_land").mouseup(function(ev) {
             handleMouse(ev);
         });
 
-        $(document).mousemove(function(ev) {
+        $("#canvas_land").mousemove(function(ev) {
             handleMouse(ev);
         });
     }
