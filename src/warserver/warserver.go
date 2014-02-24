@@ -46,6 +46,9 @@ func Main() {
 
     go gamehub.handleConnections()
 
+    go socketListen()
+    logger.Debugf("Socket listening on port %s", ":11199")
+
     http.HandleFunc("/ws", serveWs)
 
     logger.Debugf("Http server listening on port %s", port);

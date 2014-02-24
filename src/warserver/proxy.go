@@ -167,3 +167,19 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
     conn := &websocketConn{ws: ws}
     gamehub.connRegister<- conn
 }
+
+func socketListen() {
+    ln, err := net.Listen("tcp", ":11199")
+    if err != nil {
+        logger.Errorf("Could not open socket for listening")
+    }
+    for {
+        conn, err := ln.Accept()
+        if err != nil {
+            logger.Errorf("Could not accept connection from client")
+            continue
+        }
+        sconn := &socketConn{sock: conn}
+        gamehub.connRegister<- sconn
+    }
+}

@@ -2,6 +2,7 @@ package warserver
 
 import (
     "github.com/gorilla/websocket"
+    "net"
 )
 
 type connection interface {
@@ -25,4 +26,23 @@ func (c *websocketConn) Write(msg []byte) error {
 
 func (c *websocketConn) Close() {
     c.ws.Close()
+}
+
+type socketConn struct {
+    sock net.Conn
+}
+
+func (c *socketConn) Read() ([]byte, error) {
+    buf := make([]byte, RECV_BUF_LEN)
+    _, err := c.sock.Read(buf)
+    return buf, err
+}
+
+func (c *socketConn) Write(msg []byte) error {
+    _, err := c.sock.Write(msg)
+    return err
+}
+
+func (c *socketConn) Close() {
+    c.sock.Close()
 }
