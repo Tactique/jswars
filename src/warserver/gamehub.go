@@ -3,7 +3,6 @@ package warserver
 import (
     "container/list"
     "encoding/json"
-    "github.com/gorilla/websocket"
     "strings"
     "warserver/logger"
 )
@@ -21,7 +20,7 @@ type game_hub struct {
     gameRequests chan *newGame
     uncommittedGames map[int]*game
     committedGames *list.List
-    wsRegister chan *websocket.Conn
+    connRegister chan connection
     localHandlers map[string]func(message string, cconn *clientConnection)
 }
 
@@ -82,8 +81,8 @@ func (gh *game_hub) handleDisconnection(message string, cconn *clientConnection)
 }
 
 func (gh *game_hub) handleConnections() {
-    for conn := range gh.wsRegister {
-        cconn := clientConnection{ws: conn, currentHandler: gh,
+    for conn := range gh.connRegister {
+        cconn := clientConnection{conn: conn, currentHandler: gh,
                                   handlers: make(chan websocketHandler, 5),
                                   toClient: make(chan []byte)}
         go cconn.wsReadPump()
@@ -146,7 +145,7 @@ var gamehub = game_hub {
     gameRequests: make(chan *newGame),
     uncommittedGames: make(map [int]*game),
     committedGames: list.New(),
-    wsRegister: make(chan *websocket.Conn),
+    connRegister: make(chan connection),
     localHandlers: make(map [string]func(message string, cconn *clientConnection)),
 }
 

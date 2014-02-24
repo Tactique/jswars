@@ -26,7 +26,7 @@ type clientInfo struct {
 }
 
 type clientConnection struct {
-    ws *websocket.Conn
+    conn connection
     currentHandler websocketHandler
     handlers chan websocketHandler
     toClient chan []byte
@@ -106,11 +106,10 @@ func (p *proxy) sendInitialGameInfo() {
 
 func (pc *clientConnection) wsReadPump() {
     defer func() {
-        pc.ws.Close()
+        pc.conn.Close()
     }()
-    pc.ws.SetReadLimit(RECV_BUF_LEN)
     for {
-        _, msg, err := pc.ws.ReadMessage()
+        msg, err := pc.conn.Read()
         if err != nil {
             if err == io.EOF || err == io.ErrUnexpectedEOF {
                 // the client ID here is redundant...
@@ -134,7 +133,7 @@ func (pc *clientConnection) wsReadPump() {
 func (pc *clientConnection) wsWritePump() {
     for msg := range pc.toClient {
         logger.Debugf("Writing %s to websocket", msg)
-        err := pc.ws.WriteMessage(websocket.TextMessage, msg)
+        err := pc.conn.Write(msg)
         if err != nil {
             logger.Errorf("Error while writing to websocket: %s", err)
             break
@@ -164,5 +163,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
         logger.Errorf("Websocket upgrade error: %s", err)
         return
     }
-    gamehub.wsRegister<- ws
+    ws.SetReadLimit(RECV_BUF_LEN)
+    conn := &websocketConn{ws: ws}
+    gamehub.connRegister<- conn
 }
