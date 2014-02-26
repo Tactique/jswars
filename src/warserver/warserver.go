@@ -33,21 +33,24 @@ func setupLogger(path string) {
 }
 
 var port PortInfo
+var tcpPort PortInfo
 
 func Main() {
     portstring := flag.String("port", ":8888", "Server port")
+    tcpportstring := flag.String("tcpport", ":11199", "TCP socket port")
     logpath := flag.String("logpath", "/dev/stderr", "Logging location")
     flag.Parse()
 
     port = newPortInfo(*portstring)
+    tcpPort = newPortInfo(*tcpportstring)
 
     setupLogger(*logpath)
     setupGamehub()
 
     go gamehub.handleConnections()
 
-    go socketListen()
-    logger.Debugf("Socket listening on port %s", ":11199")
+    go socketListen(tcpPort.Port)
+    logger.Debugf("Socket listening on port %s", tcpPort)
 
     http.HandleFunc("/ws", serveWs)
 

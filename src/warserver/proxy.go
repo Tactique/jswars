@@ -168,8 +168,8 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
     gamehub.connRegister<- conn
 }
 
-func socketListen() {
-    ln, err := net.Listen("tcp", ":11199")
+func socketListen(port string) {
+    ln, err := net.Listen("tcp", port)
     if err != nil {
         logger.Errorf("Could not open socket for listening")
     }
