@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    innerInitialize();
+    initialize();
 });
 
 var innerInitialize = function() {
@@ -11,6 +11,9 @@ var innerInitialize = function() {
     app = new Editor();
     initRenderers();
     initInterface();
+    // necessary network stuff
+    ajaxNetwork = new AjaxNetwork();
+    ajaxNetwork.sendGetAllCells();
     // collect assets and start the editor when they're ready
     GatherAssets(app.init.bind(app));
 }

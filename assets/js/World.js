@@ -1,5 +1,3 @@
-var terrainTypes = Object.freeze({Plains: 0, Road: 1});
-
 // This will eventually have much more information, including movement costs and such
 function Cell(x, y, spriteName, type) {
     this.position = {x: x, y: y};
@@ -308,7 +306,7 @@ function plainsWorld(width, height) {
     for (var x = 0; x < width; x++) {
         terrain[x] = new Array(height);
         for (var y = 0; y < height; y++) {
-            terrain[x][y] = terrainLookup(terrainTypes.Plains, x, y);
+            terrain[x][y] = terrainLookup(terrainTypes.plains, x, y);
         }
     }
 
@@ -331,18 +329,8 @@ function routePath(unit, goal) {
     return path;
 }
 
-function Plains(x, y) {
-    return new Cell(x, y, "plains", terrainTypes.Plains);
-}
-
-function Road(x, y) {
-    return new Cell(x, y, "road", terrainTypes.Road);
-}
-
-var terrainTable = [
-    Plains,
-    Road
-]
+var terrainTable;
+var terrainTypes = {};
 
 function terrainLookup(id, x, y) {
     // TODO This data should come from some JSON source on the server

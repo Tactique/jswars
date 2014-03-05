@@ -11,6 +11,7 @@ var gfx = {
 var app;
 var camera;
 var network;
+var ajaxNetwork;
 var desiredPlayers;
 var playerID;
 
