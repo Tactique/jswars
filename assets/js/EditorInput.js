@@ -1,23 +1,44 @@
 function handleCameraKeyboard(keyboard) {
-    var camMove = {'x': 0, 'y': 0};
-    if (keyboard.KeyDown("Left")) {
-        camMove['x'] -= 5;
+    if (keyboard.KeyDown("Shift") && app.selector) {
+        var selectorPos = app.selector.pos;
+        if (keyboard.ResetKeyDown("Left") &&
+            selectorPos.x > 0) {
+            selectorPos.x -= 1;
+        }
+        if (keyboard.ResetKeyDown("Right") &&
+            selectorPos.x < app.world.getWidth() - 1) {
+            selectorPos.x += 1;
+        }
+        if (keyboard.ResetKeyDown("Up") &&
+            selectorPos.y > 0) {
+            selectorPos.y -= 1;
+        }
+        if (keyboard.ResetKeyDown("Down") &&
+            selectorPos.y < app.world.getHeight() - 1) {
+            selectorPos.y += 1;
+        }
+        app.selectWorld(selectorPos.x, selectorPos.y);
+        brush.position = selectorPos;
+        brush.changeCell();
+    } else {
+        var camMove = {'x': 0, 'y': 0};
+        if (keyboard.KeyDown("Left")) {
+            camMove['x'] -= 5;
+        }
+        if (keyboard.KeyDown("Right")) {
+            camMove['x'] += 5;
+        }
+        if (keyboard.KeyDown("Up")) {
+            camMove['y'] -= 5;
+        }
+        if (keyboard.KeyDown("Down")) {
+            camMove['y'] += 5;
+        }
+        camera.processMove(camMove);
     }
-    if (keyboard.KeyDown("Right")) {
-        camMove['x'] += 5;
-    }
-    if (keyboard.KeyDown("Up")) {
-        camMove['y'] -= 5;
-    }
-    if (keyboard.KeyDown("Down")) {
-        camMove['y'] += 5;
-    }
-    camera.processMove(camMove);
     if (keyboard.ResetKeyDown("C")) {
         if (brush.position) {
-            var cell = app.world.getCell(brush.position.x, brush.position.y);
-            cell = brush.type(brush.position.x, brush.position.y);
-            app.world.setCell(brush.position.x, brush.position.y, cell);
+            brush.changeCell();
         }
     }
     if (keyboard.ResetKeyDown("=")) {
@@ -29,18 +50,11 @@ function handleCameraKeyboard(keyboard) {
 }
 
 function handleCameraMouse(mouse) {
-    if (mouse.currentState == mouseStates.LeftDrag) {
-        var camMove = {'x': mouse.dx, 'y': mouse.dy};
-        mouse.dx = 0;
-        mouse.dy = 0;
-        camera.processMove(camMove);
-    } else if(mouse.lastState == mouseStates.LeftDown &&
-              mouse.currentState == mouseStates.LeftUp) {
+    if(mouse.currentState == mouseStates.LeftDown) {
         sprites["selector"].resetCurrentFrame();
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (app.world.withinWorld(wp.world_x, wp.world_y)) {
             app.selectWorld(wp.world_x, wp.world_y);
-            var selectedCell = app.world.getCell(wp.world_x, wp.world_y);
             brush.position = {x: wp.world_x, y: wp.world_y};
         }
     }
@@ -48,7 +62,13 @@ function handleCameraMouse(mouse) {
 
 var brush = {
     position: null,
-    type: terrainTable[terrainTypes.Plains]
+    type: null
+}
+
+brush.changeCell = function() {
+    var cell = app.world.getCell(this.position.x, this.position.y);
+    cell = this.type(this.position.x, this.position.y);
+    app.world.setCell(this.position.x, this.position.y, cell);
 }
 
 // functions for handling the menu input go here:
