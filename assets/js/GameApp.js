@@ -32,6 +32,8 @@ var innerInitialize = function() {
     game = app;
     // connect render hooks and such
     initRenderers();
+    ajaxNetwork = new AjaxNetwork();
+    ajaxNetwork.sendGetAllCells();
     // load sprites and other assets from the server
     GatherAssets(app.init.bind(app));
     // load the network
