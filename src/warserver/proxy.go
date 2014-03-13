@@ -34,7 +34,7 @@ type clientConnection struct {
 }
 
 type serverConnection struct {
-    conn net.Conn
+    conn connection
 }
 
 type pipe struct {
@@ -62,7 +62,7 @@ func (p *proxy) removeClientConnection(pos int) {
 
 func (p *proxy) handleWebsocket(message []byte, cconn *clientConnection) {
     logger.Infof("Proxying message from client: %s", message)
-    _, err := p.server.conn.Write(message)
+    err := p.server.conn.Write(message)
     if err != nil {
         logger.Errorf("Error while writing to socket: %s", err)
     }
@@ -73,14 +73,13 @@ func (p *proxy) serverReadPump() {
         p.server.conn.Close()
     }()
     for {
-        buf := make([]byte, RECV_BUF_LEN)
-        _, err := p.server.conn.Read(buf)
+        msg, err := p.server.conn.Read()
         if err != nil {
             logger.Errorf("Error while reading from socket: %s", err)
             break
         }
-        logger.Debugf("Received %s from socket", buf)
-        p.broadcast(buf)
+        logger.Debugf("Received %s from socket", msg)
+        p.broadcast(msg)
     }
 }
 
@@ -141,8 +140,12 @@ func (pc *clientConnection) wsWritePump() {
     }
 }
 
-func connectToServer() (net.Conn, error) {
-    return net.Dial("tcp", SERVER_IP + ":" + SERVER_PORT)
+func connectToServer() (connection, error) {
+    conn, err := net.Dial("tcp", SERVER_IP + ":" + SERVER_PORT)
+    if err != nil {
+        return nil, err
+    }
+    return &socketConn{sock: conn}, nil
 }
 
 func serveWs(w http.ResponseWriter, r *http.Request) {
