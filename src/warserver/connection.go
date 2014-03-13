@@ -33,13 +33,31 @@ type socketConn struct {
 }
 
 func (c *socketConn) Read() ([]byte, error) {
+    fullMsg := make([]byte, RECV_BUF_LEN)
     buf := make([]byte, RECV_BUF_LEN)
-    _, err := c.sock.Read(buf)
-    return buf, err
+    // Uggo, there should only be one check for errors
+    n, err := c.sock.Read(fullMsg)
+    full_len := n
+    if err != nil {
+        return fullMsg, err
+    }
+    for ; fullMsg[full_len - 1] != byte('\n'); n, err = c.sock.Read(buf) {
+        if err != nil {
+            return fullMsg, err
+        }
+        fullMsg = append(fullMsg, buf[:n]...)
+    }
+    return fullMsg[:full_len - 1], nil
 }
 
 func (c *socketConn) Write(msg []byte) error {
-    _, err := c.sock.Write(msg)
+    n, err := c.sock.Write(msg)
+    for num_sent := len(msg) - n; num_sent > 0; n, err = c.sock.Write(msg) {
+        num_sent -= n
+        if err != nil {
+            return err
+        }
+    }
     return err
 }
 
