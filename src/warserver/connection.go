@@ -64,7 +64,7 @@ func (c *socketConn) fullWrite(msg []byte) error {
     for num_sent := 0; num_sent < msgLen; n, err = c.sock.Write(msg) {
         num_sent += n
         msg = msg[n:]
-        if err != nil {
+        if err != nil && err != io.ErrShortWrite {
             return err
         }
     }
