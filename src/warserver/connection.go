@@ -47,9 +47,22 @@ func (c *socketConn) Read() ([]byte, error) {
 }
 
 func (c *socketConn) Write(msg []byte) error {
+    lenBuf := make([]byte, 4)
+    msgLen := len(msg)
+    binary.PutUvarint(lenBuf, uint64(msgLen))
+    err := c.fullWrite(lenBuf)
+    if err != nil {
+        return err
+    }
+    return c.fullWrite(msg)
+}
+
+func (c *socketConn) fullWrite(msg []byte) error {
+    msgLen := len(msg)
     n, err := c.sock.Write(msg)
-    for num_sent := len(msg) - n; num_sent > 0; n, err = c.sock.Write(msg) {
-        num_sent -= n
+    for num_sent := 0; num_sent < msgLen; n, err = c.sock.Write(msg) {
+        num_sent += n
+        msg = msg[n:]
         if err != nil {
             return err
         }
