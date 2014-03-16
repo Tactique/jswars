@@ -1,6 +1,7 @@
 package warserver
 
 import (
+    "encoding/binary"
     "github.com/gorilla/websocket"
     "net"
 )
@@ -33,21 +34,16 @@ type socketConn struct {
 }
 
 func (c *socketConn) Read() ([]byte, error) {
-    fullMsg := make([]byte, RECV_BUF_LEN)
-    buf := make([]byte, RECV_BUF_LEN)
-    // Uggo, there should only be one check for errors
-    n, err := c.sock.Read(fullMsg)
-    full_len := n
+    // the 32 bit initial message dictates the size of the message
+    sizeBuf := make([]byte, 4)
+    _, err := c.sock.Read(sizeBuf)
     if err != nil {
-        return fullMsg, err
+        return nil, err
     }
-    for ; fullMsg[full_len - 1] != byte('\n'); n, err = c.sock.Read(buf) {
-        if err != nil {
-            return fullMsg, err
-        }
-        fullMsg = append(fullMsg, buf[:n]...)
-    }
-    return fullMsg[:full_len - 1], nil
+    size, _ := binary.Varint(sizeBuf)
+    msgBuf := make([]byte, size)
+    _, err = c.sock.Read(msgBuf)
+    return msgBuf, err
 }
 
 func (c *socketConn) Write(msg []byte) error {
