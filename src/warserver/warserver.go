@@ -3,21 +3,11 @@ package warserver
 import (
     "flag"
     "warserver/logger"
+    "warserver/PortMgmt"
     "net/http"
     "os"
     "strings"
 )
-
-type PortInfo struct {
-    Port string
-}
-
-func newPortInfo(portstring string) PortInfo {
-    if (strings.Contains(portstring, ":")) {
-        return PortInfo{Port: portstring}
-    }
-    return PortInfo{Port: ":" + portstring}
-}
 
 func setupLogger(path string) {
     if strings.Contains(path, "/dev/stderr") {
@@ -32,8 +22,8 @@ func setupLogger(path string) {
     }
 }
 
-var port PortInfo
-var tcpPort PortInfo
+var port PortMgmt.PortInfo
+var tcpPort PortMgmt.PortInfo
 
 func Main() {
     portstring := flag.String("port", ":8888", "Server port")
@@ -41,8 +31,8 @@ func Main() {
     logpath := flag.String("logpath", "/dev/stderr", "Logging location")
     flag.Parse()
 
-    port = newPortInfo(*portstring)
-    tcpPort = newPortInfo(*tcpportstring)
+    port = PortMgmt.NewPortInfo(*portstring)
+    tcpPort = PortMgmt.NewPortInfo(*tcpportstring)
 
     setupLogger(*logpath)
     setupGamehub()
