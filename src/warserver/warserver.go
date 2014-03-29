@@ -24,8 +24,12 @@ func setupLogger(path string) {
 
 var port PortMgmt.PortInfo
 var tcpPort PortMgmt.PortInfo
+var porterPort PortMgmt.PortInfo
+var porterIP PortMgmt.IPString
 
 func Main() {
+    porterIPString := flag.String("porterIP", "127.0.0.1", "Porter Server IP")
+    porterPortString := flag.String("porterPort", ":5269", "Porter Server Port")
     portstring := flag.String("port", ":8888", "Server port")
     tcpportstring := flag.String("tcpport", ":11199", "TCP socket port")
     logpath := flag.String("logpath", "/dev/stderr", "Logging location")
@@ -33,6 +37,8 @@ func Main() {
 
     port = PortMgmt.NewPortInfo(*portstring)
     tcpPort = PortMgmt.NewPortInfo(*tcpportstring)
+    porterPort = PortMgmt.NewPortInfo(*porterPortString)
+    porterIP = PortMgmt.IPString(*porterIPString)
 
     setupLogger(*logpath)
     setupGamehub()

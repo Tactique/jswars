@@ -13,8 +13,6 @@ import (
 
 const (
     RECV_BUF_LEN = 1024
-    SERVER_IP = "localhost"
-    SERVER_PORT = "5269"
 )
 
 type websocketHandler interface {
@@ -141,7 +139,8 @@ func (pc *clientConnection) wsWritePump() {
 }
 
 func connectToServer() (connection, error) {
-    conn, err := net.Dial("tcp", SERVER_IP + ":" + SERVER_PORT)
+    // weeeee, global variables
+    conn, err := net.Dial("tcp", string(porterIP) + porterPort.Port)
     if err != nil {
         return nil, err
     }
