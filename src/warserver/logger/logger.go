@@ -5,6 +5,7 @@ import (
     "io"
     "log"
     "os"
+    "strings"
 )
 
 type Flags int
@@ -37,6 +38,22 @@ func init() {
 func SetupLogger(lev Level, flags Flags, w io.Writer) {
     logs.logger = log.New(w, "", int(flags))
     logs.level = lev
+}
+
+func SetupLoggerHelper(path string) {
+    if strings.Contains(path, "/dev/stderr") {
+        logfile := os.Stderr
+        SetupLogger(DEBUG, USUAL, logfile)
+    } else if strings.Contains(path, "dev/stdout") {
+        logfile := os.Stdout
+        SetupLogger(DEBUG, USUAL, logfile)
+    } else {
+        reallog, err := os.Create(path)
+        if err != nil {
+            panic(err)
+        }
+        SetupLogger(DEBUG, USUAL, reallog)
+    }
 }
 
 func logIfLevelf(level Level, format string, v ...interface{}) {

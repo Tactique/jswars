@@ -5,25 +5,8 @@ import (
     "warserver/logger"
     "warserver/PortMgmt"
     "net/http"
-    "os"
-    "strings"
 )
 
-func setupLogger(path string) {
-    if strings.Contains(path, "/dev/stderr") {
-        logfile := os.Stderr
-        logger.SetupLogger(logger.DEBUG, logger.USUAL, logfile)
-    } else if strings.Contains(path, "dev/stdout") {
-        logfile := os.Stdout
-        logger.SetupLogger(logger.DEBUG, logger.USUAL, logfile)
-    } else {
-        reallog, err := os.Create(path)
-        if err != nil {
-            panic(err)
-        }
-        logger.SetupLogger(logger.DEBUG, logger.USUAL, reallog)
-    }
-}
 
 var port PortMgmt.PortInfo
 var tcpPort PortMgmt.PortInfo
@@ -43,7 +26,7 @@ func Main() {
     porterPort = PortMgmt.NewPortInfo(*porterPortString)
     porterIP = PortMgmt.IPString(*porterIPString)
 
-    setupLogger(*logpath)
+    logger.SetupLoggerHelper(*logpath)
     setupGamehub()
 
     go gamehub.handleConnections()
