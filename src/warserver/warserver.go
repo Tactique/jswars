@@ -13,6 +13,9 @@ func setupLogger(path string) {
     if strings.Contains(path, "/dev/stderr") {
         logfile := os.Stderr
         logger.SetupLogger(logger.DEBUG, logger.USUAL, logfile)
+    } else if strings.Contains(path, "dev/stdout") {
+        logfile := os.Stdout
+        logger.SetupLogger(logger.DEBUG, logger.USUAL, logfile)
     } else {
         reallog, err := os.Create(path)
         if err != nil {
