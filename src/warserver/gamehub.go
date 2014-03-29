@@ -105,7 +105,7 @@ func (gh *game_hub) commitGame(game *game) {
 
     conn, err := connectToServer()
     if err != nil {
-        logger.Fatalf("Could not connect to server, dying...")
+        logger.Errorf("Could not connect to server, this game is going to hang...")
         return
     }
     game.proxy.server = &serverConnection{conn: conn}
