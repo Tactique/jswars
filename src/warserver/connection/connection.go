@@ -1,4 +1,4 @@
-package warserver
+package connection 
 
 import (
     "encoding/binary"
@@ -7,34 +7,42 @@ import (
     "net"
 )
 
-type connection interface {
+type Connection interface {
     Read() ([]byte, error)
     Write(msg []byte) error
     Close()
 }
 
-type websocketConn struct {
+type WebsocketConn struct {
     ws *websocket.Conn
 }
 
-func (c *websocketConn) Read() ([]byte, error) {
+func NewWebsocketConn(ws *websocket.Conn) *WebsocketConn {
+    return &WebsocketConn{ws: ws}
+}
+
+func (c *WebsocketConn) Read() ([]byte, error) {
     _, msg, err := c.ws.ReadMessage()
     return msg, err
 }
 
-func (c *websocketConn) Write(msg []byte) error {
+func (c *WebsocketConn) Write(msg []byte) error {
     return c.ws.WriteMessage(websocket.TextMessage, msg)
 }
 
-func (c *websocketConn) Close() {
+func (c *WebsocketConn) Close() {
     c.ws.Close()
 }
 
-type socketConn struct {
+type SocketConn struct {
     sock net.Conn
 }
 
-func (c *socketConn) Read() ([]byte, error) {
+func NewSocketConn(sock net.Conn) *SocketConn {
+    return &SocketConn{sock: sock}
+}
+
+func (c *SocketConn) Read() ([]byte, error) {
     // the 32 bit initial message dictates the size of the message
     sizeBuf := make([]byte, 4)
     _, err := io.ReadFull(c.sock, sizeBuf)
@@ -47,7 +55,7 @@ func (c *socketConn) Read() ([]byte, error) {
     return msgBuf, err
 }
 
-func (c *socketConn) Write(msg []byte) error {
+func (c *SocketConn) Write(msg []byte) error {
     lenBuf := make([]byte, 4)
     msgLen := len(msg)
     binary.PutUvarint(lenBuf, uint64(msgLen))
@@ -58,7 +66,7 @@ func (c *socketConn) Write(msg []byte) error {
     return c.fullWrite(msg)
 }
 
-func (c *socketConn) fullWrite(msg []byte) error {
+func (c *SocketConn) fullWrite(msg []byte) error {
     msgLen := len(msg)
     n, err := c.sock.Write(msg)
     for num_sent := 0; num_sent < msgLen; n, err = c.sock.Write(msg) {
@@ -71,6 +79,6 @@ func (c *socketConn) fullWrite(msg []byte) error {
     return err
 }
 
-func (c *socketConn) Close() {
+func (c *SocketConn) Close() {
     c.sock.Close()
 }

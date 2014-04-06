@@ -9,6 +9,7 @@ import (
     "strconv"
     "strings"
     "warserver/logger"
+    "warserver/connection"
 )
 
 const (
@@ -24,7 +25,7 @@ type clientInfo struct {
 }
 
 type clientConnection struct {
-    conn connection
+    conn connection.Connection
     currentHandler websocketHandler
     handlers chan websocketHandler
     toClient chan []byte
@@ -32,7 +33,7 @@ type clientConnection struct {
 }
 
 type serverConnection struct {
-    conn connection
+    conn connection.Connection
 }
 
 type pipe struct {
@@ -138,13 +139,13 @@ func (pc *clientConnection) wsWritePump() {
     }
 }
 
-func connectToServer() (connection, error) {
+func connectToServer() (connection.Connection, error) {
     // weeeee, global variables
     conn, err := net.Dial("tcp", string(porterIP) + porterPort.Port)
     if err != nil {
         return nil, err
     }
-    return &socketConn{sock: conn}, nil
+    return connection.NewSocketConn(conn), nil
 }
 
 func serveWs(w http.ResponseWriter, r *http.Request) {
@@ -166,7 +167,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
         return
     }
     ws.SetReadLimit(RECV_BUF_LEN)
-    conn := &websocketConn{ws: ws}
+    conn := connection.NewWebsocketConn(ws)
     gamehub.connRegister<- conn
 }
 
@@ -181,7 +182,7 @@ func socketListen(port string) {
             logger.Errorf("Could not accept connection from client")
             continue
         }
-        sconn := &socketConn{sock: conn}
+        sconn := connection.NewSocketConn(conn)
         gamehub.connRegister<- sconn
     }
 }

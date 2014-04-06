@@ -5,6 +5,7 @@ import (
     "encoding/json"
     "strings"
     "warserver/logger"
+    "warserver/connection"
 )
 
 const (
@@ -20,7 +21,7 @@ type game_hub struct {
     gameRequests chan *newGame
     uncommittedGames map[int]*game
     committedGames *list.List
-    connRegister chan connection
+    connRegister chan connection.Connection
     localHandlers map[string]func(message string, cconn *clientConnection)
 }
 
@@ -145,7 +146,7 @@ var gamehub = game_hub {
     gameRequests: make(chan *newGame),
     uncommittedGames: make(map [int]*game),
     committedGames: list.New(),
-    connRegister: make(chan connection),
+    connRegister: make(chan connection.Connection),
     localHandlers: make(map [string]func(message string, cconn *clientConnection)),
 }
 
