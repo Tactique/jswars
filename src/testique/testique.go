@@ -6,6 +6,7 @@ import (
     "strings"
     "warserver/logger"
     "warserver/PortMgmt"
+    "warserver/connection"
 )
 
 const (
@@ -25,12 +26,12 @@ func Main() {
     // might as well go straight to std out for a testserver
     logger.SetupLoggerHelper("/dev/stdout")
 
-    logger.Infof("Accepting testserver connections on port %s", portString)
+    logger.Infof("Accepting testserver connections on port %s", serverPort)
     handleConnections(serverPort.Port)
 }
 
 func setupHandlers() {
-    testHandlers["newGame"] = testNewGame
+    testHandlers["new"] = testNewGame
 }
 
 func testNewGame(msg string) string {
@@ -43,16 +44,18 @@ func handleConnections(port string) {
         logger.Fatalf("Could not open socket for listening: %s", err)
     }
     for {
-        conn, err := ln.Accetp()
+        conn, err := ln.Accept()
         if err != nil {
             logger.Errorf("Could not accept connection from client: %s", err)
             continue
         }
-        sconn := socketConn{sock: conn}
+        sconn := connection.NewSocketConn(conn)
+        go serveConnection(sconn)
     }
 }
 
-func serveConnection(sock *socketConn) {
+func serveConnection(sock *connection.SocketConn) {
+    logger.Info("Serving new test connection")
     for {
         msg, err := sock.Read()
         if err != nil {

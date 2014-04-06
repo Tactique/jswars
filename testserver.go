@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-    testique.main()
+    testique.Main()
 }
