@@ -49,7 +49,7 @@ func (c *SocketConn) Read() ([]byte, error) {
     if err != nil {
         return nil, err
     }
-    size, _ := binary.Varint(sizeBuf)
+    size, _ := binary.Uvarint(sizeBuf)
     msgBuf := make([]byte, size)
     _, err = io.ReadFull(c.sock, msgBuf)
     return msgBuf, err
