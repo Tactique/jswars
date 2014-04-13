@@ -23,6 +23,8 @@ func Main() {
 
     serverPort = PortMgmt.NewPortInfo(*portString)
 
+    setupHandlers();
+
     // might as well go straight to std out for a testserver
     logger.SetupLoggerHelper("/dev/stdout")
 
@@ -32,10 +34,15 @@ func Main() {
 
 func setupHandlers() {
     testHandlers["new"] = testNewGame
+    testHandlers["view"] = testViewWorld
 }
 
 func testNewGame(msg string) string {
-    return "totes new, bro"
+    return "new:success"
+}
+
+func testViewWorld(msg string) string {
+    return "view:success:{\"world\":{\"terrain\":[[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], \"units\": []}}"
 }
 
 func handleConnections(port string) {
