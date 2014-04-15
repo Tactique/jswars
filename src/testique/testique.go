@@ -35,6 +35,7 @@ func Main() {
 func setupHandlers() {
     testHandlers["new"] = testNewGame
     testHandlers["view"] = testViewWorld
+    testHandlers["move"] = testMoveUnit
 }
 
 func testNewGame(msg string) string {
@@ -59,6 +60,8 @@ func testViewWorld(msg string) string {
                                     "\"units\": [" + unit + "]}}"
 }
 
+func testMoveUnit(msg string) string {
+    return "move:success"
 }
 
 func handleConnections(port string) {
