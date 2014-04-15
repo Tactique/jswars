@@ -42,7 +42,23 @@ func testNewGame(msg string) string {
 }
 
 func testViewWorld(msg string) string {
-    return "view:success:{\"world\":{\"terrain\":[[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]], \"units\": []}}"
+    unit := "{\"unit\":{\"loc\":{\"x\": 1, \"y\": 2}," +
+                       "\"name\": \"Tank\"," +
+                       "\"nation\": \"0\"," +
+                       "\"movement\":{" +
+                            "\"speeds\":{\"0\":1}," +
+                            "\"name\":\"treads\"" +
+                                    "}" +
+                     "}" +
+            "}"
+    return "view:success:{\"world\":{\"terrain\":[[0,0,0,0,0]," + 
+                                                 "[0,0,0,0,0]," +
+                                                 "[0,0,0,0,0]," +
+                                                 "[0,0,0,0,0]," +
+                                                 "[0,0,0,0,0]]," +
+                                    "\"units\": [" + unit + "]}}"
+}
+
 }
 
 func handleConnections(port string) {
