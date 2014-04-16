@@ -46,6 +46,7 @@ func testViewWorld(msg string) string {
     unit := "{\"unit\":{\"loc\":{\"x\": 1, \"y\": 2}," +
                        "\"name\": \"Tank\"," +
                        "\"nation\": \"0\"," +
+                       "\"distance\": 2," +
                        "\"movement\":{" +
                             "\"speeds\":{\"0\":1}," +
                             "\"name\":\"treads\"" +
