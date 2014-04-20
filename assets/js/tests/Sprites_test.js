@@ -14,7 +14,7 @@ test("SpriteManager test", function() {
             ]
         }
     }
-    spriteManager.addSprite("test", "test.png", {x: 0, y: 0}, 10, 10,
+    spriteManager.addSprite("test", "test.png", {x: 0, y: 0}, {x: 0, y: 0}, 10, 10,
                             animations, "test", true);
     var sprite = spriteManager.getSprite("test");
     equal(sprite.url, "test.png");
@@ -31,7 +31,7 @@ test("SpriteManager test", function() {
 
     // cloneSprite is a deep copy, so changes to the new sprite should not
     // affect the old sprite
-    spriteManager.cloneSprite("test", "testclone");
+    spriteManager.cloneSprite("test", "testclone", {x: 0, y: 0});
     var cloneSprite = spriteManager.getSprite("testclone");
     equal(sprite.url, cloneSprite.url);
 

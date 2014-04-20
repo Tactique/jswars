@@ -107,7 +107,7 @@ function drawEnvironment(world) {
 function drawUnits(world) {
     var units = world.getUnits();
     for (var i in units) {
-        var position = units[i].pos;
+        var position = assets.spriteManager.getSprite(units[i].spriteName).drawPos;
         drawSprite(position['x'], position['y'], units[i].spriteName);
     }
 }

@@ -1,12 +1,13 @@
 function SpriteManager() {
-    function addSprite(spriteName, url, srcPos, width, height, animations, defaultAnimation, animate) {
-        sprites[spriteName] = new Sprite(url, srcPos, width, height, animations, defaultAnimation, animate);
+    function addSprite(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate) {
+        sprites[spriteName] = new Sprite(url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate);
     }
 
-    function cloneSprite(srcSpriteName, newSpriteName) {
+    function cloneSprite(srcSpriteName, newSpriteName, newDrawPos) {
         var srcSprite = sprites[srcSpriteName];
         sprites[newSpriteName] = new Sprite(srcSprite.url,
-                                            srcSprite.srcPos,
+                                            newDrawPos,
+                                            srcSprite.sheetPos,
                                             srcSprite.width,
                                             srcSprite.height,
                                             srcSprite.animations,
@@ -36,12 +37,12 @@ function SpriteManager() {
 
     sprites = {};
 
-    this.addSprite = function(spriteName, url, srcPos, width, height, animations, defaultAnimation, animate) {
-        return addSprite(spriteName, url, srcPos, width, height, animations, defaultAnimation, animate);
+    this.addSprite = function(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate) {
+        return addSprite(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate);
     }
 
-    this.cloneSprite = function(srcSpriteName, newSpriteName) {
-        cloneSprite(srcSpriteName, newSpriteName);
+    this.cloneSprite = function(srcSpriteName, newSpriteName, newDrawPos) {
+        cloneSprite(srcSpriteName, newSpriteName, newDrawPos);
     }
 
     this.getSprite = function(name) {
@@ -63,9 +64,10 @@ function Animation(name, rate, sequence) {
     this.sequence = this.rate > 0 ? sequence : [];
 }
 
-function Sprite(url, srcPos, width, height, animations, currentAnimation, animate) {
+function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimation, animate) {
     this.url = url;
-    this.srcPos = srcPos;
+    this.drawPos = drawPos;
+    this.sheetPos = sheetPos;
     this.width = width;
     this.height = height;
     this.animate = animate != null ? animate : false;
@@ -92,7 +94,7 @@ function Sprite(url, srcPos, width, height, animations, currentAnimation, animat
 
     this.getFramePosition = function() {
         if (this.currentAnimation.rate == 0 || !this.animate) {
-            return this.srcPos;
+            return this.sheetPos;
         }
         return this.currentAnimation.sequence[this.currentFrame];
     }

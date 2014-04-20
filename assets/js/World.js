@@ -73,7 +73,7 @@ function World(width, height) {
             units[player] = [];
         }
         var newSpriteName = player + srcSpriteName + units[player].length;
-        assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName);
+        assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, pos);
         var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
                                health, nation, name);
         units[player].push(newUnit);

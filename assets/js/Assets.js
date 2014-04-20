@@ -116,7 +116,8 @@ function ParseAssetInfo(response) {
 }
 
 function ParseSpriteInfo(sprite) {
-    assets.spriteManager.addSprite(sprite.name, sprite.url, sprite.srcPos,
+    var drawPos = {x: 0, y: 0};
+    assets.spriteManager.addSprite(sprite.name, sprite.url, drawPos, sprite.srcPos,
                              sprite.width, sprite.height,
                              sprite.animations, sprite.defaultAnimation, false);
 }
