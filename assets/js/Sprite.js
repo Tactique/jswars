@@ -64,6 +64,28 @@ function Animation(name, rate, sequence) {
     this.sequence = this.rate > 0 ? sequence : [];
 }
 
+function Movement(start, end, rate) {
+    this.start = start;
+    this.end = end;
+    this.rate = rate;
+    this.dt = 0;
+    this.currentPosition = {x: start.x, y: start.y};
+    this.deltaVector = {x: end.x - start.x, y: end.y - start.y};
+
+    this.update = function(dt) {
+        this.dt += dt;
+        var progress = this.dt / this.rate;
+        if (progress >= 1.0) {
+            this.currentPosition = this.end;
+            return true;
+        } else {
+            this.currentPosition.x = this.start.x + (this.deltaVector.x * progress);
+            this.currentPosition.y = this.start.y + (this.deltaVector.y * progress);
+            return false;
+        }
+    }
+}
+
 function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimation, animate) {
     this.url = url;
     this.drawPos = drawPos;
@@ -81,13 +103,31 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
         }
     }
     this.currentAnimation = currentAnimation != null ? this.animations[currentAnimation] : new Animation("none", 0, []);
+    this.movements = [];
+    this.currentMovement = null;
 
     this.update = function(dt) {
+        // Updates the sprite itself, ie running, standing, shooting
         if (this.animate) {
             this.currentTime -= dt;
             if (this.currentTime <= 0) {
                 this.currentTime = this.currentAnimation.rate;
                 this.currentFrame = (this.currentFrame + 1) % this.currentAnimation.sequence.length;
+            }
+        }
+        // Physically moves the sprite in the world
+        if (this.movements.length > 0 || this.currentMovement != null) {
+            if (this.currentMovement == null) {
+                this.currentMovement = this.movements.shift();
+            }
+            var moveDone = this.currentMovement.update(dt);
+            this.drawPos = this.currentMovement.currentPosition;
+            if (moveDone) {
+                if (this.movements.length > 0) {
+                    this.currentMovement = this.movements.shift();
+                } else {
+                    this.currentMovement = null;
+                }
             }
         }
     }
@@ -105,4 +145,13 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
 
     this.currentTime = this.currentAnimation.rate;
     this.currentFrame = 0;
+}
+
+function testMove() {
+    var start = sprites["0wizard0"].drawPos;
+    var end = {x: start.x + 3, y: start.y + 1};
+    var rate = 2500;
+    sprites["0wizard0"].movements.push(new Movement(start, end, rate));
+    var secEnd = {x: end.x - 3, y: end.y - 1};
+    sprites["0wizard0"].movements.push(new Movement(end, secEnd, rate));
 }
