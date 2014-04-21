@@ -9,7 +9,7 @@ import (
     "strconv"
     "strings"
     "warserver/logger"
-    "warserver/connection"
+    "github.com/DomoCo/connection"
 )
 
 const (

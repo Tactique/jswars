@@ -6,7 +6,7 @@ import (
     "strings"
     "warserver/logger"
     "warserver/PortMgmt"
-    "warserver/connection"
+    "github.com/DomoCo/connection"
 )
 
 const (
