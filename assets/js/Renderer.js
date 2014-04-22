@@ -88,9 +88,9 @@ function handleSelectorRendering(selector) {
 function drawWorld() {
     drawEnvironment(app.world);
 
-    drawUnits(app.world);
-
     drawGrid(app.world);
+
+    drawUnits(app.world);
 
     specialRenderer.render();
 }
