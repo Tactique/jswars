@@ -48,8 +48,8 @@ function Camera() {
 
     function transformToCameraSpace(w_x, w_y) {
         return {
-            cam_x : (w_x * zoomLevel) - x,
-            cam_y : (w_y * zoomLevel) - y
+            cam_x : Math.floor((w_x * zoomLevel) - x),
+            cam_y : Math.floor((w_y * zoomLevel) - y)
         }
     }
 
