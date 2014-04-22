@@ -86,6 +86,17 @@ function Movement(start, end, rate) {
     }
 }
 
+function translatePathToMoves(path) {
+    var moves = [];
+    for (var i = 0; i < path.length - 1; i++) {
+        var start = jQuery.extend(true, {}, path[i].position);
+        var end = jQuery.extend(true, {}, path[i + 1].position);
+        // end.y = start.y;
+        moves.push(new Movement(start, end, 1000));
+    }
+    return moves;
+}
+
 function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimation, animate) {
     this.url = url;
     this.drawPos = drawPos;
@@ -148,10 +159,19 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
 }
 
 function testMove() {
-    var start = sprites["0wizard0"].drawPos;
-    var end = {x: start.x + 3, y: start.y + 1};
-    var rate = 2500;
+    var start = {x: 1, y: 2};
+    var end = {x: 1, y: 3};
+    var rate = 1000;
     sprites["0wizard0"].movements.push(new Movement(start, end, rate));
-    var secEnd = {x: end.x - 3, y: end.y - 1};
-    sprites["0wizard0"].movements.push(new Movement(end, secEnd, rate));
+    start = {x: 1, y: 3};
+    end = {x: 1, y: 4};
+    sprites["0wizard0"].movements.push(new Movement(start, end, rate));
+    start = {x: 1, y: 4};
+    end = {x: 1, y: 5};
+    sprites["0wizard0"].movements.push(new Movement(start, end, rate));
+    start = {x: 1, y: 5};
+    end = {x: 2, y: 5};
+    sprites["0wizard0"].movements.push(new Movement(start, end, rate));
+    // var secEnd = {x: end.x, y: end.y - 1};
+    // sprites["0wizard0"].movements.push(new Movement(end, secEnd, rate));
 }

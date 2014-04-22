@@ -101,6 +101,11 @@ function Network() {
             var unit = unitControlState.unit;
             var path = unitControlState.path;
             if (path) {
+                // tell the renderer about the move
+                var unitSprite = assets.spriteManager.getSprite(unit.spriteName);
+                // unitSprite.movements = unitSprite.movements.concat(translatePathToMoves(path));
+                moves = translatePathToMoves(path);
+                // unitSprite.movements = [];
                 var goal = path[path.length - 1];
                 unit.pos.x = goal.position.x;
                 unit.pos.y = goal.position.y;
