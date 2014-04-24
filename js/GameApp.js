@@ -21,6 +21,7 @@ $(document).ready(function() {
 });
 
 var game;
+var loadQueue;
 
 var innerInitialize = function() {
     // Create the canvas and context
@@ -30,12 +31,15 @@ var innerInitialize = function() {
     // create the Game object in preparation to play
     app = new Game();
     game = app;
+    loadQueue = new TaskQueue(app.init.bind(app));
     // connect render hooks and such
     initRenderers();
     ajaxNetwork = new AjaxNetwork();
-    ajaxNetwork.sendGetAllCells();
     // load sprites and other assets from the server
-    GatherAssets(app.init.bind(app));
+    loadQueue.enqueueTask(ajaxNetwork.sendGetAllCells, ajaxNetwork.handleGetAllCells);
+    loadQueue.enqueueTask(GatherAssets, function(){});
+    loadQueue.executeTasks();
+
     // load the network
     network = new Network();
 }

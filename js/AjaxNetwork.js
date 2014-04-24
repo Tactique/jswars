@@ -11,8 +11,8 @@ function AjaxNetwork() {
         });
     }
 
-    function sendGetAllCells() {
-        sendRequest("/info/cell/", handleGetAllCells);
+    function sendGetAllCells(callback) {
+        sendRequest("/info/cell/", callback);
     }
 
     function handleGetAllCells(response) {
@@ -27,4 +27,5 @@ function AjaxNetwork() {
     }
 
     this.sendGetAllCells = sendGetAllCells;
+    this.handleGetAllCells = handleGetAllCells;
 }
