@@ -20,7 +20,10 @@ function TaskQueue(finalCallback) {
     }
 
     function dequeueTask(completedTaskName) {
-        this.tasks[completedTaskName].callerCallback();
+        var args = Array.prototype.slice.call(arguments);
+        // removes first arg from arguments, which is the above
+        args.shift();
+        this.tasks[completedTaskName].callerCallback.apply(null, args);
         delete this.tasks[completedTaskName];
 
         // this signifies we've done everything we promised to do
