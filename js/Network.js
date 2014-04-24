@@ -70,7 +70,7 @@ function Network() {
         for (var i = units.length - 1; i >= 0; i--) {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
-            var unit = units[i].unit;
+            var unit = units[i];
             var position = unit.loc;
             var movement = unit.movement;
             var unitnation = parseInt(unit.nation) + unit.name;
