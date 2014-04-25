@@ -78,8 +78,8 @@
     };
 })();
 
-var asset_img = ['/jswars/assets/sprites/unit_sprites.png', '/jswars/assets/sprites/env_sprites.png'];
-var asset_json = ['/jswars/assets/sprites/unit_sprites.json', '/jswars/assets/sprites/env_sprites.json'];
+var asset_img = ['/jswars/sprites/unit_sprites.png', '/jswars/sprites/env_sprites.png'];
+var asset_json = ['/jswars/sprites/unit_sprites.json', '/jswars/sprites/env_sprites.json'];
 
 function GatherAssets(readyFunc) {
     function loadAssetInfo() {

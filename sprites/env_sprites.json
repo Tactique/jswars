@@ -2,7 +2,7 @@
     "sprites": [
         {
             "name": "plains",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 0, "y": 34},
             "width": 16,
             "height": 16,
@@ -10,7 +10,7 @@
         },
         {
             "name": "road",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 0, "y": 0},
             "width": 16,
             "height": 16,
@@ -18,7 +18,7 @@
         },
         {
             "name": "road_vert",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 17, "y": 0},
             "width": 16,
             "height": 16,
@@ -26,7 +26,7 @@
         },
         {
             "name": "road_top_left",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 34, "y": 0},
             "width": 16,
             "height": 16,
@@ -34,7 +34,7 @@
         },
         {
             "name": "road_top_right",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 51, "y": 0},
             "width": 16,
             "height": 16,
@@ -42,7 +42,7 @@
         },
         {
             "name": "road_bottom_right",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 68, "y": 0},
             "width": 16,
             "height": 16,
@@ -50,7 +50,7 @@
         },
         {
             "name": "road_bottom_left",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 85, "y": 0},
             "width": 16,
             "height": 16,
@@ -58,7 +58,7 @@
         },
         {
             "name": "road_right_tee",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 0, "y": 17},
             "width": 16,
             "height": 16,
@@ -66,7 +66,7 @@
         },
         {
             "name": "road_down_tee",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 17, "y": 17},
             "width": 16,
             "height": 16,
@@ -74,7 +74,7 @@
         },
         {
             "name": "road_left_tee",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 34, "y": 17},
             "width": 16,
             "height": 16,
@@ -82,7 +82,7 @@
         },
         {
             "name": "road_up_tee",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 51, "y": 17},
             "width": 16,
             "height": 16,
@@ -90,7 +90,7 @@
         },
         {
             "name": "road_cross",
-            "url": "/jswars/assets/sprites/env_sprites.png",
+            "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 68, "y": 17},
             "width": 16,
             "height": 16,

@@ -2,7 +2,7 @@
     "sprites": [
         {
             "name": "wizard",
-            "url": "/jswars/assets/sprites/unit_sprites.png",
+            "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 0, "y": 0},
             "width": 16,
             "height": 16,
@@ -21,7 +21,7 @@
         },
         {
             "name": "selector",
-            "url": "/jswars/assets/sprites/unit_sprites.png",
+            "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 0, "y": 17},
             "width": 22,
             "height": 22,
@@ -40,7 +40,7 @@
         },
         {
             "name": "move",
-            "url": "/jswars/assets/sprites/unit_sprites.png",
+            "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 69, "y": 0},
             "width": 16,
             "height": 16,
@@ -48,7 +48,7 @@
         },
         {
             "name": "attack",
-            "url": "/jswars/assets/sprites/unit_sprites.png",
+            "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 69, "y": 17},
             "width": 16,
             "height": 16,
