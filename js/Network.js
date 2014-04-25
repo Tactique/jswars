@@ -51,7 +51,6 @@ function Network() {
 
     function parseViewWorld(status, viewWorld) {
         var terrain = viewWorld.terrain;
-        testies = world;
         if (game.world == null) {
             // TODO check if the terrain actually exists first
             game.world = new World(terrain.length, terrain[0].length);
