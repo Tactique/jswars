@@ -69,7 +69,7 @@ function Network() {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
             var unit = units[i];
-            var position = unit.loc;
+            var position = unit.position;
             var movement = unit.movement;
             var unitnation = parseInt(unit.nation) + unit.name;
             var spriteName = UnitNationSprite[unitnation];
