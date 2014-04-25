@@ -49,7 +49,14 @@ function Network() {
         "move": parseMoveResponse.bind(this)
     }
 
+    function logTemplateComp(name, realResponse) {
+        if (!verifyStructure(responseTemplates[name], realResponse)) {
+            console.log("The", name, "template does not match. Proceed with caution");
+        }
+    }
+
     function parseViewWorld(status, viewWorld) {
+        this.logTemplateComp("viewWorld", viewWorld);
         var terrain = viewWorld.terrain;
         if (game.world == null) {
             // TODO check if the terrain actually exists first
@@ -164,6 +171,10 @@ function Network() {
 
     this.sendUnitMove = function(unit, move) {
         sendUnitMove(unit, move);
+    }
+
+    this.logTemplateComp = function(name, realResponse) {
+        logTemplateComp(name, realResponse);
     }
 }
 
