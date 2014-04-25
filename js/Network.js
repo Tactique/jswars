@@ -50,8 +50,7 @@ function Network() {
     }
 
     function parseViewWorld(status, viewWorld) {
-        var world = viewWorld.world;
-        var terrain = world.terrain;
+        var terrain = viewWorld.terrain;
         testies = world;
         if (game.world == null) {
             // TODO check if the terrain actually exists first
@@ -66,7 +65,7 @@ function Network() {
         }
         game.world.initialize(terrain);
 
-        var units = world.units;
+        var units = viewWorld.units;
         for (var i = units.length - 1; i >= 0; i--) {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
