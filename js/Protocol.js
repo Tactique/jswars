@@ -13,6 +13,19 @@ function verifyStructure(template, struct) {
                     console.log("Failed to verify sub-object with key:", key);
                     return false;
                 }
+            } else if (compareType(template[key], [])) {
+                var templateElement = template[key][0];
+                var structElement = struct[key][0];
+                if (!compareType(templateElement, structElement)) {
+                    console.log("Unexpected type in array.", "Template." + key, getType(templateElement), "!=", "struct." + key, getType(structElement));
+                    return false;
+                }
+                if (compareType(templateElement, {})) {
+                    if (!verifyStructure(templateElement, structElement)) {
+                        console.log("Failed to verify sub-object with key:", key);
+                        return false;
+                    }
+                }
             }
         }
     }
