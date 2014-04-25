@@ -82,7 +82,7 @@ function Network() {
             var spriteName = UnitNationSprite[unitnation];
             if (!game.world.findUnit(position.x, position.y)) {
                 game.world.addUnit(unit.nation, spriteName, position,
-                                   unit.distance, movement.name,
+                                   unit.distance, movement.type,
                                    movement.speeds, unit.health,
                                    unit.nation, unit.name);
             } else {
