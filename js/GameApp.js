@@ -37,6 +37,7 @@ var innerInitialize = function() {
     ajaxNetwork = new AjaxNetwork();
     // load sprites and other assets from the server
     loadQueue.enqueueTask(ajaxNetwork.sendGetAllCells, ajaxNetwork.handleGetAllCells);
+    loadQueue.enqueueTask(ajaxNetwork.sendGetViewWorldTemplate, ajaxNetwork.handleGetViewWorldTemplate);
     loadQueue.enqueueTask(GatherAssets, function(){});
     loadQueue.executeTasks();
 

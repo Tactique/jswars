@@ -26,6 +26,16 @@ function AjaxNetwork() {
         };
     }
 
+    function sendGetViewWorldTemplate(callback) {
+        sendRequest("/info/responses/viewWorld/", callback)
+    }
+
+    function handleGetViewWorldTemplate(response) {
+        responseTemplates["viewWorld"] = response.responseJSON;
+    }
+
     this.sendGetAllCells = sendGetAllCells;
     this.handleGetAllCells = handleGetAllCells;
+    this.sendGetViewWorldTemplate = sendGetViewWorldTemplate;
+    this.handleGetViewWorldTemplate = handleGetViewWorldTemplate;
 }

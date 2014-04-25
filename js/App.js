@@ -14,6 +14,7 @@ var network;
 var ajaxNetwork;
 var desiredPlayers;
 var playerID;
+var responseTemplates = {};
 
 $(window).resize(function() {
     resizeCanvas($(window).width(), $(window).height());
