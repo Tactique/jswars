@@ -102,11 +102,11 @@ function Network() {
                 // tell the renderer about the move
                 var unitSprite = assets.spriteManager.getSprite(unit.spriteName);
                 // unitSprite.movements = unitSprite.movements.concat(translatePathToMoves(path));
-                moves = translatePathToMoves(path);
-                // unitSprite.movements = [];
                 var goal = path[path.length - 1];
                 unit.pos.x = goal.position.x;
                 unit.pos.y = goal.position.y;
+                // shim, while the mac tab crash bug is still happening
+                unitSprite.drawPos = goal.position;
                 unitControlState.reset();
             } else {
                 console.log("Your path is null, man");
