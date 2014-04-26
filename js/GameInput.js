@@ -52,7 +52,6 @@ var unitControlState = {
 }
 
 unitControlState.reset = function() {
-    unitControlState.unit = null;
     unitControlState.moving = false;
     unitControlState.moves = null;
     unitControlState.attacks = null;
