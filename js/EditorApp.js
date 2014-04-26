@@ -11,11 +11,14 @@ var innerInitialize = function() {
     app = new Editor();
     initRenderers();
     initInterface();
+    loadQueue = new TaskQueue(app.init.bind(app));
     // necessary network stuff
     ajaxNetwork = new AjaxNetwork();
     ajaxNetwork.sendGetAllCells();
-    // collect assets and start the editor when they're ready
-    GatherAssets(app.init.bind(app));
+    loadQueue.enqueueTask(ajaxNetwork.sendGetAllCells, ajaxNetwork.handleGetAllCells);
+    loadQueue.enqueueTask(GatherAssets, function(){});
+
+    loadQueue.executeTasks();
 }
 
 function initInterface() {
