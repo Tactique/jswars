@@ -1,5 +1,6 @@
 function Game() {
     function init() {
+        network = new Network();
         this.Inputs = new InputManager();
         this.mainLoop();
     }
