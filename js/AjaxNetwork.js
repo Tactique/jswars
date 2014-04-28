@@ -48,11 +48,11 @@ function AjaxNetwork() {
 
     function handleLogin(response) {
         // if we received a token in our response, we've been "logged in"
-        if (response.responseJSON["token"]) {
+        if (response.status == 200) {
             $.cookie("token", response.responseJSON["token"]);
             window.location.replace("/play/");
         } else {
-            alert(reponse.responseData);
+            $("#login_error").text(response.responseText);
         }
     }
 
