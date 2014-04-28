@@ -5,8 +5,8 @@ function Network() {
         sendMessage(NEW_GAME_CMD, message)
     }
 
-    function sendClientInfo(playerId) {
-        var message = {"Id": playerId}
+    function sendClientInfo(token) {
+        var message = {"Token": token}
         sendMessage(CLIENT_INFO_CMD, message);
     }
 
@@ -162,7 +162,12 @@ function Network() {
     }
 
     this.sendClientInfo = function(playerId) {
-        sendClientInfo(playerId);
+        var token = $.cookie("token");
+        if (token) {
+            sendClientInfo(token);
+        } else {
+            alert("You do not have a token, can't start game");
+        }
     }
 
     this.sendViewWorld = function() {

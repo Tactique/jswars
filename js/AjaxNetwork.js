@@ -42,8 +42,24 @@ function AjaxNetwork() {
         responseTemplates["viewWorld"] = response.responseJSON;
     }
 
+    function sendLogin(loginInfo) {
+        sendRequest("/login/", this.handleLogin, loginInfo, "POST");
+    }
+
+    function handleLogin(response) {
+        // if we received a token in our response, we've been "logged in"
+        if (response.responseJSON["token"]) {
+            $.cookie("token", response.responseJSON["token"]);
+            window.location.replace("/play/");
+        } else {
+            alert(reponse.responseData);
+        }
+    }
+
     this.sendGetAllCells = sendGetAllCells;
     this.handleGetAllCells = handleGetAllCells;
     this.sendGetViewWorldTemplate = sendGetViewWorldTemplate;
     this.handleGetViewWorldTemplate = handleGetViewWorldTemplate;
+    this.sendLogin = sendLogin;
+    this.handleLogin = handleLogin;
 }
