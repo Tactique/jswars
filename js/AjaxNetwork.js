@@ -1,9 +1,17 @@
 function AjaxNetwork() {
-    function sendRequest(url, onComplete, data) {
+    function sendRequest(url, onComplete, data, method) {
+        var requestMethod = method == null ? "GET" : method;
+        var headers = {};
+        if (requestMethod == "POST") {
+            headers["X-CSRFToken"] = $.cookie("csrftoken");
+        }
         $.ajax({
             url: url,
+            type: requestMethod,
+            headers: headers,
             dataType: 'json',
             complete: onComplete,
+            data: data,
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log("Error sending request to url(" + url + "): ",
                             errorThrown);
