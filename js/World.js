@@ -8,7 +8,7 @@ function Cell(x, y, spriteName, type) {
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
 function Unit(spriteName, pos, distance, movementType, movement,
-              health, nation, name) {
+              health, nation, name, canMove) {
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -20,6 +20,7 @@ function Unit(spriteName, pos, distance, movementType, movement,
     this.health = health;
     this.nation = nation;
     this.name = name;
+    this.canMove = canMove;
 }
 
 function addWizard(player, pos) {
@@ -68,7 +69,7 @@ function World(width, height) {
 
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
-                     movement, health, nation, name) {
+                     movement, health, nation, name, canMove) {
         if (units[player] == null) {
             units[player] = [];
         }
@@ -76,7 +77,7 @@ function World(width, height) {
         var spritePos = jQuery.extend(true, {}, pos);
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
         var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
-                               health, nation, name);
+                               health, nation, name, canMove);
         units[player].push(newUnit);
     }
 
@@ -106,9 +107,13 @@ function World(width, height) {
     }
 
     function findAvailableMoves(unit) {
-        var moves = findAvailableCells(unit);
-        game.movesAvailableCallback(moves);
-        return moves;
+        if (unit.canMove) {
+            var moves = findAvailableCells(unit);
+            game.movesAvailableCallback(moves);
+            return moves;
+        } else {
+            console.log("That unit moved already");
+        }
     }
 
     function findAvailableAttacks(unit) {
@@ -271,9 +276,9 @@ function World(width, height) {
     }
 
     this.addUnit = function(player, srcSpriteName, pos, distance, movementType,
-                            movement, health, nation, name) {
+                            movement, health, nation, name, canMove) {
         addUnit(player, srcSpriteName, pos, distance, movementType, movement,
-                health, nation, name);
+                health, nation, name, canMove);
     }
 
     this.getUnits = function(player) {

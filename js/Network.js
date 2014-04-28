@@ -84,7 +84,7 @@ function Network() {
                 game.world.addUnit(unit.nation, spriteName, position,
                                    unit.distance, movement.type,
                                    movement.speeds, unit.health,
-                                   unit.nation, unit.name);
+                                   unit.nation, unit.name, unit.canMove);
             } else {
                 console.log("Verifing the unit could be useful here");
             }
@@ -114,6 +114,7 @@ function Network() {
                 unit.pos.y = goal.position.y;
                 // shim, while the mac tab crash bug is still happening
                 unitSprite.drawPos = goal.position;
+                unit.canMove = false;
                 unitControlState.reset();
             } else {
                 console.log("Your path is null, man");
