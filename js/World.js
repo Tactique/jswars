@@ -316,6 +316,8 @@ function World(width, height) {
     this.serialize = function() {
         return serialize();
     }
+
+    this.addOrUpdatePlayer = addOrUpdatePlayer;
 }
 
 function plainsWorld(width, height) {
