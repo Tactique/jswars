@@ -56,10 +56,20 @@ function AjaxNetwork() {
         }
     }
 
+    function sendLogout() {
+        sendRequest("/logout/", this.handleLogout, null, "POST");
+    }
+
+    function handleLogout(response) {
+        window.location.replace("/");
+    }
+
     this.sendGetAllCells = sendGetAllCells;
     this.handleGetAllCells = handleGetAllCells;
     this.sendGetViewWorldTemplate = sendGetViewWorldTemplate;
     this.handleGetViewWorldTemplate = handleGetViewWorldTemplate;
     this.sendLogin = sendLogin;
     this.handleLogin = handleLogin;
+    this.sendLogout = sendLogout;
+    this.handleLogout = handleLogout;
 }

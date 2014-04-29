@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    ajaxNetwork = new AjaxNetwork();
     $("#submitGameRequest").click(function() {
         playerID = $("#enteredPlayerId").val();
         if (playerID == "") {
@@ -17,7 +18,11 @@ $(document).ready(function() {
         desiredPlayers = 1;
         initialize();
         removeNewGameInterface();
-    })
+    });
+
+    $("#logout").click(function() {
+        ajaxNetwork.sendLogout();
+    });
 });
 
 var game;
