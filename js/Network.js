@@ -110,7 +110,7 @@ function Network() {
     }
 
     function parseMoveResponse(status) {
-        if (status == "success") {
+        if (status == 0) {
             var unit = unitControlState.unit;
             var path = unitControlState.path;
             if (path) {
