@@ -260,6 +260,7 @@ function World(width, height) {
 
     var cells = new Array(width);
 
+    var currentPlayerId = null;
     var players = {};
     var units = {};
 

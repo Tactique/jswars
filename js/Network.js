@@ -77,6 +77,7 @@ function Network() {
             game.world.addOrUpdatePlayer(player.id, player.nation,
                                          player.team);
         }
+        game.currentPlayerId = viewWorld.turnOwner;
 
         var units = viewWorld.units;
         for (var i = units.length - 1; i >= 0; i--) {
