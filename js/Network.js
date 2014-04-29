@@ -143,15 +143,15 @@ function Network() {
 
     // Log messages from the server
     conn.onmessage = function (e) {
-        var cmds = trimSocketChars(e.data.actualSplit(DELIM, 3));
-        if (cmds.length >= 2) {
+        var cmds = trimSocketChars(e.data.actualSplit(DELIM, 2));
+        if (cmds.length == 2) {
             var pkt_type = cmds[0];
-            var status = cmds[1];
-            var dataObj;
-            if (status != "failure") {
-                if (cmds.length > 2) {
-                    dataObj = JSON.parse(cmds[2]);
-                }
+            var response = JSON.parse(cmds[1]);
+            var dataObj = reponse.payload;
+            var status = response.status;
+            // It's likely the individual handlers would be interested in the
+            // failure condition
+            if (status >= 0) {
                 var handler = this.packetHandlers[pkt_type];
                 if (handler != null) {
                     handler(status, dataObj);
