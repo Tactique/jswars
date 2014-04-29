@@ -71,6 +71,13 @@ function Network() {
         }
         game.world.initialize(terrain);
 
+        var players = viewWorld.players;
+        for (var i = players.length - 1; i >= 0; i--) {
+            var player = players[i];
+            game.world.addOrUpdatePlayer(player.id, player.nation,
+                                         player.team);
+        }
+
         var units = viewWorld.units;
         for (var i = units.length - 1; i >= 0; i--) {
             // this should be tank, but I've only got wizards right now

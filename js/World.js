@@ -23,6 +23,12 @@ function Unit(spriteName, pos, distance, movementType, movement,
     this.canMove = canMove;
 }
 
+function Player(id, nation, team) {
+    this.id = id;
+    this.nation = nation;
+    this.team = team;
+}
+
 function addWizard(player, pos) {
     var mtype = "feet";
     var movement = {
@@ -65,6 +71,11 @@ function World(width, height) {
         } else {
             console.log("World.initialize called with incorrect size");
         }
+    }
+
+    function addOrUpdatePlayer(id, nation, team) {
+        var player = Player(id, nation, team);
+        players[id] = player;
     }
 
     // unit sprite's have to be cloned, so we have to wrap their creation
@@ -249,6 +260,7 @@ function World(width, height) {
 
     var cells = new Array(width);
 
+    var players = {};
     var units = {};
 
     for (var x = 0; x < width; x++) {
