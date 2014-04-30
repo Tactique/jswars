@@ -97,7 +97,7 @@ function World(width, height) {
         var output = [];
         for (var key in units) {
             if (units.hasOwnProperty(key)) {
-                if (player === null || key == player) {
+                if (player === undefined || key == player) {
                     for (var i in units[key]) {
                         output.push(units[key][i]);
                     }
