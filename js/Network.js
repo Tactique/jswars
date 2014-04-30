@@ -58,7 +58,7 @@ function Network() {
     function parseViewWorld(status, viewWorld) {
         this.logTemplateComp("viewWorld", viewWorld);
         var terrain = viewWorld.terrain;
-        if (game.world === null) {
+        if (game.world === undefined) {
             // TODO check if the terrain actually exists first
             game.world = new World(terrain.length, terrain[0].length);
             game.currentState = "CAMERA_CONTROL";

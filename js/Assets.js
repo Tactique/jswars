@@ -83,15 +83,14 @@ var asset_json = ['/jswars/sprites/unit_sprites.json', '/jswars/sprites/env_spri
 
 function GatherAssets(readyFunc) {
     function loadAssetInfo() {
-        var onError = function(jqXHR, textStatus, errorThrown) {
-                    console.log("Error fetching asset: ", errorThrown);
-        };
         for (var i in asset_json) {
             $.ajax({
                 url: asset_json[i],
                 dataType: 'json',
                 complete: ParseAssetInfo,
-                error: onError
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error fetching asset: ", errorThrown);
+                }
             });
         }
     }

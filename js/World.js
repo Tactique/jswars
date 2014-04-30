@@ -81,7 +81,7 @@ function World(width, height) {
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
                      movement, health, nation, name, canMove) {
-        if (units[player] === null) {
+        if (units[player] === undefined) {
             units[player] = [];
         }
         var newSpriteName = player + srcSpriteName + units[player].length;
