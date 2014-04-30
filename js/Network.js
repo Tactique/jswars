@@ -153,7 +153,7 @@ function Network() {
             // failure condition
             if (status >= 0) {
                 var handler = this.packetHandlers[pkt_type];
-                if (handler !== null) {
+                if (handler !== undefined) {
                     handler(status, dataObj);
                 } else {
                     console.log("Recieved unknown command:", pkt_type);

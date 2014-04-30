@@ -6,7 +6,7 @@ function Keyboard() {
         if (typeof(key) == "number") {
             key = keyCodeToChar[key];
         }
-        if (this[key] === false || this[key] === null) {
+        if (this[key] === false || !(key in this)) {
             return false;
         }
         return true;
@@ -16,7 +16,7 @@ function Keyboard() {
         if (typeof(key) == "number") {
             key = keyCodeToChar[key];
         }
-        if (this[key] === false || this[key] === null) {
+        if (this[key] === false || !(key in this)) {
             return false;
         }
         // Given our polling scheme for testing the keyboard, if we want single

@@ -113,7 +113,7 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
                                                  curAnim.sequence);
         }
     }
-    this.currentAnimation = currentAnimation !== null ? this.animations[currentAnimation] : new Animation("none", 0, []);
+    this.currentAnimation = currentAnimation !== undefined ? this.animations[currentAnimation] : new Animation("none", 0, []);
     this.movements = [];
     this.currentMovement = null;
 
