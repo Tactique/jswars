@@ -125,6 +125,6 @@ function ParseSpriteInfo(sprite) {
 // TODO this could definitely definitely be JSON
 var UnitNationSprite = {
     "0Tank": "wizard",
-    "0Warrior": "wizard",
-    "1Warrior": "wizard"
+    "0Warrior": "red-warrior",
+    "1Warrior": "blue-warrior"
 }

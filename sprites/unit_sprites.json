@@ -20,6 +20,40 @@
             "defaultAnimation" : "spin"
         },
         {
+            "name": "blue-warrior",
+            "url": "/jswars/sprites/unit_sprites.png",
+            "srcPos": {"x": 86, "y": 17},
+            "width": 16,
+            "height": 16,
+            "animations" : {
+                "bounce" : {
+                    "rate": 500,
+                    "sequence": [
+                        {"x": 86, "y": 17},
+                        {"x": 103, "y": 17}
+                    ]
+                }
+            },
+            "defaultAnimation" : "bounce"
+        },
+        {
+            "name": "red-warrior",
+            "url": "/jswars/sprites/unit_sprites.png",
+            "srcPos": {"x": 86, "y": 0},
+            "width": 16,
+            "height": 16,
+            "animations" : {
+                "bounce" : {
+                    "rate": 500,
+                    "sequence": [
+                        {"x": 86, "y": 0},
+                        {"x": 103, "y": 0}
+                    ]
+                }
+            },
+            "defaultAnimation" : "bounce"
+        },
+        {
             "name": "selector",
             "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 0, "y": 17},
