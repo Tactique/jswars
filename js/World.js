@@ -8,7 +8,7 @@ function Cell(x, y, spriteName, type) {
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
 function Unit(spriteName, pos, distance, movementType, movement,
-              health, nation, name, canMove) {
+              health, nation, name, canMove, attacks) {
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -21,6 +21,7 @@ function Unit(spriteName, pos, distance, movementType, movement,
     this.nation = nation;
     this.name = name;
     this.canMove = canMove;
+    this.attacks = attacks;
 }
 
 function Player(id, nation, team) {
@@ -184,10 +185,10 @@ function World(width, height) {
     }
 
     function processRangeAttack(unit, moves) {
+        // TODO this is all wrong
         var attacks = [];
         for (var i = moves.length - 1; i >= 0; i--) {
-            // GLARING TODO: min range for units should be part of the unit object
-            if (ManhattanDistance(moves[i].cell.position, unit.pos) > 3) {
+            if (ManhattanDistance(moves[i].cell.position, unit.pos) >= unit.minRange) {
                 attacks.push(moves[i]);
             }
         }
