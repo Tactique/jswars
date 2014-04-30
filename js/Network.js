@@ -147,7 +147,7 @@ function Network() {
         if (cmds.length == 2) {
             var pkt_type = cmds[0];
             var response = JSON.parse(cmds[1]);
-            var dataObj = reponse.payload;
+            var dataObj = response.payload;
             var status = response.status;
             // It's likely the individual handlers would be interested in the
             // failure condition
