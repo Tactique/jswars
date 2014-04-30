@@ -28,7 +28,7 @@ function AjaxNetwork() {
         for (var i = response.responseJSON.length - 1; i >= 0; i--) {
             var cell = response.responseJSON[i].fields;
             terrainTable[cell.cType] = function(x, y) {
-                return ne Cell(x, y, cell.spriteName, cell.cType);
+                return new Cell(x, y, cell.spriteName, cell.cType);
             };
             terrainTypes[cell.spriteName] = cell.cType;
         }
