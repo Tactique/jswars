@@ -63,29 +63,13 @@ function Network() {
 
     function parseViewWorld(status, viewWorld) {
         this.logTemplateComp("viewWorld", viewWorld);
-        var terrain = viewWorld.terrain;
-        if (game.world === undefined) {
-            // TODO check if the terrain actually exists first
-            game.world = new World(terrain.length, terrain[0].length);
-            game.currentState = "CAMERA_CONTROL";
-        }
-        for (var x = 0; x < terrain.length; x++) {
-            for (var y = 0; y < terrain[x].length; y++) {
-                // TODO terrain cells may someday be the actual JSON
-                terrain[x][y] = terrainLookup(terrain[x][y], x, y);
-            }
-        }
-        game.world.initialize(terrain);
-
-        var players = viewWorld.players;
-        for (var i = players.length - 1; i >= 0; i--) {
-            var player = players[i];
-            game.world.addOrUpdatePlayer(player.id, player.nation,
-                                         player.team);
-        }
+        parseTerrain(game, viewWorld.terrain)
+        parsePlayers(game, viewWorld.players)
         game.currentPlayerId = viewWorld.turnOwner;
+        parseUnits(game, viewWorld.units);
+    }
 
-        var units = viewWorld.units;
+    function parseUnits(game, units) {
         for (i = units.length - 1; i >= 0; i--) {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
@@ -104,6 +88,29 @@ function Network() {
             } else {
                 console.log("Verifing the unit could be useful here");
             }
+        }
+    }
+
+    function parseTerrain(game, terrain) {
+        if (game.world === undefined) {
+            // TODO check if the terrain actually exists first
+            game.world = new World(terrain.length, terrain[0].length);
+            game.currentState = "CAMERA_CONTROL";
+        }
+        for (var x = 0; x < terrain.length; x++) {
+            for (var y = 0; y < terrain[x].length; y++) {
+                // TODO terrain cells may someday be the actual JSON
+                terrain[x][y] = terrainLookup(terrain[x][y], x, y);
+            }
+        }
+        game.world.initialize(terrain);
+    }
+
+    function parsePlayers(game, players) {
+        for (var i = players.length - 1; i >= 0; i--) {
+            var player = players[i];
+            game.world.addOrUpdatePlayer(player.id, player.nation,
+                                         player.team);
         }
     }
 
