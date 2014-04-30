@@ -23,10 +23,15 @@ function Network() {
         sendMessage(MOVE_UNIT_CMD, message);
     }
 
+    function sendChatMessage(message) {
+        sendMessage(CHAT_CMD, {"message": message})
+    }
+
     CLIENT_INFO_CMD = "clientInfo";
     NEW_GAME_CMD = "newGame";
     VIEW_WORLD_CMD = "view";
     MOVE_UNIT_CMD = "move";
+    CHAT_CMD = "chat";
 
     host = window.location.host.split(":")[0];
     port = getPortNum();
@@ -46,7 +51,8 @@ function Network() {
         "view": parseViewWorld.bind(this),
         "clientinfo": parseClientInfo.bind(this),
         "new": parseGameRequestSuccess.bind(this),
-        "move": parseMoveResponse.bind(this)
+        "move": parseMoveResponse.bind(this),
+        "chat": parseChatResponse.bind(this),
     };
 
     function logTemplateComp(name, realResponse) {
@@ -132,6 +138,10 @@ function Network() {
         }
     }
 
+    function parseChatResponse(status, data) {
+        console.log("Chat: " + data.message);
+    }
+
     conn.onopen = function () {
         this.sendClientInfo(getPlayerId());
     }.bind(this);
@@ -190,6 +200,8 @@ function Network() {
     this.logTemplateComp = function(name, realResponse) {
         logTemplateComp(name, realResponse);
     };
+
+    this.sendChatMessage = sendChatMessage;
 }
 
 function trimSocketChars(cmds) {
