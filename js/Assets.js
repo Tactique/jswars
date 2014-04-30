@@ -24,7 +24,7 @@
             var img = new Image();
             img.onerror = function() {
                 console.log("Failed to load image from " + url);
-            }
+            };
             img.onload = function() {
                 resourceCache[url] = img;
 
@@ -67,7 +67,7 @@
         }
     }
 
-    assets = { 
+    assets = {
         load: load,
         get: get,
         onReady: onReady,
@@ -83,14 +83,15 @@ var asset_json = ['/jswars/sprites/unit_sprites.json', '/jswars/sprites/env_spri
 
 function GatherAssets(readyFunc) {
     function loadAssetInfo() {
+        var onError = function(jqXHR, textStatus, errorThrown) {
+                    console.log("Error fetching asset: ", errorThrown);
+        };
         for (var i in asset_json) {
             $.ajax({
                 url: asset_json[i],
                 dataType: 'json',
                 complete: ParseAssetInfo,
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log("Error fetching asset: ", errorThrown);
-                }
+                error: onError
             });
         }
     }
@@ -127,4 +128,4 @@ var UnitNationSprite = {
     "0Tank": "wizard",
     "0Warrior": "red-warrior",
     "1Warrior": "blue-warrior"
-}
+};

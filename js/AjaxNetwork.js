@@ -1,6 +1,6 @@
 function AjaxNetwork() {
     function sendRequest(url, onComplete, data, method) {
-        var requestMethod = method == null ? "GET" : method;
+        var requestMethod = method === null ? "GET" : method;
         var headers = {};
         if (requestMethod == "POST") {
             headers["X-CSRFToken"] = $.cookie("csrftoken");
@@ -28,18 +28,18 @@ function AjaxNetwork() {
         for (var i = response.responseJSON.length - 1; i >= 0; i--) {
             var cell = response.responseJSON[i].fields;
             terrainTable[cell.cType] = function(x, y) {
-                return new Cell(x, y, cell.spriteName, cell.cType);
-            }
+                return ne Cell(x, y, cell.spriteName, cell.cType);
+            };
             terrainTypes[cell.spriteName] = cell.cType;
-        };
+        }
     }
 
     function sendGetViewWorldTemplate(callback) {
-        sendRequest("/info/responses/viewWorld/", callback)
+        sendRequest("/info/responses/viewWorld/", callback);
     }
 
     function handleGetViewWorldTemplate(response) {
-        responseTemplates["viewWorld"] = response.responseJSON;
+        responseTemplates.viewWorld = response.responseJSON;
     }
 
     function sendLogin(loginInfo) {
@@ -49,7 +49,7 @@ function AjaxNetwork() {
     function handleLogin(response) {
         // if we received a token in our response, we've been "logged in"
         if (response.status == 200) {
-            $.cookie("token", response.responseJSON["token"]);
+            $.cookie("token", response.responseJSON.token);
             window.location.replace("/play/");
         } else {
             $("#login_error").text(response.responseText);

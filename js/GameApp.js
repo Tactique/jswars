@@ -2,11 +2,11 @@ $(document).ready(function() {
     ajaxNetwork = new AjaxNetwork();
     $("#submitGameRequest").click(function() {
         playerID = $("#enteredPlayerId").val();
-        if (playerID == "") {
+        if (playerID === "") {
             playerID = 1;
         }
         desiredPlayers = $("#numPlayers").val();
-        if (desiredPlayers == "") {
+        if (desiredPlayers === "") {
             desiredPlayers = 1;
         }
         initialize();
@@ -45,12 +45,12 @@ var innerInitialize = function() {
     loadQueue.enqueueTask(ajaxNetwork.sendGetViewWorldTemplate, ajaxNetwork.handleGetViewWorldTemplate);
     loadQueue.enqueueTask(GatherAssets, function() {});
     loadQueue.executeTasks();
-}
+};
 
 var getPlayerId = function() {
     return parseInt(playerID);
-}
+};
 
 var removeNewGameInterface = function() {
     $("#gameinfo").remove();
-}
+};

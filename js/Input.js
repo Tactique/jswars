@@ -60,15 +60,15 @@ function InputManager() {
 
     this.processInputs = function() {
         processInputs();
-    }
+    };
 
     this.processMouse = function() {
         processMouse();
-    }
+    };
 
     this.processKeyboard = function() {
         processKeyboard();
-    }
+    };
 }
 
 

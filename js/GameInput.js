@@ -1,16 +1,16 @@
 function handleCameraKeyboard(keyboard) {
     var camMove = {'x': 0, 'y': 0};
     if (keyboard.KeyDown("Left")) {
-        camMove['x'] -= 5;
+        camMove.x -= 5;
     }
     if (keyboard.KeyDown("Right")) {
-        camMove['x'] += 5;
+        camMove.x += 5;
     }
     if (keyboard.KeyDown("Up")) {
-        camMove['y'] -= 5;
+        camMove.y -= 5;
     }
     if (keyboard.KeyDown("Down")) {
-        camMove['y'] += 5;
+        camMove.y += 5;
     }
     camera.processMove(camMove);
     if (keyboard.ResetKeyDown("R")) {
@@ -26,7 +26,7 @@ function handleCameraMouse(mouse) {
         camera.processMove(camMove);
     } else if(mouse.lastState == mouseStates.LeftDown &&
               mouse.currentState == mouseStates.LeftUp) {
-        sprites["selector"].resetCurrentFrame();
+        sprites.selector.resetCurrentFrame();
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (game.world.withinWorld(wp.world_x, wp.world_y)) {
             game.selectWorld(wp.world_x, wp.world_y);
@@ -49,7 +49,7 @@ var unitControlState = {
     moves: null,
     attacks: null,
     path: null
-}
+};
 
 unitControlState.reset = function() {
     unitControlState.moving = false;
@@ -59,13 +59,13 @@ unitControlState.reset = function() {
     specialRenderer.removeLayer("moves");
     specialRenderer.removeLayer("path");
     specialRenderer.removeLayer("attacks");
-}
+};
 
 function handleUnitKeyboard(keyboard) {
     if (keyboard.ResetKeyDown("M")) {
         unitControlState.moving = true;
         unitControlState.moves = game.world.findAvailableMoves(unitControlState.unit);
-        if (unitControlState.moving && unitControlState.path != null) {
+        if (unitControlState.moving && unitControlState.path !== null) {
             network.sendUnitMove(unitControlState.unit, unitControlState.path);
         }
     } else if (keyboard.ResetKeyDown("A")) {

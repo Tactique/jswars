@@ -39,28 +39,28 @@ function SpriteManager() {
 
     this.addSprite = function(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate) {
         return addSprite(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate);
-    }
+    };
 
     this.cloneSprite = function(srcSpriteName, newSpriteName, newDrawPos) {
         cloneSprite(srcSpriteName, newSpriteName, newDrawPos);
-    }
+    };
 
     this.getSprite = function(name) {
         return getSprite(name);
-    }
+    };
 
     this.update = function(dt) {
         update(dt);
-    }
+    };
 
     this.clearSprites = function() {
         clearSprites();
-    }
+    };
 }
 
 function Animation(name, rate, sequence) {
     this.name = name;
-    this.rate = rate != null ? rate : 0;
+    this.rate = rate !== null ? rate : 0;
     this.sequence = this.rate > 0 ? sequence : [];
 }
 
@@ -83,7 +83,7 @@ function Movement(start, end, rate) {
             this.currentPosition.y = this.start.y + (this.deltaVector.y * progress);
             return false;
         }
-    }
+    };
 }
 
 function translatePathToMoves(path) {
@@ -103,7 +103,7 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
     this.sheetPos = sheetPos;
     this.width = width;
     this.height = height;
-    this.animate = animate != null ? animate : false;
+    this.animate = animate !== null ? animate : false;
     this.animations = {};
     for (var key in animations) {
         if (animations.hasOwnProperty(key)) {
@@ -113,7 +113,7 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
                                                  curAnim.sequence);
         }
     }
-    this.currentAnimation = currentAnimation != null ? this.animations[currentAnimation] : new Animation("none", 0, []);
+    this.currentAnimation = currentAnimation !== null ? this.animations[currentAnimation] : new Animation("none", 0, []);
     this.movements = [];
     this.currentMovement = null;
 
@@ -127,8 +127,8 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
             }
         }
         // Physically moves the sprite in the world
-        if (this.movements.length > 0 || this.currentMovement != null) {
-            if (this.currentMovement == null) {
+        if (this.movements.length > 0 || this.currentMovement !== null) {
+            if (this.currentMovement === null) {
                 this.currentMovement = this.movements.shift();
             }
             var moveDone = this.currentMovement.update(dt);
@@ -141,18 +141,18 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
                 }
             }
         }
-    }
+    };
 
     this.getFramePosition = function() {
-        if (this.currentAnimation.rate == 0 || !this.animate) {
+        if (this.currentAnimation.rate === 0 || !this.animate) {
             return this.sheetPos;
         }
         return this.currentAnimation.sequence[this.currentFrame];
-    }
+    };
 
     this.resetCurrentFrame = function() {
         this.currentFrame = 0;
-    }
+    };
 
     this.currentTime = this.currentAnimation.rate;
     this.currentFrame = 0;

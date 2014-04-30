@@ -6,17 +6,17 @@ function Keyboard() {
         if (typeof(key) == "number") {
             key = keyCodeToChar[key];
         }
-        if (this[key] == false || this[key] == null) {
+        if (this[key] === false || this[key] === null) {
             return false;
         }
         return true;
-    }
+    };
 
     this.ResetKeyDown = function(key) {
         if (typeof(key) == "number") {
             key = keyCodeToChar[key];
         }
-        if (this[key] == false || this[key] == null) {
+        if (this[key] === false || this[key] === null) {
             return false;
         }
         // Given our polling scheme for testing the keyboard, if we want single
@@ -24,5 +24,5 @@ function Keyboard() {
         // after reading it
         this[key] = false;
         return true;
-    }
+    };
 }

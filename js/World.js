@@ -33,7 +33,7 @@ function addWizard(player, pos) {
     var mtype = "feet";
     var movement = {
         0: 1.0, // Plains
-    }
+    };
     var distance = 4;
     game.world.addUnit(player, "wizard", pos, distance, mtype, movement);
 }
@@ -81,7 +81,7 @@ function World(width, height) {
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
                      movement, health, nation, name, canMove) {
-        if (units[player] == null) {
+        if (units[player] === null) {
             units[player] = [];
         }
         var newSpriteName = player + srcSpriteName + units[player].length;
@@ -97,7 +97,7 @@ function World(width, height) {
         var output = [];
         for (var key in units) {
             if (units.hasOwnProperty(key)) {
-                if (player == null || key == player) {
+                if (player === null || key == player) {
                     for (var i in units[key]) {
                         output.push(units[key][i]);
                     }
@@ -162,7 +162,7 @@ function World(width, height) {
                     if (!visited.contains(neighbor) ||
                         remainingmoves > neighbor.remainingmoves) {
                         var moveCost = unit.movement[neighbor.cell.type];
-                        if (moveCost > 0 && neighborUnit == null &&
+                        if (moveCost > 0 && neighborUnit === null &&
                             remainingmoves - moveCost > 0) {
                             processCell(neighbors[i], remainingmoves - moveCost);
                         }
@@ -178,7 +178,7 @@ function World(width, height) {
             if (!moves.contains(visited.content[i])) {
                 moves.push(visited.content[i]);
             }
-        };
+        }
 
         return moves.content;
     }
@@ -245,8 +245,8 @@ function World(width, height) {
                 outUnits[player] = [];
                 for (var i = 0; i < units[player].length; i++) {
                     var unit = jQuery.extend(true, {}, units[player][i]);
-                    unit["loc"] = unit.pos;
-                    delete unit["pos"];
+                    unit.loc = unit.pos;
+                    delete unit.pos;
                     outUnits[player].push(unit);
                 }
             }
@@ -270,53 +270,53 @@ function World(width, height) {
 
     this.getWidth = function() {
         return getWidth();
-    }
+    };
 
     this.getHeight = function() {
         return getHeight();
-    }
+    };
 
     this.getCell = function(x, y) {
         return getCell(x, y);
-    }
+    };
 
     this.setCell = function(x, y, cell) {
         setCell(x, y, cell);
-    }
+    };
 
     this.initialize = function(entryCells) {
         initialize(entryCells);
-    }
+    };
 
     this.addUnit = function(player, srcSpriteName, pos, distance, movementType,
                             movement, health, nation, name, canMove) {
         addUnit(player, srcSpriteName, pos, distance, movementType, movement,
                 health, nation, name, canMove);
-    }
+    };
 
     this.getUnits = function(player) {
         return getUnits(player);
-    }
+    };
 
     this.findUnit = function(wx, wy) {
         return findUnit(wx, wy);
-    }
+    };
 
     this.withinWorld = function(x, y) {
         return withinWorld(x, y);
-    }
+    };
 
     this.findAvailableMoves = function(unit) {
         return findAvailableMoves(unit);
-    }
+    };
 
     this.findAvailableAttacks = function(unit) {
         return findAvailableAttacks(unit);
-    }
+    };
 
     this.serialize = function() {
         return serialize();
-    }
+    };
 
     this.addOrUpdatePlayer = addOrUpdatePlayer;
 }

@@ -8,11 +8,11 @@ function TaskQueue(finalCallback) {
     // unique name. Further, tasks callbacks which are passed here must have
     // bound their arguments by the caller
     function enqueueTask(task, taskCallback, taskName) {
-        if (taskCallback == null) {
+        if (taskCallback === null) {
             console.log("enqueueTask without callback. Cowardly refusing to enqueue");
             return;
         }
-        var name = taskName != null ? taskName : task.name;
+        var name = taskName !== null ? taskName : task.name;
         var taskCompletion = this.dequeueTask.bind(this, name);
         this.tasks[name] = {func: task,
                             callerCallback: taskCallback,
@@ -27,7 +27,7 @@ function TaskQueue(finalCallback) {
         delete this.tasks[completedTaskName];
 
         // this signifies we've done everything we promised to do
-        if (Object.keys(this.tasks).length == 0) {
+        if (Object.keys(this.tasks).length === 0) {
             finalCallback();
         }
     }

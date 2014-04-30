@@ -32,7 +32,7 @@ function Editor() {
                 y: y,
             },
             spriteName: "selector"
-        }
+        };
         this.selectorCallback(this.selector);
     }
 
@@ -42,7 +42,7 @@ function Editor() {
             mouse: handleCameraMouse,
             keyboard: handleCameraKeyboard
         }
-    }
+    };
 
     this.currentState = "CELL_PLACEMENT";
     this.lastTime = 0;

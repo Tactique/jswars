@@ -37,13 +37,13 @@ function Mouse(testing) {
             this.UpdateState();
         }
         this.timeout = setTimeout(this.StoppedMoving, 100);
-    }
+    };
 
     this.UpdateState = function() {
         this.lastState = this.currentState;
         switch (this.currentState) {
         case mouseStates.Idle:
-            if (this.dx != 0 || this.dy != 0) {
+            if (this.dx !== 0 || this.dy !== 0) {
                 if (this.ButtonDown("Left")) {
                     this.currentState = mouseStates.LeftDrag;
                 } else {
@@ -56,7 +56,7 @@ function Mouse(testing) {
             }
             break;
         case mouseStates.Moving:
-            if (this.dx == 0 && this.dy == 0) {
+            if (this.dx === 0 && this.dy === 0) {
                 this.currentState = mouseStates.Idle;
             } else {
                 if (this.ButtonDown("Left")) {
@@ -73,31 +73,31 @@ function Mouse(testing) {
             }
             break;
         case mouseStates.LeftUp:
-            if (this.dx != 0 || this.dy != 0) {
+            if (this.dx !== 0 || this.dy !== 0) {
                 this.currentState = mouseStates.Moving;
             } else {
                 this.currentState = mouseStates.Idle;
             }
             break;
         case mouseStates.LeftDrag:
-            if (this.dx == 0 && this.dy == 0) {
+            if (this.dx === 0 && this.dy === 0) {
                 if (!this.ButtonDown("Left")) {
                     this.currentState = mouseStates.LeftUp;
                 }
             }
             break;
         }
-    }
+    };
 
     this.ButtonDown = function(button) {
         if (typeof(button) == "number") {
             button = buttonCodeToChar(button);
         }
-        if (this[button] == false || this[button] == null) {
+        if (this[button] === false || this[button] === null) {
             return false;
         }
         return true;
-    }
+    };
 
     function StoppedMoving() {
         this.dx = 0;

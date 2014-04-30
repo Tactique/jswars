@@ -23,16 +23,16 @@ function handleCameraKeyboard(keyboard) {
     } else {
         var camMove = {'x': 0, 'y': 0};
         if (keyboard.KeyDown("Left")) {
-            camMove['x'] -= 5;
+            camMove.x -= 5;
         }
         if (keyboard.KeyDown("Right")) {
-            camMove['x'] += 5;
+            camMove.x += 5;
         }
         if (keyboard.KeyDown("Up")) {
-            camMove['y'] -= 5;
+            camMove.y -= 5;
         }
         if (keyboard.KeyDown("Down")) {
-            camMove['y'] += 5;
+            camMove.y += 5;
         }
         camera.processMove(camMove);
     }
@@ -51,7 +51,7 @@ function handleCameraKeyboard(keyboard) {
 
 function handleCameraMouse(mouse) {
     if(mouse.currentState == mouseStates.LeftDown) {
-        sprites["selector"].resetCurrentFrame();
+        sprites.selector.resetCurrentFrame();
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (app.world.withinWorld(wp.world_x, wp.world_y)) {
             app.selectWorld(wp.world_x, wp.world_y);
@@ -63,13 +63,13 @@ function handleCameraMouse(mouse) {
 var brush = {
     position: null,
     type: null
-}
+};
 
 brush.changeCell = function() {
     var cell = app.world.getCell(this.position.x, this.position.y);
     cell = this.type(this.position.x, this.position.y);
     app.world.setCell(this.position.x, this.position.y, cell);
-}
+};
 
 // functions for handling the menu input go here:
 // it might be nice to isolate this so we're not making the direct jQuery calls

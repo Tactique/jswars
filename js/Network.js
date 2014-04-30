@@ -1,12 +1,12 @@
 function Network() {
     // To server functions and constants
     function sendGameRequest(numPlayers) {
-        var message = {"NumPlayers": numPlayers}
-        sendMessage(NEW_GAME_CMD, message)
+        var message = {"NumPlayers": numPlayers};
+        sendMessage(NEW_GAME_CMD, message);
     }
 
     function sendClientInfo(token) {
-        var message = {"Token": token}
+        var message = {"Token": token};
         sendMessage(CLIENT_INFO_CMD, message);
     }
 
@@ -18,7 +18,7 @@ function Network() {
         var message = {move: []};
         for (var i = 0; i < move.length; i++) {
             message.move.push(move[i].position);
-        };
+        }
 
         sendMessage(MOVE_UNIT_CMD, message);
     }
@@ -36,9 +36,9 @@ function Network() {
 
     // This function expects the message as a javascript object
     function sendMessage(command, messageObj) {
-        var jsonified = JSON.stringify(messageObj)
+        var jsonified = JSON.stringify(messageObj);
         packet = command + DELIM + jsonified;
-        conn.send(packet)
+        conn.send(packet);
     }
 
     // From server functions and constants
@@ -47,7 +47,7 @@ function Network() {
         "clientinfo": parseClientInfo.bind(this),
         "new": parseGameRequestSuccess.bind(this),
         "move": parseMoveResponse.bind(this)
-    }
+    };
 
     function logTemplateComp(name, realResponse) {
         if (!verifyStructure(responseTemplates[name], realResponse)) {
@@ -58,7 +58,7 @@ function Network() {
     function parseViewWorld(status, viewWorld) {
         this.logTemplateComp("viewWorld", viewWorld);
         var terrain = viewWorld.terrain;
-        if (game.world == null) {
+        if (game.world === null) {
             // TODO check if the terrain actually exists first
             game.world = new World(terrain.length, terrain[0].length);
             game.currentState = "CAMERA_CONTROL";
@@ -80,7 +80,7 @@ function Network() {
         game.currentPlayerId = viewWorld.turnOwner;
 
         var units = viewWorld.units;
-        for (var i = units.length - 1; i >= 0; i--) {
+        for (i = units.length - 1; i >= 0; i--) {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
             var unit = units[i];
@@ -110,7 +110,7 @@ function Network() {
     }
 
     function parseMoveResponse(status) {
-        if (status == 0) {
+        if (status === 0) {
             var unit = unitControlState.unit;
             var path = unitControlState.path;
             if (path) {
@@ -153,7 +153,7 @@ function Network() {
             // failure condition
             if (status >= 0) {
                 var handler = this.packetHandlers[pkt_type];
-                if (handler != null) {
+                if (handler !== null) {
                     handler(status, dataObj);
                 } else {
                     console.log("Recieved unknown command:", pkt_type);
@@ -168,7 +168,7 @@ function Network() {
 
     this.sendGameRequest = function(numPlayers) {
         sendGameRequest(numPlayers);
-    }
+    };
 
     this.sendClientInfo = function(playerId) {
         var token = $.cookie("token");
@@ -177,19 +177,19 @@ function Network() {
         } else {
             alert("You do not have a token, can't start game");
         }
-    }
+    };
 
     this.sendViewWorld = function() {
         sendViewWorld();
-    }
+    };
 
     this.sendUnitMove = function(unit, move) {
         sendUnitMove(unit, move);
-    }
+    };
 
     this.logTemplateComp = function(name, realResponse) {
         logTemplateComp(name, realResponse);
-    }
+    };
 }
 
 function trimSocketChars(cmds) {
@@ -205,4 +205,4 @@ String.prototype.actualSplit = function(sep, maxsplit) {
     } else {
         return maxsplit ? split.slice(0, maxsplit - 1) : split;
     }
-}
+};

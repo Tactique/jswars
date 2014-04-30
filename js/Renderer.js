@@ -3,7 +3,7 @@ var renderers = {
     "UNIT_CONTROL": drawWorld,
     "MENU_CONTROL" : drawMenu,
     "CELL_PLACEMENT": drawWorld
-}
+};
 
 // A cross-browser requestAnimationFrame
 // See https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -24,20 +24,20 @@ function SpecialRenderer() {
             key: key,
             priority: priority,
             rfunc: renderfunc.bind(null, renderable)
-        }
+        };
         renderers.push(renderer);
     }
 
     function removeLayer(key) {
         // renderers are wrapped in objects which contain a key, so an
         // object needs to be created and passed here to delete
-        renderers.remove({key: key})
+        renderers.remove({key: key});
     }
 
     function render() {
         for (var i = renderers.content.length - 1; i >= 0 ; i--) {
             renderers.content[i].rfunc();
-        };
+        }
     }
 
     function rendererScore(r) {
@@ -52,15 +52,15 @@ function SpecialRenderer() {
 
     this.addLayer = function(key, priority, renderfunc, renderable) {
         addLayer(key, priority, renderfunc, renderable);
-    }
+    };
 
     this.removeLayer = function(key) {
         removeLayer(key);
-    }
+    };
 
     this.render = function() {
         render();
-    }
+    };
 }
 
 var specialRenderer = new SpecialRenderer();
@@ -99,7 +99,7 @@ function drawEnvironment(world) {
     for (var x = 0; x < world.getWidth(); x++) {
         for (var y = 0; y < world.getHeight(); y++) {
             var current_cell = world.getCell(x, y);
-            drawSprite(x, y, current_cell.spriteName)
+            drawSprite(x, y, current_cell.spriteName);
         }
     }
 }
@@ -108,19 +108,19 @@ function drawUnits(world) {
     var units = world.getUnits();
     for (var i in units) {
         var position = assets.spriteManager.getSprite(units[i].spriteName).drawPos;
-        drawSprite(position['x'], position['y'], units[i].spriteName);
+        drawSprite(position.x, position.y, units[i].spriteName);
     }
 }
 
 function drawSelector(selector) {
     var position = selector.pos;
-    drawSprite(position['x'], position['y'], selector.spriteName);
+    drawSprite(position.x, position.y, selector.spriteName);
 }
 
 function drawSprite(x, y, spriteName) {
     var cam_pos = camera.transformToCameraSpace(x, y);
     if (camera.positionVisible(cam_pos.cam_x, cam_pos.cam_y)) {
-        var sprite = assets.spriteManager.getSprite(spriteName)
+        var sprite = assets.spriteManager.getSprite(spriteName);
         var img = assets.get(sprite.url);
         var pos = sprite.getFramePosition();
 
@@ -133,7 +133,7 @@ function drawSprite(x, y, spriteName) {
         centered_offset.cam_h = centered_offset.cam_h / 2;
 
         gfx.ctx.drawImage(img,
-                          pos['x'], pos['y'],
+                          pos.x, pos.y,
                           sprite.width, sprite.height,
                           cam_pos.cam_x - centered_offset.cam_w,
                           cam_pos.cam_y - centered_offset.cam_h,
@@ -163,5 +163,5 @@ function drawGrid(world) {
 function render() {
     clearBack();
 
-    renderers[app.currentState]()
+    renderers[app.currentState]();
 }

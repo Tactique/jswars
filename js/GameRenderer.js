@@ -94,7 +94,7 @@ function drawPath(path) {
     }
 
     for (var i = 0; i < path.length; i++) {
-        if (i == 0) {
+        if (i === 0) {
             // start path sprite
             gfx.ctx.fillStyle = "#FF0000";
         } else if (i == path.length - 1) {

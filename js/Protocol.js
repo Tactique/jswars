@@ -1,5 +1,5 @@
 function verifyStructure(template, struct) {
-    for (key in template) {
+    for (var key in template) {
         if (!keyExists(key, struct)) {
             console.log("Could not find expected key:", key, "in provided structure");
             return false;

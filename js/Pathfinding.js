@@ -9,7 +9,7 @@ function pathNode(position, costModifier, passable) {
 
     this.totalCost = function() {
         return this.Gcost + this.Hcost;
-    }
+    };
 }
 
 function pathNodeScore(node) {
@@ -25,14 +25,14 @@ function pathNodeEqual(n1, n2) {
 function PathFinder(world, start) {
     this.GCost = function(current, neighbor) {
         // I don't really want to do the square root
-        var xsq = (current.position.x - neighbor.position.x) * 
+        var xsq = (current.position.x - neighbor.position.x) *
                   (current.position.x - neighbor.position.x);
-        var ysq = (current.position.y - neighbor.position.y) * 
+        var ysq = (current.position.y - neighbor.position.y) *
                   (current.position.y - neighbor.position.y);
         return Math.sqrt(xsq + ysq) * neighbor.costModifier;
-    }
+    };
 
-    this.findPath = function(goal) {    
+    this.findPath = function(goal) {
         if (!goal.passable) {
             return null;
         }
@@ -45,14 +45,14 @@ function PathFinder(world, start) {
         while (!this.atGoal(current, goal)) {
             this.updateOpenList(current, goal, openlist, closedlist);
             closedlist.push(current);
-            if (openlist.size() == 0) {
+            if (openlist.size() === 0) {
                 return null;
             }
             current = openlist.pop();
         }
 
         return this.reconstructPath(current, this.start);
-    }
+    };
 
     this.reconstructPath = function(goal, start) {
         var current = goal;
@@ -64,14 +64,14 @@ function PathFinder(world, start) {
         path.push(current);
 
         return path.reverse();
-    }
+    };
 
     this.updateOpenList = function(current, goal, open, closed) {
         var neighbors = this.getNeighbors(current);
         for (var i in neighbors) {
             this.processNeighbor(current, neighbors[i], goal, open, closed);
         }
-    }
+    };
 
     this.processNeighbor = function(current, neighbor, goal, open, closed) {
         if (open.contains(neighbor)) {
@@ -84,26 +84,26 @@ function PathFinder(world, start) {
         } else {
             if (neighbor.passable && !closed.contains(neighbor)) {
                 // calculate the F = G + H cost of the neighbor
-                var g = this.movementCostFunc(current, neighbor) + current.Gcost;
+                var gcost = this.movementCostFunc(current, neighbor) + current.Gcost;
                 var h = this.heuristicCostFunc(current.position,
                                                goal.position);
                 neighbor.pathparent = current;
-                neighbor.Gcost = g;
+                neighbor.Gcost = gcost;
                 neighbor.Hcost = h;
                 // add the neighbor to the open list
                 open.push(neighbor);
             }
         }
-    }
+    };
 
     this.getNeighbors = function(current) {
         return getMatrixNeighbors(this.world, current.position);
-    }
+    };
 
     this.defaultGoal = function(current, goal) {
         return (current.position.x == goal.position.x &&
                 current.position.y == goal.position.y);
-    }
+    };
 
     // world is a 2d array of pathNodes
     this.world = world;

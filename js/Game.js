@@ -33,7 +33,7 @@ function Game() {
                 y: y,
             },
             spriteName: "selector"
-        }
+        };
         this.selectorCallback(this.selector);
     }
 
@@ -57,7 +57,7 @@ function Game() {
             mouse : handleCameraMouse,
             keyboard : handleCameraKeyboard
         }
-    }
+    };
 
     this.init = init;
     this.mainLoop = mainLoop.bind(this);

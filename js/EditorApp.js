@@ -19,7 +19,7 @@ var innerInitialize = function() {
     loadQueue.enqueueTask(GatherAssets, function(){});
 
     loadQueue.executeTasks();
-}
+};
 
 function initInterface() {
     interface = $("#interfacing");
