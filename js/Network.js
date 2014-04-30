@@ -79,12 +79,13 @@ function Network() {
             var unitnation = parseInt(unit.nation) + unit.name;
             var spriteName = UnitNationSprite[unitnation];
             var attacks = parseUnitAttacks(unit);
+            var armor = parseUnitArmor(unit);
             if (!game.world.findUnit(position.x, position.y)) {
                 game.world.addUnit(unit.nation, spriteName, position,
                                    movement.distance, movement.type,
                                    movement.speeds, unit.health,
                                    unit.nation, unit.name, unit.canMove,
-                                   attacks);
+                                   attacks, armor);
             } else {
                 console.log("Verifing the unit could be useful here");
             }
@@ -116,6 +117,10 @@ function Network() {
 
     function parseUnitAttacks(unit) {
         return unit.attacks;
+    }
+
+    function parseUnitArmor(unit) {
+        return unit.armor;
     }
 
     function parseClientInfo(status) {

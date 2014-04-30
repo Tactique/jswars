@@ -8,7 +8,7 @@ function Cell(x, y, spriteName, type) {
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
 function Unit(spriteName, pos, distance, movementType, movement,
-              health, nation, name, canMove, attacks) {
+              health, nation, name, canMove, attacks, armor) {
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -22,6 +22,7 @@ function Unit(spriteName, pos, distance, movementType, movement,
     this.name = name;
     this.canMove = canMove;
     this.attacks = attacks;
+    this.armor = armor;
 }
 
 function Player(id, nation, team) {
