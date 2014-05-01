@@ -52,7 +52,8 @@ function AjaxNetwork() {
             $.cookie("token", response.responseJSON.token);
             window.location.replace("/play/");
         } else {
-            $("#login_error").text(response.responseText);
+            // TODO: is this XSS-able?
+            $("#login_error").html("<div class='alert alert-danger'>"+ response.responseText + "</div>");
         }
     }
 
