@@ -42,8 +42,8 @@ function AjaxNetwork() {
         responseTemplates.viewWorld = response.responseJSON;
     }
 
-    function sendLogin(loginInfo) {
-        sendRequest("/login/", this.handleLogin, loginInfo, "POST");
+    function sendLogin(form) {
+        sendRequest("/login/", this.handleLogin, form.serialize(), "POST");
     }
 
     function handleLogin(response) {
@@ -54,6 +54,10 @@ function AjaxNetwork() {
         } else {
             $("#login_error").text(response.responseText);
         }
+    }
+
+    function sendRegister(form) {
+        sendRequest("/register/", this.handleLogin, form.serialize(), "POST");
     }
 
     function sendLogout() {
@@ -72,4 +76,5 @@ function AjaxNetwork() {
     this.handleLogin = handleLogin;
     this.sendLogout = sendLogout;
     this.handleLogout = handleLogout;
+    this.sendRegister = sendRegister;
 }

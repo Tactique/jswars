@@ -3,11 +3,13 @@ $(document).ready(function() {
 
     $("#login").submit(function(e) {
         e.preventDefault();
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var loginInfo = {username: username,
-                         password: password};
+        var form = $(e.target);
+        ajaxNetwork.sendLogin(form);
+    });
 
-        ajaxNetwork.sendLogin(loginInfo);
+    $("#register").submit(function(e) {
+        e.preventDefault();
+        var form = $(e.target);
+        ajaxNetwork.sendRegister(form);
     });
 });
