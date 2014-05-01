@@ -63,10 +63,9 @@ function Network() {
 
     function parseViewWorld(status, viewWorld) {
         this.logTemplateComp("viewWorld", viewWorld);
-        parseTerrain(game, viewWorld.terrain)
-        parsePlayers(game, viewWorld.players)
+        parseTerrain(game, viewWorld.world.terrain)
         game.currentPlayerId = viewWorld.turnOwner;
-        parseUnits(game, viewWorld.units);
+        parseUnits(game, viewWorld.world.units);
     }
 
     function parseUnits(game, units) {
