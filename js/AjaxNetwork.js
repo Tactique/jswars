@@ -34,12 +34,41 @@ function AjaxNetwork() {
         }
     }
 
-    function sendGetViewWorldTemplate(callback) {
-        sendRequest("/info/responses/viewWorld/", callback);
+    function sendGetTemplate(name, callback) {
+        sendRequest("/info/responses/" + name + "/", callback);
     }
 
-    function handleGetViewWorldTemplate(response) {
-        responseTemplates.viewWorld = response.responseJSON;
+    function handleGetTemplate(name, response) {
+        responseTemplates[name] = response.responseJSON;
+    }
+
+    function getAllTemplates(callback) {
+        var tempTaskQueue = new TaskQueue(callback);
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "viewWorld"),
+                                  handleGetTemplate.bind(this, "viewWorld"),
+                                  "viewWorld");
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "viewUnits"),
+                                  handleGetTemplate.bind(this, "viewUnits"),
+                                  "viewUnits");
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "viewTerrain"),
+                                  handleGetTemplate.bind(this, "viewTerrain"),
+                                  "viewTerrain");
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "viewPlayers"),
+                                  handleGetTemplate.bind(this, "viewPlayers"),
+                                  "viewPlayers");
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "turn"),
+                                  handleGetTemplate.bind(this, "turn"),
+                                  "turn");
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "new"),
+                                  handleGetTemplate.bind(this, "new"),
+                                  "new");
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "move"),
+                                  handleGetTemplate.bind(this, "move"),
+                                  "move");
+        tempTaskQueue.enqueueTask(sendGetTemplate.bind(this, "attack"),
+                                  handleGetTemplate.bind(this, "attack"),
+                                  "attack");
+        tempTaskQueue.executeTasks();
     }
 
     function sendLogin(form) {
@@ -71,8 +100,9 @@ function AjaxNetwork() {
 
     this.sendGetAllCells = sendGetAllCells;
     this.handleGetAllCells = handleGetAllCells;
-    this.sendGetViewWorldTemplate = sendGetViewWorldTemplate;
-    this.handleGetViewWorldTemplate = handleGetViewWorldTemplate;
+    this.sendGetTemplate = sendGetTemplate;
+    this.handleGetTemplate = handleGetTemplate;
+    this.getAllTemplates = getAllTemplates;
     this.sendLogin = sendLogin;
     this.handleLogin = handleLogin;
     this.sendLogout = sendLogout;
