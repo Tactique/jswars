@@ -81,6 +81,10 @@
 var asset_img = ['/jswars/sprites/unit_sprites.png', '/jswars/sprites/env_sprites.png'];
 var asset_json = ['/jswars/sprites/unit_sprites.json', '/jswars/sprites/env_sprites.json'];
 
+var UnitNationSprite = {
+    "0Tank": "wizard",
+};
+
 function GatherAssets(readyFunc) {
     function loadAssetInfo() {
         for (var i in asset_json) {
@@ -116,15 +120,14 @@ function ParseAssetInfo(response) {
 }
 
 function ParseSpriteInfo(sprite) {
+    if (sprite.unitNationName !== undefined) {
+        UnitNationSprite[sprite.unitNationName] = sprite.name;
+    } else {
+        console.log(sprite.name, "lacks unitNationName field. Cannot be used as unit sprite");
+    }
     var drawPos = {x: 0, y: 0};
     assets.spriteManager.addSprite(sprite.name, sprite.url, drawPos, sprite.srcPos,
                              sprite.width, sprite.height,
                              sprite.animations, sprite.defaultAnimation, false);
 }
 
-// TODO this could definitely definitely be JSON
-var UnitNationSprite = {
-    "0Tank": "wizard",
-    "0Warrior": "red-warrior",
-    "1Warrior": "blue-warrior"
-};
