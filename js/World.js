@@ -95,7 +95,7 @@ function World(width, height) {
     }
 
     // If player is null, this will return all units as a list
-    function getUnits(player) {
+    function getUnits() {
         var output = [];
         for (var key in units) {
             if (units.hasOwnProperty(key)) {
@@ -296,8 +296,8 @@ function World(width, height) {
                 health, nation, name, canMove);
     };
 
-    this.getUnits = function(player) {
-        return getUnits(player);
+    this.getUnits = function() {
+        return getUnits();
     };
 
     this.findUnit = function(wx, wy) {
