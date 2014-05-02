@@ -83,39 +83,33 @@ function World(width, height) {
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
                      movement, health, nation, name, canMove) {
-        if (units[player] === undefined) {
-            units[player] = [];
-        }
         var newSpriteName = player + srcSpriteName + unitCounter;
         unitCounter += 1;
         var spritePos = jQuery.extend(true, {}, pos);
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
         var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
                                health, nation, name, canMove);
-        units[player].push(newUnit);
+        if (units[newUnit.pos.x] === undefined) {
+            units[newUnit.pos.x] = {};
+        }
+        units[newUnit.pos.x][newUnit.pos.y] = newUnit;
     }
 
-    // If player is null, this will return all units as a list
     function getUnits() {
         var output = [];
-        for (var key in units) {
-            if (units.hasOwnProperty(key)) {
-                if (player === undefined || key == player) {
-                    for (var i in units[key]) {
-                        output.push(units[key][i]);
-                    }
-                }
+        for (var x in units) {
+            for (var y in units[x]) {
+                output.push(units[x][y]);
             }
         }
         return output;
     }
 
     function findUnit(wx, wy) {
-        var units = getUnits();
-        for (var i = units.length - 1; i >= 0; i--) {
-            if (units[i].pos.x == wx && units[i].pos.y == wy) {
-                return units[i];
-            }
+        var xunits = units[wx];
+        if (xunits) {
+            var xyunits = xunits[wy];
+            return xyunits === undefined ? null : xyunits;
         }
         return null;
     }
