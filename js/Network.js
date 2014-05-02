@@ -28,8 +28,15 @@ function Network() {
     }
 
     CLIENT_INFO_CMD = "clientInfo";
+    // newGame is the packet we send to the proxy to request a new game. Right
+    // now we receive nothing back from this request
     NEW_GAME_CMD = "newGame";
     VIEW_WORLD_CMD = "viewWorld";
+    VIEW_UNITS_CMD = "viewUnits";
+    VIEW_TERRAIN_CMD = "viewTerrain";
+    VIEW_PLAYERS_CMD = "viewPlayers";
+    END_TURN_CMD = "turn";
+    ATTACK_CMD = "attack";
     MOVE_UNIT_CMD = "move";
     CHAT_CMD = "chat";
 
@@ -47,13 +54,17 @@ function Network() {
     }
 
     // From server functions and constants
-    this.packetHandlers = {
-        "viewWorld": parseViewWorld.bind(this),
-        "clientinfo": parseClientInfo.bind(this),
-        "new": parseGameRequestSuccess.bind(this),
-        "move": parseMoveResponse.bind(this),
-        "chat": parseChatResponse.bind(this),
-    };
+    this.packetHandlers = {};
+    this.packetHandlers[VIEW_WORLD_CMD] = parseViewWorld.bind(this);
+    this.packetHandlers[VIEW_UNITS_CMD] = parseViewUnits.bind(this);
+    this.packetHandlers[VIEW_TERRAIN_CMD] = parseViewTerrain.bind(this);
+    this.packetHandlers[VIEW_PLAYERS_CMD] = parseViewPlayers.bind(this);
+    this.packetHandlers[CLIENT_INFO_CMD] = parseClientInfo.bind(this);
+    // new is the response from the game server when a game is ready
+    this.packetHandlers["new"] = parseGameRequestSuccess.bind(this);
+    this.packetHandlers[MOVE_UNIT_CMD] = parseMoveResponse.bind(this);
+    this.packetHandlers[ATTACK_CMD] = parseAttackResponse.bind(this);
+    this.packetHandlers[CHAT_CMD] = parseChatResponse.bind(this);
 
     function logTemplateComp(name, realResponse) {
         if (!verifyStructure(responseTemplates[name], realResponse)) {
@@ -67,6 +78,21 @@ function Network() {
         parseTerrain(game, viewWorld.TerrainResponse)
         // game.currentPlayerId = viewWorld.turnOwner;
         parseUnits(game, viewWorld.UnitsResponse);
+    }
+
+    function parseViewUnits(status, viewUnits) {
+        this.logTemplateComp(VIEW_UNITS_CMD, viewUnits);
+        parseUnits(game, viewUnits.units);
+    }
+
+    function parseViewTerrain(status, viewTerrain) {
+        this.logTemplateComp(VIEW_TERRAIN_CMD, viewTerrain)
+        parseTerrain(game, viewTerrain.terrain);
+    }
+
+    function parseViewPlayers(status, viewPlayers) {
+        this.logTemplateComp(VIEW_PLAYERS_CMD, viewPlayers);
+        console.log("Not implemented", viewPlayers);
     }
 
     function parseUnits(game, units) {
@@ -156,6 +182,10 @@ function Network() {
         } else {
             console.log("Go a bad status from server:", status);
         }
+    }
+
+    function parseAttackResponse(status, response) {
+        console.log("Not implemented", response);
     }
 
     function parseChatResponse(status, data) {
