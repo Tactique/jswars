@@ -75,9 +75,9 @@ function Network() {
     function parseViewWorld(status, viewWorld) {
         this.logTemplateComp("viewWorld", viewWorld);
         testies = viewWorld;
-        parseTerrain(game, viewWorld.TerrainResponse)
+        parseTerrain(game, viewWorld.TerrainResponse.terrain);
         // game.currentPlayerId = viewWorld.turnOwner;
-        parseUnits(game, viewWorld.UnitsResponse);
+        parseUnits(game, viewWorld.UnitsResponse.units);
     }
 
     function parseViewUnits(status, viewUnits) {
@@ -96,7 +96,6 @@ function Network() {
     }
 
     function parseUnits(game, units) {
-        var units = units.units;
         for (i = units.length - 1; i >= 0; i--) {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
@@ -120,7 +119,6 @@ function Network() {
     }
 
     function parseTerrain(game, terrain) {
-        var terrain = terrain.terrain;
         if (game.world === undefined) {
             // TODO check if the terrain actually exists first
             game.world = new World(terrain.length, terrain[0].length);
