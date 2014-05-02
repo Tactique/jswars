@@ -21,7 +21,7 @@
         },
         {
             "name": "blue-warrior",
-            "unitNationName": "1Warrior",
+            "unitNationName": "1warrior",
             "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 86, "y": 17},
             "width": 16,
@@ -39,7 +39,7 @@
         },
         {
             "name": "red-warrior",
-            "unitNationName": "0Warrior",
+            "unitNationName": "0warrior",
             "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 86, "y": 0},
             "width": 16,
