@@ -86,7 +86,8 @@ function World(width, height) {
         if (units[player] === undefined) {
             units[player] = [];
         }
-        var newSpriteName = player + srcSpriteName + units[player].length;
+        var newSpriteName = player + srcSpriteName + unitCounter;
+        unitCounter += 1;
         var spritePos = jQuery.extend(true, {}, pos);
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
         var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
@@ -264,6 +265,7 @@ function World(width, height) {
 
     var currentPlayerId = null;
     var players = {};
+    var unitCounter = 0;
     var units = {};
 
     for (var x = 0; x < width; x++) {
