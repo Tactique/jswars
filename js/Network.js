@@ -29,7 +29,7 @@ function Network() {
 
     CLIENT_INFO_CMD = "clientInfo";
     NEW_GAME_CMD = "newGame";
-    VIEW_WORLD_CMD = "view";
+    VIEW_WORLD_CMD = "viewWorld";
     MOVE_UNIT_CMD = "move";
     CHAT_CMD = "chat";
 
@@ -48,7 +48,7 @@ function Network() {
 
     // From server functions and constants
     this.packetHandlers = {
-        "view": parseViewWorld.bind(this),
+        "viewWorld": parseViewWorld.bind(this),
         "clientinfo": parseClientInfo.bind(this),
         "new": parseGameRequestSuccess.bind(this),
         "move": parseMoveResponse.bind(this),
@@ -63,12 +63,14 @@ function Network() {
 
     function parseViewWorld(status, viewWorld) {
         this.logTemplateComp("viewWorld", viewWorld);
-        parseTerrain(game, viewWorld.world.terrain)
-        game.currentPlayerId = viewWorld.turnOwner;
-        parseUnits(game, viewWorld.world.units);
+        testies = viewWorld;
+        parseTerrain(game, viewWorld.TerrainResponse)
+        // game.currentPlayerId = viewWorld.turnOwner;
+        parseUnits(game, viewWorld.UnitsResponse);
     }
 
     function parseUnits(game, units) {
+        var units = units.units;
         for (i = units.length - 1; i >= 0; i--) {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
@@ -92,6 +94,7 @@ function Network() {
     }
 
     function parseTerrain(game, terrain) {
+        var terrain = terrain.terrain;
         if (game.world === undefined) {
             // TODO check if the terrain actually exists first
             game.world = new World(terrain.length, terrain[0].length);
