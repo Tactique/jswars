@@ -85,6 +85,7 @@ function Network() {
     // new is the response from the game server when a game is ready
     this.packetHandlers["new"] = parseGameRequestSuccess.bind(this);
     this.packetHandlers[MOVE_UNIT_CMD] = parseMoveResponse.bind(this);
+    this.packetHandlers[END_TURN_CMD] = parseEndTurnResponse.bind(this);
     this.packetHandlers[ATTACK_CMD] = parseAttackResponse.bind(this);
     this.packetHandlers[CHAT_CMD] = parseChatResponse.bind(this);
 
@@ -206,6 +207,10 @@ function Network() {
 
     function parseAttackResponse(status, response) {
         console.log("Not implemented", response);
+    }
+
+    function parseEndTurnResponse(status) {
+        console.log("Not implemented");
     }
 
     function parseChatResponse(status, data) {
