@@ -14,6 +14,28 @@ function Network() {
         sendMessage(VIEW_WORLD_CMD, {});
     }
 
+    function sendViewUnits() {
+        sendMessage(VIEW_UNITS_CMD, {});
+    }
+
+    function sendViewTerrain() {
+        sendMessage(VIEW_TERRAIN_CMD, {});
+    }
+
+    function sendViewPlayers() {
+        sendMessage(VIEW_PLAYERS_CMD, {});
+    }
+
+    function sendTurn() {
+        sendMessage(END_TURN_CMD, {});
+    }
+
+    function sendAttack(source, target, attackId) {
+        // TODO actually parse this and send properly
+        var message = {};
+        sendMessage(ATTACK_CMD, message);
+    }
+
     function sendUnitMove(unit, move) {
         var message = {move: []};
         for (var i = 0; i < move.length; i++) {
@@ -244,6 +266,26 @@ function Network() {
     this.sendUnitMove = function(unit, move) {
         sendUnitMove(unit, move);
     };
+
+    this.sendViewUnits = function() {
+        sendViewUnits();
+    };
+
+    this.sendViewTerrain = function() {
+        sendViewTerrain();
+    };
+
+    this.sendViewPlayers = function() {
+        sendViewPlayers();
+    };
+
+    this.sendAttack = function(source, target, attackId) {
+        sendAttack(source, target, attackId);
+    };
+
+    this.sendTurn = function() {
+        sendTurn();
+    }
 
     this.logTemplateComp = function(name, realResponse) {
         logTemplateComp(name, realResponse);
