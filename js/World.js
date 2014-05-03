@@ -89,10 +89,31 @@ function World(width, height) {
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
         var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
                                health, nation, name, canMove);
-        if (units[newUnit.pos.x] === undefined) {
-            units[newUnit.pos.x] = {};
-        }
+        initUnitSlot(newUnit.pos.x, newUnit.pos.y);
         units[newUnit.pos.x][newUnit.pos.y] = newUnit;
+    }
+
+    function moveUnit(srcPos, destPos) {
+        var unit = findUnit(srcPos.x, srcPos.y);
+        if (!unit) {
+            console.log("No unit found at", srcPos);
+            return;
+        }
+        if (findUnit(destPos.x, destPos.y) !== null) {
+            console.log("A unit exists at", destPos, "already");
+            return;
+        }
+        unit.pos = destPos;
+        initUnitSlot(destPos.x, destPos.y);
+        units[destPos.x][destPos.y] = unit;
+        delete units[srcPos.x][srcPos.y];
+    }
+
+    function initUnitSlot(x, y) {
+        if (!units[x]) {
+            units[x] = {};
+        }
+        units[x][y] = {};
     }
 
     function getUnits() {
@@ -315,6 +336,10 @@ function World(width, height) {
     this.serialize = function() {
         return serialize();
     };
+
+    this.moveUnit = function(srcPos, destPos) {
+        moveUnit(srcPos, destPos);
+    }
 
     this.addOrUpdatePlayer = addOrUpdatePlayer;
 }
