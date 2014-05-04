@@ -56,6 +56,42 @@
             "defaultAnimation" : "bounce"
         },
         {
+            "name": "blue-mage",
+            "unitNationName": "1mage",
+            "url": "/jswars/sprites/unit_sprites.png",
+            "srcPos": {"x": 120, "y": 17},
+            "width": 16,
+            "height": 16,
+            "animations" : {
+                "bounce" : {
+                    "rate": 500,
+                    "sequence": [
+                        {"x": 120, "y": 17},
+                        {"x": 137, "y": 17}
+                    ]
+                }
+            },
+            "defaultAnimation" : "bounce"
+        },
+        {
+            "name": "red-mage",
+            "unitNationName": "0mage",
+            "url": "/jswars/sprites/unit_sprites.png",
+            "srcPos": {"x": 120, "y": 0},
+            "width": 16,
+            "height": 16,
+            "animations" : {
+                "bounce" : {
+                    "rate": 500,
+                    "sequence": [
+                        {"x": 120, "y": 0},
+                        {"x": 137, "y": 0}
+                    ]
+                }
+            },
+            "defaultAnimation" : "bounce"
+        },
+        {
             "name": "selector",
             "url": "/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 0, "y": 17},
