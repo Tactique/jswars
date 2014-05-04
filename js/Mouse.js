@@ -93,7 +93,7 @@ function Mouse(testing) {
         if (typeof(button) == "number") {
             button = buttonCodeToChar(button);
         }
-        if (this[button] === false || this[button] === null) {
+        if (this[button] === false || this[button] === undefined) {
             return false;
         }
         return true;
