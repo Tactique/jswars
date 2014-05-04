@@ -26,7 +26,7 @@ function AjaxNetwork() {
     function handleGetAllCells(response) {
         terrainTable = new Array(response.responseJSON.length);
         for (var i = response.responseJSON.length - 1; i >= 0; i--) {
-            var cell = response.responseJSON[i].fields;
+            var cell = response.responseJSON[i];
             terrainTable[cell.cellType] = function(x, y) {
                 return new Cell(x, y, cell.spriteName, cell.cellType);
             };
