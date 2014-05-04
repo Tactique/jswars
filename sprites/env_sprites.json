@@ -9,7 +9,7 @@
             "animRate": 0
         },
         {
-            "name": "road",
+            "name": "road_horz",
             "url": "/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 0, "y": 0},
             "width": 16,
