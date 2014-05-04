@@ -81,9 +81,7 @@
 var asset_img = ['/jswars/sprites/unit_sprites.png', '/jswars/sprites/env_sprites.png'];
 var asset_json = ['/jswars/sprites/unit_sprites.json', '/jswars/sprites/env_sprites.json'];
 
-var UnitNationSprite = {
-    "0Tank": "wizard",
-};
+var UnitNationSprite = {};
 
 function GatherAssets(readyFunc) {
     function loadAssetInfo() {
