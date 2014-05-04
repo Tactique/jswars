@@ -11,3 +11,28 @@ canvas {
 
 	margin: auto;
 }
+
+#unitInfo {
+	background-color: #ccf;
+	margin: 10px;
+	padding: 10px;
+
+	width: 100px;
+	height: 200px;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	display: none;
+}
+
+#unitName {
+	font-weight: bold;
+	font-size: large;
+	margin: 0;
+}
+
+#unitLegs {
+	font-size: normal;
+	margin: 0;
+}
