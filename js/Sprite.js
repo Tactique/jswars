@@ -154,6 +154,10 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
         this.currentFrame = 0;
     };
 
+    this.getSpriteImg = function() {
+        return assets.get(this.url);
+    }
+
     this.currentTime = this.currentAnimation.rate;
     this.currentFrame = 0;
 }
