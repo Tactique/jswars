@@ -1,7 +1,7 @@
 function Game() {
     function init() {
         network = new Network();
-        this.Inputs = new InputManager();
+        this.inputs = new InputManager();
         this.mainLoop();
     }
 
@@ -9,7 +9,7 @@ function Game() {
         var now = Date.now();
         var dt = (now - this.lastTime) / 1000.0;
 
-        this.Inputs.processKeyboard();
+        this.inputs.processKeyboard();
         // update entities, animations, and such, with dt
         this.update(dt);
         render();

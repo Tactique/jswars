@@ -1,6 +1,6 @@
 function Editor() {
     function init() {
-        this.Inputs = new InputManager();
+        this.inputs = new InputManager();
 
         // Eventually this size can come from some ui
         this.world = plainsWorld(20, 20);
@@ -12,7 +12,7 @@ function Editor() {
         var now = Date.now();
         var dt = (now - this.lastTime) / 1000.0;
 
-        this.Inputs.processKeyboard();
+        this.inputs.processKeyboard();
         // update entities, animations, and such, with dt
         this.update(dt);
         render();
