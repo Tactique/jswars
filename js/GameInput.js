@@ -35,8 +35,12 @@ function handleCameraMouse(mouse) {
             if (selectedUnit) {
                 game.currentState = "UNIT_CONTROL";
                 unitControlState.unit = selectedUnit;
+                game.inputs.callbacks.unitSelected({x: mouse.x, y: mouse.y},
+                                                   selectedUnit);
             } else {
                 game.currentState = "CAMERA_CONTROL";
+                game.inputs.callbacks.cellSelected({x: mouse.x, y: mouse.y},
+                                                    selectedCell);
                 unitControlState.unit = null;
             }
         }

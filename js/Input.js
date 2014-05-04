@@ -69,6 +69,13 @@ function InputManager() {
     this.processKeyboard = function() {
         processKeyboard();
     };
+
+    function nop() {};
+
+    this.callbacks = {
+        unitSelected: nop,
+        cellSelected: nop
+    };
 }
 
 
