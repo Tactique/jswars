@@ -89,8 +89,8 @@ function Movement(start, end, rate) {
 function translatePathToMoves(path) {
     var moves = [];
     for (var i = 0; i < path.length - 1; i++) {
-        var start = jQuery.extend(true, {}, path[i].position);
-        var end = jQuery.extend(true, {}, path[i + 1].position);
+        var start = jQuery.extend(true, {}, path[i]);
+        var end = jQuery.extend(true, {}, path[i + 1]);
         // end.y = start.y;
         moves.push(new Movement(start, end, 1000));
     }

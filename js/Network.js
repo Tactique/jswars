@@ -182,18 +182,18 @@ function Network() {
         this.sendViewWorld();
     }
 
-    function parseMoveResponse(status) {
+    function parseMoveResponse(status, response) {
         if (status === 0) {
-            var unit = unitControlState.unit;
-            var path = unitControlState.path;
+            var path = response.move;
+            var unit = game.world.findUnit(path[0].x, path[0].y);
             if (path) {
                 // tell the renderer about the move
                 var unitSprite = assets.spriteManager.getSprite(unit.spriteName);
                 // unitSprite.movements = unitSprite.movements.concat(translatePathToMoves(path));
                 var goal = path[path.length - 1];
-                game.world.moveUnit(unit.pos, goal.position);
+                game.world.moveUnit(unit.pos, goal);
                 // shim, while the mac tab crash bug is still happening
-                unitSprite.drawPos = goal.position;
+                unitSprite.drawPos = goal;
                 unit.canMove = false;
                 unitControlState.reset();
             } else {
