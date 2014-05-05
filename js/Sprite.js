@@ -40,7 +40,7 @@ function SpriteManager() {
         }
     }
 
-    sprites = {};
+    var sprites = {};
 
     this.addSprite = function(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate) {
         return addSprite(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate);

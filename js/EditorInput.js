@@ -51,7 +51,7 @@ function handleCameraKeyboard(keyboard) {
 
 function handleCameraMouse(mouse) {
     if(mouse.currentState == mouseStates.LeftDown) {
-        sprites.selector.resetCurrentFrame();
+        assets.spriteManager.getSprite("selector").resetCurrentFrame();
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (app.world.withinWorld(wp.world_x, wp.world_y)) {
             app.selectWorld(wp.world_x, wp.world_y);

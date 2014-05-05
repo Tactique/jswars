@@ -26,7 +26,7 @@ function handleCameraMouse(mouse) {
         camera.processMove(camMove);
     } else if(mouse.lastState == mouseStates.LeftDown &&
               mouse.currentState == mouseStates.LeftUp) {
-        sprites.selector.resetCurrentFrame();
+        assets.spriteManager.getSprite("selector").resetCurrentFrame();
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (game.world.withinWorld(wp.world_x, wp.world_y)) {
             game.selectWorld(wp.world_x, wp.world_y);
