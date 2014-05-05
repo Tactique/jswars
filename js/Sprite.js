@@ -3,6 +3,11 @@ function SpriteManager() {
         sprites[spriteName] = new Sprite(url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate);
     }
 
+    function addSuperSprite(spriteName, width, height, subsprites, filterName, filterRules) {
+        sprites[spriteName] = new SuperSprite(spriteName, width, height,
+                                              subsprites, filterName, filterRules);
+    }
+
     function cloneSprite(srcSpriteName, newSpriteName, newDrawPos) {
         var srcSprite = sprites[srcSpriteName];
         sprites[newSpriteName] = new Sprite(srcSprite.url,
@@ -39,6 +44,11 @@ function SpriteManager() {
 
     this.addSprite = function(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate) {
         return addSprite(spriteName, url, drawPos, sheetPos, width, height, animations, defaultAnimation, animate);
+    };
+
+
+    this.addSuperSprite = function(spriteName, width, height, subsprites, filterName, filterRules) {
+        return addSuperSprite(spriteName, width, height, subsprites, filterName, filterRules);
     };
 
     this.cloneSprite = function(srcSpriteName, newSpriteName, newDrawPos) {
@@ -160,6 +170,44 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
 
     this.currentTime = this.currentAnimation.rate;
     this.currentFrame = 0;
+}
+
+var filterFunctions = {
+    "neighbor": neighborFilter
+};
+
+function neighborFilter(rules, neighbors) {
+
+}
+
+function SuperSprite(name, width, height, subsprites, filterName, filterRules) {
+    this.name = name;
+    this.width = width;
+    this.height = height;
+    this.subsprites = subsprites;
+    this.filterFuntion = filterFunctions[filterName].bind(this, filterRules);
+    this.currentSprite = assets.spriteManager.getSprite(subsprites[1]);
+
+    // supersprites don't update yet
+    this.update = function() {};
+
+    this.getSpriteImg = function(neighbors) {
+        return this.currentSprite.getSpriteImg();
+    }
+
+    this.getFramePosition = function() {
+        return this.currentSprite.getFramePosition();
+    }
+
+    this.resetCurrentFrame = function() {
+        this.currentSprite.resetCurrentFrame();
+    }
+
+    this.updateSprite = function(neighbors) {
+        // calls the filter function to choose the appropriate sprite
+        // this.currentSprite = this.filterFunction(neighbors);
+        this.currentSprite = assets.spriteManager.getSprite(this.subsprites[0]);
+    }
 }
 
 function testMove() {

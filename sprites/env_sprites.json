@@ -96,5 +96,19 @@
             "height": 16,
             "animRate": 0
         }
+    ],
+    "supersprites": [
+    {
+            "name": "road",
+            "width": 16,
+            "height": 16,
+            "subsprites": [
+                "road_horz", "road_vert", "road_top_left", "road_top_right",
+                "road_bottom_right", "road_bottom_left", "road_right_tee",
+                "road_down_tee", "road_left_tee", "road_up_tee", "road_cross"
+            ],
+            "filterName": "neighbor",
+            "filterRules": {}
+        }
     ]
 }

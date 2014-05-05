@@ -89,7 +89,7 @@ function GatherAssets(readyFunc) {
             $.ajax({
                 url: asset_json[i],
                 dataType: 'json',
-                complete: ParseAssetInfo,
+                complete: ParseAssetInfo.bind(null, asset_json[i]),
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Error fetching asset: ", errorThrown);
                 }
@@ -102,10 +102,18 @@ function GatherAssets(readyFunc) {
     assets.load(asset_img);
 }
 
-function ParseAssetInfo(response) {
+function ParseAssetInfo(sheetName, response) {
     var json = response.responseJSON;
     for (var i = 0; i < json.sprites.length; i++) {
         ParseSpriteInfo(json.sprites[i]);
+    }
+
+    if (json.supersprites) {
+        for (var i = 0; i < json.supersprites.length; i++) {
+            ParseSuperSpriteInfo(json.supersprites[i]);
+        }
+    } else {
+        console.log("No supersprites in sheet", sheetName);
     }
 
     if (json.minWidth && json.minHeight) {
@@ -127,5 +135,15 @@ function ParseSpriteInfo(sprite) {
     assets.spriteManager.addSprite(sprite.name, sprite.url, drawPos, sprite.srcPos,
                              sprite.width, sprite.height,
                              sprite.animations, sprite.defaultAnimation, false);
+}
+
+function ParseSuperSpriteInfo(supersprite) {
+    console.log(supersprite);
+    assets.spriteManager.addSuperSprite(supersprite.name,
+                                        supersprite.width,
+                                        supersprite.height,
+                                        supersprite.subsprites,
+                                        supersprite.filterName,
+                                        supersprite.filterRules);
 }
 
