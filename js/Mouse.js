@@ -5,12 +5,14 @@ mouseStates = Object.freeze({Idle: "Idle", Moving: "Moving",
                              LeftUp: "LeftUp",
                              LeftDrag: "LeftDrag"});
 
-function Mouse(testing) {
+function Mouse(width, height, testing) {
     // It'd be good to get this info on construction
     this.x = -1;
     this.y = -1;
     this.dx = 0;
     this.dy = 0;
+    this.clickWindowX = 0;
+    this.clickWindowY = 0;
     this.timeout = null;
     if (testing) {
         this.StoppedMoving = null;
@@ -65,7 +67,7 @@ function Mouse(testing) {
             }
             break;
         case mouseStates.LeftDown:
-            if ((Math.abs(this.dx) >= 10 || Math.abs(this.dy)) >= 10 &&
+            if ((Math.abs(this.dx) >= this.clickWindowX || Math.abs(this.dy)) >= this.clickWindowY &&
                 this.ButtonDown("Left")) {
                 this.currentState = mouseStates.LeftDrag;
             } else if (!this.ButtonDown("Left")) {
@@ -99,6 +101,14 @@ function Mouse(testing) {
         return true;
     };
 
+    this.updateWindowSize = function(width, height) {
+        // Pulling the .6 % out of my bottom
+        var clickRatio = 0.006;
+        this.clickWindowX = clickRatio * width;
+        var aspect = width / height;
+        this.clickWindowY = clickRatio * height * aspect;
+    };
+
     function StoppedMoving() {
         this.dx = 0;
         this.dy = 0;
@@ -106,5 +116,6 @@ function Mouse(testing) {
     }
 
     this.StoppedMoving = StoppedMoving.bind(this);
+    this.updateWindowSize(width, height);
 }
 

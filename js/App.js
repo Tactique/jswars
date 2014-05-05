@@ -57,4 +57,8 @@ var resizeCanvas = function(width, height) {
     gfx.height = canvas.height;
 
     gfx.ctx = setupContext(canvas.getContext("2d"));
+
+    if (app !== undefined && app.inputs != undefined) {
+        app.inputs.mouse.updateWindowSize(width, height);
+    }
 };
