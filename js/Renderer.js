@@ -81,7 +81,7 @@ function drawMenu() {
 
 function handleSelectorRendering(selector) {
     specialRenderer.removeLayer("selector");
-    sprites.selector.animate = true;
+    assets.spriteManager.getSprite("selector").animate = true;
     specialRenderer.addLayer("selector", 1, drawSelector, selector);
 }
 
