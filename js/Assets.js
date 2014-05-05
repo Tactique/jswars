@@ -138,7 +138,6 @@ function ParseSpriteInfo(sprite) {
 }
 
 function ParseSuperSpriteInfo(supersprite) {
-    console.log(supersprite);
     assets.spriteManager.addSuperSprite(supersprite.name,
                                         supersprite.width,
                                         supersprite.height,
