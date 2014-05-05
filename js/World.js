@@ -82,13 +82,13 @@ function World(width, height) {
 
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
-                     movement, health, nation, name, canMove) {
+                     movement, health, nation, name, canMove, attacks, armor) {
         var newSpriteName = player + srcSpriteName + unitCounter;
         unitCounter += 1;
         var spritePos = jQuery.extend(true, {}, pos);
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
         var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
-                               health, nation, name, canMove);
+                               health, nation, name, canMove, attacks, armor);
         initUnitSlot(newUnit.pos.x, newUnit.pos.y);
         units[newUnit.pos.x][newUnit.pos.y] = newUnit;
     }
@@ -308,9 +308,9 @@ function World(width, height) {
     };
 
     this.addUnit = function(player, srcSpriteName, pos, distance, movementType,
-                            movement, health, nation, name, canMove) {
+                            movement, health, nation, name, canMove, attacks, armor) {
         addUnit(player, srcSpriteName, pos, distance, movementType, movement,
-                health, nation, name, canMove);
+                health, nation, name, canMove, attacks, armor);
     };
 
     this.getUnits = function() {
