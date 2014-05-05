@@ -65,7 +65,7 @@ function Mouse(testing) {
             }
             break;
         case mouseStates.LeftDown:
-            if ((Math.abs(this.dx) >= 5 || Math.abs(this.dy)) >= 5 &&
+            if ((Math.abs(this.dx) >= 10 || Math.abs(this.dy)) >= 10 &&
                 this.ButtonDown("Left")) {
                 this.currentState = mouseStates.LeftDrag;
             } else if (!this.ButtonDown("Left")) {
