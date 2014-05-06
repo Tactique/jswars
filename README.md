@@ -8,8 +8,6 @@ progressing quickly, and will hopefully soon be a source of great strategic
 joy for, at the very least, its authors.
 
 This readme is due for an update, and will receive one soon!
-[porterrepo]: https://github.com/DomoCo/porter
-[porterreadme]: https://github.com/DomoCo/porter/blob/master/README.md
+[porterrepo]: https://github.com/Tactique/game_engine
+[porterreadme]: https://github.com/Tactique/game_engine/blob/master/README.md
 [gorillaws]: https://github.com/gorilla/websocket
-[simple]: https://raw.github.com/DomoCo/common/master/images/jswars.png
-[move]: https://raw.github.com/DomoCo/common/master/images/jswarsMove.png
