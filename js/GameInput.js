@@ -20,7 +20,7 @@ function handleCameraKeyboard(keyboard) {
 
 function handleCameraMouse(mouse) {
     if (mouse.currentState == mouseStates.LeftDrag) {
-        var camMove = {'x': mouse.dx, 'y': mouse.dy};
+        var camMove = {'x': -1*mouse.dx, 'y': -1*mouse.dy};
         mouse.dx = 0;
         mouse.dy = 0;
         camera.processMove(camMove);
