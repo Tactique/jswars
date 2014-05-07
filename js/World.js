@@ -23,6 +23,10 @@ function Unit(spriteName, pos, distance, movementType, movement,
     this.canMove = canMove;
     this.attacks = attacks;
     this.armor = armor;
+
+    this.resetState = function() {
+        this.canMove = true;
+    }
 }
 
 function Player(id, nation, team) {
@@ -133,6 +137,13 @@ function World(width, height) {
             return xyunits === undefined ? null : xyunits;
         }
         return null;
+    }
+
+    function resetUnits() {
+        var allUnits = getUnits();
+        for (var i = allUnits.length - 1; i >= 0; i--) {
+            allUnits[i].resetState();
+        };
     }
 
     function findAvailableMoves(unit) {
@@ -339,6 +350,10 @@ function World(width, height) {
 
     this.moveUnit = function(srcPos, destPos) {
         moveUnit(srcPos, destPos);
+    }
+
+    this.resetUnits = function() {
+        resetUnits();
     }
 
     this.addOrUpdatePlayer = addOrUpdatePlayer;

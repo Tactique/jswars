@@ -207,7 +207,12 @@ function Network() {
     }
 
     function parseEndTurnResponse(status) {
-        console.log("Not implemented");
+        if (status == 0) {
+            console.log("Turn ended successfully. Resetting unit state");
+            game.world.resetUnits();
+        } else {
+            console.log("Bad status ending turn: ", status);
+        }
     }
 
     function parseChatResponse(status, data) {

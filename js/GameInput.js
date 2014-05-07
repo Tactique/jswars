@@ -16,6 +16,9 @@ function handleCameraKeyboard(keyboard) {
     if (keyboard.ResetKeyDown("R")) {
         network.sendViewWorld();
     }
+    if (keyboard.ResetKeyDown("E")) {
+        network.sendTurn();
+    }
 }
 
 function handleCameraMouse(mouse) {
@@ -76,6 +79,8 @@ function handleUnitKeyboard(keyboard) {
         unitControlState.attacks = game.world.findAvailableAttacks(unitControlState.unit);
     } else if (keyboard.ResetKeyDown("Esc")) {
         unitControlState.reset();
+    } else if (keyboard.ResetKeyDown("E")) {
+        network.sendTurn();
     }
 }
 
