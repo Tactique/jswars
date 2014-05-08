@@ -132,7 +132,7 @@ function Network() {
             if (!game.world.findUnit(position.x, position.y)) {
                 game.world.addUnit(unit.nation, spriteName, position,
                                    movement.distance, movement.type,
-                                   movement.speeds, unit.health,
+                                   movement.speeds, unit.health, unit.maxHealth,
                                    unit.nation, unit.name, unit.canMove,
                                    attacks, armor);
             } else {

@@ -8,7 +8,7 @@ function Cell(x, y, spriteName, type) {
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
 function Unit(spriteName, pos, distance, movementType, movement,
-              health, nation, name, canMove, attacks, armor) {
+              health, maxHealth, nation, name, canMove, attacks, armor) {
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -18,6 +18,7 @@ function Unit(spriteName, pos, distance, movementType, movement,
     // map of cell types to movement costs, ie plains -> 1.0
     this.movement = movement;
     this.health = health;
+    this.maxHealth = maxHealth;
     this.nation = nation;
     this.name = name;
     this.canMove = canMove;
@@ -86,13 +87,15 @@ function World(width, height) {
 
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
-                     movement, health, nation, name, canMove, attacks, armor) {
+                     movement, health, maxHealth, nation, name, canMove,
+                     attacks, armor) {
         var newSpriteName = player + srcSpriteName + unitCounter;
         unitCounter += 1;
         var spritePos = jQuery.extend(true, {}, pos);
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
         var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
-                               health, nation, name, canMove, attacks, armor);
+                               health, maxHealth, nation, name, canMove,
+                               attacks, armor);
         initUnitSlot(newUnit.pos.x, newUnit.pos.y);
         units[newUnit.pos.x][newUnit.pos.y] = newUnit;
     }
@@ -319,9 +322,10 @@ function World(width, height) {
     };
 
     this.addUnit = function(player, srcSpriteName, pos, distance, movementType,
-                            movement, health, nation, name, canMove, attacks, armor) {
+                            movement, health, maxHealth, nation, name, canMove,
+                            attacks, armor) {
         addUnit(player, srcSpriteName, pos, distance, movementType, movement,
-                health, nation, name, canMove, attacks, armor);
+                health, maxHealth, nation, name, canMove, attacks, armor);
     };
 
     this.getUnits = function() {
