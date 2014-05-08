@@ -101,6 +101,7 @@ function Network() {
         parseTerrain(game, viewWorld.TerrainResponse.terrain);
         // game.currentPlayerId = viewWorld.turnOwner;
         parseUnits(game, viewWorld.UnitsResponse.units);
+        parsePlayers(game, viewWorld.PlayersResponse.players);
     }
 
     function parseViewUnits(status, viewUnits) {
@@ -115,7 +116,7 @@ function Network() {
 
     function parseViewPlayers(status, viewPlayers) {
         this.logTemplateComp(VIEW_PLAYERS_CMD, viewPlayers);
-        console.log("Not implemented", viewPlayers);
+        parsePlayers(viewPlayers.players);
     }
 
     function parseUnits(game, units) {
@@ -155,9 +156,9 @@ function Network() {
     }
 
     function parsePlayers(game, players) {
-        for (var i = players.length - 1; i >= 0; i--) {
-            var player = players[i];
-            game.world.addOrUpdatePlayer(player.id, player.nation,
+        for (var id in players) {
+            var player = players[id];
+            game.world.addOrUpdatePlayer(id, player.nation,
                                          player.team);
         }
     }

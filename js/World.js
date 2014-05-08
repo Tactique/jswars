@@ -36,6 +36,8 @@ function Player(id, nation, team) {
     this.team = team;
 }
 
+var myPlayer;
+
 function addWizard(player, pos) {
     var mtype = "feet";
     var movement = {
@@ -81,8 +83,11 @@ function World(width, height) {
     }
 
     function addOrUpdatePlayer(id, nation, team) {
-        var player = Player(id, nation, team);
+        var player = new Player(id, nation, team);
         players[id] = player;
+        if (id === playerId) {
+            myPlayer = player;
+        }
     }
 
     // unit sprite's have to be cloned, so we have to wrap their creation
@@ -360,7 +365,9 @@ function World(width, height) {
         resetUnits();
     }
 
-    this.addOrUpdatePlayer = addOrUpdatePlayer;
+    this.addOrUpdatePlayer = function(id, nation, team) {
+        addOrUpdatePlayer(id, nation, team);
+    }
 }
 
 function plainsWorld(width, height) {
