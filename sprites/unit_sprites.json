@@ -2,7 +2,7 @@
     "sprites": [
         {
             "name": "wizard",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 0, "y": 0},
             "width": 16,
             "height": 16,
@@ -22,7 +22,7 @@
         {
             "name": "blue-warrior",
             "unitNationName": "1warrior",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 86, "y": 17},
             "width": 16,
             "height": 16,
@@ -40,7 +40,7 @@
         {
             "name": "red-warrior",
             "unitNationName": "0warrior",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 86, "y": 0},
             "width": 16,
             "height": 16,
@@ -58,7 +58,7 @@
         {
             "name": "blue-mage",
             "unitNationName": "1mage",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 120, "y": 17},
             "width": 16,
             "height": 16,
@@ -76,7 +76,7 @@
         {
             "name": "red-mage",
             "unitNationName": "0mage",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 120, "y": 0},
             "width": 16,
             "height": 16,
@@ -93,7 +93,7 @@
         },
         {
             "name": "selector",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 0, "y": 17},
             "width": 22,
             "height": 22,
@@ -112,7 +112,7 @@
         },
         {
             "name": "move",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 69, "y": 0},
             "width": 16,
             "height": 16,
@@ -120,7 +120,7 @@
         },
         {
             "name": "attack",
-            "url": "/jswars/sprites/unit_sprites.png",
+            "url": "/static/jswars/sprites/unit_sprites.png",
             "srcPos": {"x": 69, "y": 17},
             "width": 16,
             "height": 16,

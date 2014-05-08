@@ -78,8 +78,8 @@
     };
 })();
 
-var asset_img = ['/jswars/sprites/unit_sprites.png', '/jswars/sprites/env_sprites.png'];
-var asset_json = ['/jswars/sprites/unit_sprites.json', '/jswars/sprites/env_sprites.json'];
+var asset_img = ['/static/jswars/sprites/unit_sprites.png', '/static/jswars/sprites/env_sprites.png'];
+var asset_json = ['/static/jswars/sprites/unit_sprites.json', '/static/jswars/sprites/env_sprites.json'];
 
 var UnitNationSprite = {};
 
