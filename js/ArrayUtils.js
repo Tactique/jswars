@@ -12,3 +12,22 @@ function arrayContains(array, desired, equality) {
     }
     return null;
 }
+
+function set2DCorners(array, size, value) {
+    size = size - 1;
+    array[0][0] = value;
+    array[0][size] = value;
+    array[size][0] = value;
+    array[size][size] = value;
+}
+
+function objectifyUndefined(array) {
+    for (var y = 0; y < array.length; y++) {
+        for (var x = 0; x < array[y].length; x++) {
+            if (array[x][y] === undefined) {
+                array[x][y] = {};
+            }
+        }
+    }
+}
+

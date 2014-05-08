@@ -227,6 +227,35 @@ function World(width, height) {
         return moves.content;
     }
 
+    // Rule is the shape of the neighbors you want. "plus" means just
+    // the above, below, left, and right neighbors. "square" means
+    // the full 3x3 grid of neighbors
+    function getNeighbors(wx, wy, rule) {
+        function initializeNeighbors(size) {
+            var neighbors = new Array(size);
+            for (var i = 0; i < size; i++) {
+                neighbors[i] = new Array(size);
+            }
+            return neighbors;
+        }
+
+        rule = rule === undefined ? "plus" : rule;
+        var neighbors = initializeNeighbors(3);
+        for (var y = -1; y <= 1; y++) {
+            for (var x = -1; x <= 1; x++) {
+                if (withinWorld(wx + x, wy + y)) {
+                    neighbors[x + 1][y + 1] = cells[wx + x][wx + y];
+                }
+            }
+        }
+        if (rule === "plus") {
+            set2DCorners(neighbors, 3, {});
+        }
+        objectifyUndefined(neighbors);
+
+        return neighbors;
+    }
+
     function processRangeAttack(unit, moves) {
         // TODO this is all wrong
         var attacks = [];
@@ -378,6 +407,10 @@ function World(width, height) {
 
     this.getPlayer = function(id) {
         return getPlayer(id);
+    }
+
+    this.getNeighbors = function(wx, wy, rule) {
+        return getNeighbors(wx, wy, rule);
     }
 }
 
