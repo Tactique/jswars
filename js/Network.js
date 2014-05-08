@@ -207,10 +207,10 @@ function Network() {
         console.log("Not implemented", response);
     }
 
-    function parseEndTurnResponse(status) {
+    function parseEndTurnResponse(status, response) {
         if (status == 0) {
             console.log("Turn ended successfully. Resetting unit state");
-            game.world.resetUnits(playerId);
+            game.world.resetUnits(response.playerId);
         } else {
             console.log("Bad status ending turn: ", status);
         }
