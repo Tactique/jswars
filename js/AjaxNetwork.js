@@ -82,7 +82,7 @@ function AjaxNetwork() {
             window.location.replace("/play/");
         } else {
             // TODO: is this XSS-able?
-            $("#login_error").html("<div class='alert alert-danger'>"+ response.responseText + "</div>");
+            $("#login_error").html("<div class='alert alert-danger'>" + response.status + response.responseText + "</div>");
         }
     }
 
