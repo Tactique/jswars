@@ -98,6 +98,18 @@ function AjaxNetwork() {
         window.location.replace("/");
     }
 
+    function sendGetPlayerInfo(callback) {
+        sendRequest("/info/player/", callback);
+    }
+
+    function handlePlayerInfo(response) {
+        if (response.status == 200) {
+            playerId = response.responseJSON.id;
+        } else {
+            console.log("Could not retrieve your player id, problems will occur");
+        }
+    }
+
     this.sendGetAllCells = sendGetAllCells;
     this.handleGetAllCells = handleGetAllCells;
     this.sendGetTemplate = sendGetTemplate;
@@ -108,4 +120,6 @@ function AjaxNetwork() {
     this.sendLogout = sendLogout;
     this.handleLogout = handleLogout;
     this.sendRegister = sendRegister;
+    this.sendGetPlayerInfo = sendGetPlayerInfo;
+    this.handlePlayerInfo = handlePlayerInfo;
 }

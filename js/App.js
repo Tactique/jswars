@@ -13,7 +13,7 @@ var camera;
 var network;
 var ajaxNetwork;
 var desiredPlayers;
-var playerID;
+var playerId;
 var responseTemplates = {};
 
 $(window).resize(function() {

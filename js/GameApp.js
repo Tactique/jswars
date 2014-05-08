@@ -43,6 +43,7 @@ var innerInitialize = function() {
     // load sprites and other assets from the server
     loadQueue.enqueueTask(ajaxNetwork.sendGetAllCells, ajaxNetwork.handleGetAllCells);
     loadQueue.enqueueTask(ajaxNetwork.getAllTemplates, function() {});
+    loadQueue.enqueueTask(ajaxNetwork.sendGetPlayerInfo, ajaxNetwork.handlePlayerInfo);
     loadQueue.enqueueTask(GatherAssets, function() {});
     loadQueue.executeTasks();
 };
