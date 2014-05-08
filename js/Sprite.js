@@ -177,7 +177,69 @@ var filterFunctions = {
 };
 
 function neighborFilter(rules, neighbors) {
+    // Check the x direction for identical types
+    var me = neighbors[1][1];
+    // assume we have neighbors defined in the diagram below:
+    //                      T
+    //                    L C R
+    //                      B
+    // We create a string to describe the unique neighbor types. The
+    // ordering rule for our strings is start at the left most, top,
+    // most point, and work down, then to the right. The above's string
+    // is the "LTCBR"
 
+    // This function takes an array of coordinates to set in a template
+    // for comparison with the neighbors
+    function makeMatchTemplate(matches) {
+        // I am duplicating this from world.getNeighbors
+        function makeSquare(size) {
+            var square = new Array(size);
+            for (var i = 0; i < size; i++) {
+                square[i] = new Array(size);
+            }
+            objectifyUndefined(square);
+            return square;
+        }
+        var template = makeSquare(3);
+        for (var i = 0; i < matches.length; i++) {
+            // I'm cheating to avoid a deep copy here
+            template[matches[i].x][matches[i].y] = {type: me.type};
+        }
+
+        return template;
+    }
+
+    function templateMatch(template, actual) {
+        for (var y = 0; y < template.length; y++) {
+            for (var x = 0; x < template[y].length; x++) {
+                if (template[x][y].type !== actual[x][y].type) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    var templates = {};
+    templates["LCR"] = makeMatchTemplate([{x: 0, y: 1}, {x: 1, y: 1}, {x: 2, y: 1}]);
+    templates["TCB"] = makeMatchTemplate([{x: 1, y: 0}, {x: 1, y: 1}, {x: 1, y: 2}]);
+    templates["LCB"] = makeMatchTemplate([{x: 0, y: 1}, {x: 1, y: 1}, {x: 1, y: 2}]);
+    templates["CBR"] = makeMatchTemplate([{x: 1, y: 1}, {x: 1, y: 2}, {x: 2, y: 1}]);
+    templates["LTC"] = makeMatchTemplate([{x: 0, y: 1}, {x: 1, y: 0}, {x: 1, y: 1}]);
+    templates["TCR"] = makeMatchTemplate([{x: 1, y: 0}, {x: 1, y: 1}, {x: 2, y: 1}]);
+    templates["TCBR"] = makeMatchTemplate([{x: 1, y: 0}, {x: 1, y: 1}, {x: 1, y: 2}, {x: 2, y: 1}]);
+    templates["LTCB"] = makeMatchTemplate([{x: 0, y: 1}, {x: 1, y: 0}, {x: 1, y: 1}, {x: 1, y: 2}]);
+    templates["LCBR"] = makeMatchTemplate([{x: 0, y: 1}, {x: 1, y: 1}, {x: 1, y: 2}, {x: 2, y: 1}]);
+    templates["LTCR"] = makeMatchTemplate([{x: 0, y: 1}, {x: 1, y: 0}, {x: 1, y: 1}, {x: 2, y: 1}]);
+    templates["LTCBR"] = makeMatchTemplate([{x: 0, y: 1}, {x: 1, y: 0}, {x: 1, y: 1}, {x: 1, y: 2}, {x: 2, y: 1}]);
+
+    for (var key in templates) {
+        if (templateMatch(templates[key], neighbors)) {
+            return rules[key];
+        }
+    }
+
+    return undefined;
 }
 
 function SuperSprite(name, width, height, subsprites, filterName, filterRules) {
