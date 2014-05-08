@@ -1,10 +1,6 @@
 $(document).ready(function() {
     ajaxNetwork = new AjaxNetwork();
     $("#submitGameRequest").click(function() {
-        playerID = $("#enteredPlayerId").val();
-        if (playerID === "") {
-            playerID = 1;
-        }
         desiredPlayers = $("#numPlayers").val();
         if (desiredPlayers === "") {
             desiredPlayers = 1;
@@ -14,7 +10,6 @@ $(document).ready(function() {
     });
 
     $("#quintenbutton").click(function() {
-        playerID = 1;
         desiredPlayers = 1;
         initialize();
         removeNewGameInterface();
@@ -46,10 +41,6 @@ var innerInitialize = function() {
     loadQueue.enqueueTask(ajaxNetwork.sendGetPlayerInfo, ajaxNetwork.handlePlayerInfo);
     loadQueue.enqueueTask(GatherAssets, function() {});
     loadQueue.executeTasks();
-};
-
-var getPlayerId = function() {
-    return parseInt(playerID);
 };
 
 var removeNewGameInterface = function() {

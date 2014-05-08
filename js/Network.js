@@ -5,7 +5,7 @@ function Network() {
         sendMessage(NEW_GAME_CMD, message);
     }
 
-    function sendClientInfo(token) {
+    function sendClientToken(token) {
         var message = {"Token": token};
         sendMessage(CLIENT_INFO_CMD, message);
     }
@@ -220,7 +220,7 @@ function Network() {
     }
 
     conn.onopen = function () {
-        this.sendClientInfo(getPlayerId());
+        this.sendClientInfo();
     }.bind(this);
 
     // Log errors
@@ -257,10 +257,10 @@ function Network() {
         sendGameRequest(numPlayers);
     };
 
-    this.sendClientInfo = function(playerId) {
+    this.sendClientInfo = function() {
         var token = $.cookie("token");
         if (token) {
-            sendClientInfo(token);
+            sendClientToken(token);
         } else {
             alert("You do not have a token, can't start game");
         }
