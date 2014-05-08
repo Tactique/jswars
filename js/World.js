@@ -151,10 +151,13 @@ function World(width, height) {
         return null;
     }
 
-    function resetUnits() {
+    function resetUnits(playerId) {
+        var playerNation = getPlayer(playerId).nation;
         var allUnits = getUnits();
         for (var i = allUnits.length - 1; i >= 0; i--) {
-            allUnits[i].resetState();
+            if (allUnits[i].nation === playerNation) {
+                allUnits[i].resetState();
+            }
         };
     }
 
@@ -365,8 +368,8 @@ function World(width, height) {
         moveUnit(srcPos, destPos);
     }
 
-    this.resetUnits = function() {
-        resetUnits();
+    this.resetUnits = function(playerId) {
+        resetUnits(playerId);
     }
 
     this.addOrUpdatePlayer = function(id, nation, team) {

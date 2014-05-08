@@ -210,7 +210,7 @@ function Network() {
     function parseEndTurnResponse(status) {
         if (status == 0) {
             console.log("Turn ended successfully. Resetting unit state");
-            game.world.resetUnits();
+            game.world.resetUnits(playerId);
         } else {
             console.log("Bad status ending turn: ", status);
         }
