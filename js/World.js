@@ -90,6 +90,10 @@ function World(width, height) {
         }
     }
 
+    function getPlayer(id) {
+        return players[id];
+    }
+
     // unit sprite's have to be cloned, so we have to wrap their creation
     function addUnit(player, srcSpriteName, pos, distance, movementType,
                      movement, health, maxHealth, nation, name, canMove,
@@ -367,6 +371,10 @@ function World(width, height) {
 
     this.addOrUpdatePlayer = function(id, nation, team) {
         addOrUpdatePlayer(id, nation, team);
+    }
+
+    this.getPlayer = function(id) {
+        return getPlayer(id);
     }
 }
 
