@@ -1,24 +1,29 @@
 $(document).ready(function() {
     ajaxNetwork = new AjaxNetwork();
     $("#submitGameRequest").click(function() {
-        desiredPlayers = $("#numPlayers").val();
-        if (desiredPlayers === "") {
-            desiredPlayers = 1;
-        }
-        initialize();
-        removeNewGameInterface();
-    });
-
-    $("#quintenbutton").click(function() {
-        desiredPlayers = 1;
-        initialize();
-        removeNewGameInterface();
+		submitGameRequest();
     });
 
     $("#logout").click(function() {
         ajaxNetwork.sendLogout();
     });
+
+	$("#numPlayers").on("keypress", function(e) {
+		if (e.which == '13' ) {
+			submitGameRequest();
+		}
+	});
+
+	function submitGameRequest() {
+		desiredPlayers = $("#numPlayers").val();
+		if (desiredPlayers === "") {
+			desiredPlayers = 1;
+		}
+		initialize();
+		removeNewGameInterface();
+	}
 });
+
 
 var game;
 var loadQueue;
