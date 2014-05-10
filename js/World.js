@@ -1,5 +1,5 @@
 // This will eventually have much more information, including movement costs and such
-function Cell(x, y, spriteName, type) {
+function Cell(spriteName, type, x, y) {
     this.position = {x: x, y: y};
     this.spriteName = spriteName;
     this.type = type;
@@ -420,7 +420,7 @@ function plainsWorld(width, height) {
     for (var x = 0; x < width; x++) {
         terrain[x] = new Array(height);
         for (var y = 0; y < height; y++) {
-            terrain[x][y] = terrainLookup(terrainTypes.plains, x, y);
+            terrain[x][y] = terrainTable[terrainTypes.plains](x, y);
         }
     }
 
@@ -445,11 +445,6 @@ function routePath(unit, goal) {
 
 var terrainTable;
 var terrainTypes = {};
-
-function terrainLookup(id, x, y) {
-    // TODO This data should come from some JSON source on the server
-    return new terrainTable[id](x, y);
-}
 
 function cellEqual(cell1, cell2) {
     return cell1.cell.position.x == cell2.position.x &&

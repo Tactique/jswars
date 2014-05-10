@@ -149,7 +149,7 @@ function Network() {
         }
         for (var x = 0; x < terrain.length; x++) {
             for (var y = 0; y < terrain[x].length; y++) {
-                terrain[x][y] = terrainLookup(terrain[x][y], x, y);
+                terrain[x][y] = new terrainTable[terrain[x][y]](x, y);
             }
         }
         game.world.initialize(terrain);
