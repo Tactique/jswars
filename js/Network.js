@@ -120,10 +120,10 @@ function Network() {
     }
 
     function parseUnits(game, units) {
-        for (i = units.length - 1; i >= 0; i--) {
+        for (var id in units) {
             // this should be tank, but I've only got wizards right now
             // not sent movementType right now
-            var unit = units[i];
+            var unit = units[id];
             var position = unit.position;
             var movement = unit.movement;
             var unitnation = parseInt(unit.nation) + unit.name;
