@@ -108,7 +108,20 @@
                 "road_down_tee", "road_left_tee", "road_up_tee", "road_cross"
             ],
             "filterName": "neighbor",
-            "filterRules": {}
+            "filterRules": {
+                "LCR": "road_horz",
+                "TCB": "road_vert",
+                "LCB": "road_bottom_left",
+                "CBR": "road_bottom_right`",
+                "LTC": "road_top_left",
+                "TCR": "road_top_right",
+                "TCBR": "road_right_tee",
+                "LTCB": "road_left_tee",
+                "LCBR": "road_down_tee",
+                "LTCR": "road_up_tee",
+                "LTCBR": "road_cross",
+                "default": "road_horz"
+            }
         }
     ]
 }

@@ -241,8 +241,8 @@ function World(width, height) {
 
         rule = rule === undefined ? "plus" : rule;
         var neighbors = initializeNeighbors(3);
-        for (var y = -1; y <= 1; y++) {
-            for (var x = -1; x <= 1; x++) {
+        for (var x = -1; x <= 1; x++) {
+            for (var y = -1; y <= 1; y++) {
                 if (withinWorld(wx + x, wy + y)) {
                     neighbors[x + 1][y + 1] = cells[wx + x][wx + y];
                 }

@@ -122,7 +122,7 @@ function drawSprite(x, y, spriteName) {
     if (camera.positionVisible(cam_pos.cam_x, cam_pos.cam_y)) {
         var sprite = assets.spriteManager.getSprite(spriteName);
         var img = sprite.getSpriteImg();
-        var pos = sprite.getFramePosition();
+        var pos = sprite.getFramePosition(x, y);
 
         var rel_width = sprite.width / assets.spriteManager.minWidth;
         var rel_height = sprite.height / assets.spriteManager.minHeight;

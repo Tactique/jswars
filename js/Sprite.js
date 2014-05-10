@@ -210,8 +210,8 @@ function neighborFilter(rules, neighbors) {
     }
 
     function templateMatch(template, actual) {
-        for (var y = 0; y < template.length; y++) {
-            for (var x = 0; x < template[y].length; x++) {
+        for (var x = 0; x < template.length; x++) {
+            for (var y = 0; y < template[x].length; y++) {
                 if (template[x][y].type !== actual[x][y].type) {
                     return false;
                 }
@@ -239,7 +239,7 @@ function neighborFilter(rules, neighbors) {
         }
     }
 
-    return undefined;
+    return rules["default"];
 }
 
 function SuperSprite(name, width, height, subsprites, filterName, filterRules) {
@@ -247,7 +247,7 @@ function SuperSprite(name, width, height, subsprites, filterName, filterRules) {
     this.width = width;
     this.height = height;
     this.subsprites = subsprites;
-    this.filterFuntion = filterFunctions[filterName].bind(this, filterRules);
+    this.filterFunction = filterFunctions[filterName].bind(this, filterRules);
     this.currentSprite = assets.spriteManager.getSprite(subsprites[1]);
 
     // supersprites don't update yet
@@ -257,7 +257,9 @@ function SuperSprite(name, width, height, subsprites, filterName, filterRules) {
         return this.currentSprite.getSpriteImg();
     }
 
-    this.getFramePosition = function() {
+    this.getFramePosition = function(x, y) {
+        var neighbors = game.world.getNeighbors(x, y, "plus");
+        this.currentSprite = assets.spriteManager.getSprite(this.filterFunction(neighbors));
         return this.currentSprite.getFramePosition();
     }
 
@@ -268,7 +270,7 @@ function SuperSprite(name, width, height, subsprites, filterName, filterRules) {
     this.updateSprite = function(neighbors) {
         // calls the filter function to choose the appropriate sprite
         // this.currentSprite = this.filterFunction(neighbors);
-        this.currentSprite = assets.spriteManager.getSprite(this.subsprites[0]);
+        this.currentSprite = assets.spriteManager.getSprite(this.filterRules.default);
     }
 }
 
