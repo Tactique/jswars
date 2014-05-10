@@ -13,7 +13,7 @@ canvas {
 	margin: 10px;
 	padding: 10px;
 
-	width: 100px;
+	width: 150px;
 	height: 200px;
 	position: absolute;
 	top: 0;
@@ -42,8 +42,8 @@ canvas {
 
 	background-color: gray;
 	border: 2px solid black;
-	width: 100px;
-	height: 15px;
+	width: 104px;
+	height: 19px;
 }
 
 #unitHealth {
