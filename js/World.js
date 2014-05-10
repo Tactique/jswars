@@ -244,7 +244,7 @@ function World(width, height) {
         for (var x = -1; x <= 1; x++) {
             for (var y = -1; y <= 1; y++) {
                 if (withinWorld(wx + x, wy + y)) {
-                    neighbors[x + 1][y + 1] = cells[wx + x][wx + y];
+                    neighbors[x + 1][y + 1] = cells[wx + x][wy + y];
                 }
             }
         }

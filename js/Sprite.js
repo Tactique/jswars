@@ -212,7 +212,8 @@ function neighborFilter(rules, neighbors) {
     function templateMatch(template, actual) {
         for (var x = 0; x < template.length; x++) {
             for (var y = 0; y < template[x].length; y++) {
-                if (template[x][y].type !== actual[x][y].type) {
+                if ((template[x][y].type === undefined && actual[x][y].type === me.type) &&
+                    (template[x][y].type !== actual[x][y].type)) {
                     return false;
                 }
             }
