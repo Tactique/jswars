@@ -57,7 +57,7 @@
             "animRate": 0
         },
         {
-            "name": "road_right_tee",
+            "name": "road_up_tee",
             "url": "/static/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 0, "y": 17},
             "width": 16,
@@ -73,7 +73,7 @@
             "animRate": 0
         },
         {
-            "name": "road_left_tee",
+            "name": "road_right_tee",
             "url": "/static/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 34, "y": 17},
             "width": 16,
@@ -81,7 +81,7 @@
             "animRate": 0
         },
         {
-            "name": "road_up_tee",
+            "name": "road_left_tee",
             "url": "/static/jswars/sprites/env_sprites.png",
             "srcPos": {"x": 51, "y": 17},
             "width": 16,
