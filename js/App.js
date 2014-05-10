@@ -1,4 +1,4 @@
-var edgeMargin = 15;
+var edgeMargin = 16;
 // cache the canvas so we can get information about it later
 var canvas;
 
@@ -35,6 +35,10 @@ var initCanvas = function(width, height) {
     document.getElementById("canvas_land").appendChild(canvas);
     resizeCanvas(width, height);
 
+//    console.log(document.getElementById("canvas").style.height)
+    document.getElementById("unitSidebar").style.height = document.getElementById("canvas").height;
+    document.getElementById("unitSidebar").style.display = "block";
+    
     gfx.ctx = setupContext(canvas.getContext("2d"));
 
     // we want the jquery version of this object, but that has to happen after
@@ -50,7 +54,7 @@ var setupContext = function(ctx) {
 
 var resizeCanvas = function(width, height) {
     var canvas = document.getElementById("canvas");
-    canvas.width = width - edgeMargin;
+    canvas.width = width - edgeMargin - 208; // for unit info panel
     canvas.height = height - edgeMargin;
 
     gfx.width = canvas.width;

@@ -2,14 +2,25 @@ canvas {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 0;
-	right: 0;
+	right: 8px;
 
 	margin: auto;
 }
 
+#unitSidebar {
+	width: 200px;
+	height: 400px; /* this is overridden by App.js to be the canvas height */
+	position: fixed;
+
+	top: 8px;
+	left: 8px;
+	z-index: 3;
+	background-color: #CCF;
+
+	display: none; /* by default */
+}
+
 #unitInfo {
-	background-color: #ccf;
 	margin: 10px;
 	padding: 10px;
 
@@ -18,8 +29,9 @@ canvas {
 	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: 4;
 
-	display: none;
+	display: none; /* by default */
 }
 
 #unitName {
@@ -38,7 +50,7 @@ canvas {
 	margin: 0;
 
 	display: block;
-	position: relative; <!-- allows this to be the anchor for #unitHealth's position -->
+	position: relative; /* allows this to be the anchor for #unitHealth's position */
 
 	background-color: gray;
 	border: 2px solid black;
