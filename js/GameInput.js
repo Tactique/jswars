@@ -62,7 +62,7 @@ var unitControlState = {
 unitControlState.reset = function() {
     unitControlState.moving = false;
     unitControlState.moves = null;
-    unitControlState.attacks = null;
+    unitControlState.attacking = null;
     unitControlState.path = null;
     specialRenderer.removeLayer("moves");
     specialRenderer.removeLayer("path");
