@@ -71,10 +71,14 @@ unitControlState.reset = function() {
 
 function handleUnitKeyboard(keyboard) {
     if (keyboard.ResetKeyDown("M")) {
-        unitControlState.moving = true;
-        unitControlState.moves = game.world.findAvailableMoves(unitControlState.unit);
-        if (unitControlState.moving && unitControlState.path !== null) {
-            network.sendUnitMove(unitControlState.unit, unitControlState.path);
+        if (unitControlState.unit.player === myPlayer.id) {
+            unitControlState.moving = true;
+            unitControlState.moves = game.world.findAvailableMoves(unitControlState.unit);
+            if (unitControlState.moving && unitControlState.path !== null) {
+                network.sendUnitMove(unitControlState.unit, unitControlState.path);
+            }
+        } else {
+            console.log("That's not your unit!");
         }
     } else if (keyboard.ResetKeyDown("A")) {
         if (unitControlState.targetUnit) {
