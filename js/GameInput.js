@@ -52,9 +52,10 @@ function handleCameraMouse(mouse) {
 
 var unitControlState = {
     unit: null,
+    targetUnit: null,
     moving: false,
     moves: null,
-    attacks: null,
+    attacking: null,
     path: null
 };
 
@@ -76,16 +77,25 @@ function handleUnitKeyboard(keyboard) {
             network.sendUnitMove(unitControlState.unit, unitControlState.path);
         }
     } else if (keyboard.ResetKeyDown("A")) {
-        unitControlState.attacks = game.world.findAvailableAttacks(unitControlState.unit);
+        if (unitControlState.targetUnit) {
+            console.log("Press the id of the attack you would like to use");
+        } else {
+            console.log("Select a unit to trigger an attack, then press A again");
+            unitControlState.attacking = true;
+        }
     } else if (keyboard.ResetKeyDown("Esc")) {
         unitControlState.reset();
     } else if (keyboard.ResetKeyDown("E")) {
         network.sendTurn();
+    } else if (keyboard.ResetKeyDown("0")) {
+        if (unitControlState.targetUnit) {
+            network.sendAttack(unitControlState.unit, unitControlState.targetUnit, 0);
+        }
     }
 }
 
 function handleUnitMouse(mouse) {
-    if (!unitControlState.moving) {
+    if (!unitControlState.moving && !unitControlState.attacking) {
         handleCameraMouse(mouse);
     } else {
         if (mouse.lastState == mouseStates.LeftDown &&
@@ -93,9 +103,15 @@ function handleUnitMouse(mouse) {
             var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
             if (game.world.withinWorld(wp.world_x, wp.world_y)) {
                 game.selectWorld(wp.world_x, wp.world_y);
-                var goal = game.world.getCell(wp.world_x, wp.world_y);
-                var path = routePath(unitControlState.unit, goal.position);
-                unitControlState.path = path;
+                var selectedUnit = game.world.findUnit(wp.world_x, wp.world_y);
+                var selectedCell = game.world.getCell(wp.world_x, wp.world_y);
+                if (selectedUnit) {
+                    // probably need to verify you can actually attack the unit here
+                    unitControlState.targetUnit = selectedUnit;
+                } else if (selectedCell) {
+                    var path = routePath(unitControlState.unit, selectedCell.position);
+                    unitControlState.path = path;
+                }
             }
         }
     }

@@ -31,8 +31,11 @@ function Network() {
     }
 
     function sendAttack(source, target, attackId) {
-        // TODO actually parse this and send properly
-        var message = {};
+        var message = {
+            Attacker: source.pos,
+            AttackIndex: attackId,
+            Target: target.pos
+        };
         sendMessage(ATTACK_CMD, message);
     }
 
