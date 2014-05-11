@@ -7,8 +7,9 @@ function Cell(spriteName, type, x, y) {
 
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
-function Unit(spriteName, pos, distance, movementType, movement,
+function Unit(player, spriteName, pos, distance, movementType, movement,
               health, maxHealth, nation, name, canMove, attacks, armor) {
+    this.player = player;
     this.spriteName = spriteName;
     this.pos = pos;
     // The total distance the unit can move
@@ -94,19 +95,27 @@ function World(width, height) {
         return players[id];
     }
 
+    function getPlayerFromNation(nation) {
+        for (var id in players) {
+            if (players[id].nation === nation) {
+                return players[id];
+            }
+        }
+        return undefined;
+    }
+
     // unit sprite's have to be cloned, so we have to wrap their creation
-    function addUnit(player, srcSpriteName, pos, distance, movementType,
+    function addUnit(uid, player, srcSpriteName, pos, distance, movementType,
                      movement, health, maxHealth, nation, name, canMove,
                      attacks, armor) {
         var newSpriteName = player + srcSpriteName + unitCounter;
         unitCounter += 1;
         var spritePos = jQuery.extend(true, {}, pos);
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
-        var newUnit = new Unit(newSpriteName, pos, distance, movementType, movement,
-                               health, maxHealth, nation, name, canMove,
-                               attacks, armor);
-        initUnitSlot(newUnit.pos.x, newUnit.pos.y);
-        units[newUnit.pos.x][newUnit.pos.y] = newUnit;
+        var newUnit = new Unit(player, newSpriteName, pos, distance,
+                               movementType, movement, health, maxHealth,
+                               nation, name, canMove, attacks, armor);
+        units[uid] = newUnit;
     }
 
     function moveUnit(srcPos, destPos) {
@@ -120,35 +129,23 @@ function World(width, height) {
             return;
         }
         unit.pos = destPos;
-        initUnitSlot(destPos.x, destPos.y);
-        units[destPos.x][destPos.y] = unit;
-        delete units[srcPos.x][srcPos.y];
-    }
-
-    function initUnitSlot(x, y) {
-        if (!units[x]) {
-            units[x] = {};
-        }
-        units[x][y] = {};
     }
 
     function getUnits() {
         var output = [];
-        for (var x in units) {
-            for (var y in units[x]) {
-                output.push(units[x][y]);
-            }
+        for (var id in units) {
+            output.push(units[id]);
         }
         return output;
     }
 
     function findUnit(wx, wy) {
-        var xunits = units[wx];
-        if (xunits) {
-            var xyunits = xunits[wy];
-            return xyunits === undefined ? null : xyunits;
+        for (var id in units) {
+            if (units[id].pos.x === wx && units[id].pos.y === wy) {
+                return units[id];
+            }
         }
-        return null;
+        return undefined;
     }
 
     function resetUnits(playerId) {
@@ -362,10 +359,10 @@ function World(width, height) {
         initialize(entryCells);
     };
 
-    this.addUnit = function(player, srcSpriteName, pos, distance, movementType,
+    this.addUnit = function(uid, player, srcSpriteName, pos, distance, movementType,
                             movement, health, maxHealth, nation, name, canMove,
                             attacks, armor) {
-        addUnit(player, srcSpriteName, pos, distance, movementType, movement,
+        addUnit(uid, player, srcSpriteName, pos, distance, movementType, movement,
                 health, maxHealth, nation, name, canMove, attacks, armor);
     };
 
@@ -407,6 +404,10 @@ function World(width, height) {
 
     this.getPlayer = function(id) {
         return getPlayer(id);
+    }
+
+    this.getPlayerFromNation = function(nation) {
+        return getPlayerFromNation(nation);
     }
 
     this.getNeighbors = function(wx, wy, rule) {

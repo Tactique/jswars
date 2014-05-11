@@ -131,7 +131,8 @@ function Network() {
             var attacks = parseUnitAttacks(unit);
             var armor = parseUnitArmor(unit);
             if (!game.world.findUnit(position.x, position.y)) {
-                game.world.addUnit(unit.nation, spriteName, position,
+                var player = game.world.getPlayerFromNation(unit.nation);
+                game.world.addUnit(id, player.id, spriteName, position,
                                    movement.distance, movement.type,
                                    movement.speeds, unit.health, unit.maxHealth,
                                    unit.nation, unit.name, unit.canMove,
