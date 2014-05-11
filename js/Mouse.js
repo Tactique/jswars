@@ -103,7 +103,7 @@ function Mouse(width, height, testing) {
 
     this.updateWindowSize = function(width, height) {
         // Pulling the .6 % out of my bottom
-        var clickRatio = 0.006;
+        var clickRatio = 0.01;
         this.clickWindowX = clickRatio * width;
         var aspect = width / height;
         this.clickWindowY = clickRatio * height * aspect;
