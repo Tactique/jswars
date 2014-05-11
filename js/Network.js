@@ -100,8 +100,8 @@ function Network() {
         testies = viewWorld;
         parseTerrain(game, viewWorld.TerrainResponse.terrain);
         // game.currentPlayerId = viewWorld.turnOwner;
-        parseUnits(game, viewWorld.UnitsResponse.units);
         parsePlayers(game, viewWorld.PlayersResponse.players);
+        parseUnits(game, viewWorld.UnitsResponse.units);
     }
 
     function parseViewUnits(status, viewUnits) {
