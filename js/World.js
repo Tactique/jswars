@@ -124,7 +124,7 @@ function World(width, height) {
             console.log("No unit found at", srcPos);
             return;
         }
-        if (findUnit(destPos.x, destPos.y) !== null) {
+        if (findUnit(destPos.x, destPos.y) !== undefined) {
             console.log("A unit exists at", destPos, "already");
             return;
         }
@@ -203,7 +203,7 @@ function World(width, height) {
                     if (!visited.contains(neighbor) ||
                         remainingmoves > neighbor.remainingmoves) {
                         var moveCost = unit.movement[neighbor.cell.type];
-                        if (moveCost > 0 && neighborUnit === null &&
+                        if (moveCost > 0 && neighborUnit === undefined &&
                             remainingmoves - moveCost > 0) {
                             processCell(neighbors[i], remainingmoves - moveCost);
                         }
