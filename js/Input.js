@@ -55,8 +55,8 @@ function InputManager() {
 
     initInputs();
 
-    keyboard = new Keyboard();
-    mouse = new Mouse(gfx.width, gfx.height);
+    var keyboard = new Keyboard();
+    var mouse = new Mouse(gfx.width, gfx.height);
 
     this.processInputs = function() {
         processInputs();
