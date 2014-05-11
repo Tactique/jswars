@@ -22,13 +22,8 @@ function handleCameraKeyboard(keyboard) {
 }
 
 function handleCameraMouse(mouse) {
-    if (mouse.currentState == mouseStates.LeftDrag) {
-        var camMove = {'x': -1*mouse.dx, 'y': -1*mouse.dy};
-        mouse.dx = 0;
-        mouse.dy = 0;
-        camera.processMove(camMove);
-    } else if(mouse.lastState == mouseStates.LeftDown &&
-              mouse.currentState == mouseStates.LeftUp) {
+    if(mouse.lastState == mouseStates.LeftDown &&
+       mouse.currentState == mouseStates.LeftUp) {
         assets.spriteManager.getSprite("selector").resetCurrentFrame();
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
         if (game.world.withinWorld(wp.world_x, wp.world_y)) {
@@ -47,6 +42,11 @@ function handleCameraMouse(mouse) {
                 unitControlState.unit = null;
             }
         }
+    } else if (mouse.currentState == mouseStates.LeftDrag) {
+        var camMove = {'x': -1*mouse.dx, 'y': -1*mouse.dy};
+        mouse.dx = 0;
+        mouse.dy = 0;
+        camera.processMove(camMove);
     }
 }
 
