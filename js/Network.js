@@ -102,8 +102,7 @@ function Network() {
         this.logTemplateComp("viewWorld", viewWorld);
         testies = viewWorld;
         parseTerrain(game, viewWorld.TerrainResponse.terrain);
-        // game.currentPlayerId = viewWorld.turnOwner;
-        parsePlayers(game, viewWorld.PlayersResponse.players);
+        parsePlayers(game, viewWorld.PlayersResponse);
         parseUnits(game, viewWorld.UnitsResponse.units);
     }
 
@@ -159,12 +158,14 @@ function Network() {
         game.world.initialize(terrain);
     }
 
-    function parsePlayers(game, players) {
+    function parsePlayers(game, playersResponse) {
+        var players = playersResponse.players;
         for (var id in players) {
             var player = players[id];
             game.world.addOrUpdatePlayer(id, player.nation,
                                          player.team);
         }
+        game.world.currentPlayerId = playersResponse.turnOwner;
     }
 
     function parseUnitAttacks(unit) {

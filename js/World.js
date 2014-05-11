@@ -330,7 +330,6 @@ function World(width, height) {
 
     var cells = new Array(width);
 
-    var currentPlayerId = null;
     var players = {};
     var unitCounter = 0;
     var units = {};
@@ -413,6 +412,8 @@ function World(width, height) {
     this.getNeighbors = function(wx, wy, rule) {
         return getNeighbors(wx, wy, rule);
     }
+
+    this.currentPlayerId = null;
 }
 
 function plainsWorld(width, height) {
