@@ -102,7 +102,7 @@ function World(width, height) {
                 return players[id];
             }
         }
-        return undefined;
+        return null;
     }
 
     // unit sprite's have to be cloned, so we have to wrap their creation
