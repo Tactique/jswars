@@ -7,8 +7,9 @@ function Cell(spriteName, type, x, y) {
 
 // Units may deserve their own file eventually, as they will have to track
 // attack and defense information for the various weapon types
-function Unit(player, spriteName, pos, distance, movementType, movement,
+function Unit(id, player, spriteName, pos, distance, movementType, movement,
               health, maxHealth, nation, name, canMove, attacks, armor) {
+    this.id = id;
     this.player = player;
     this.spriteName = spriteName;
     this.pos = pos;
@@ -112,7 +113,7 @@ function World(width, height) {
         unitCounter += 1;
         var spritePos = jQuery.extend(true, {}, pos);
         assets.spriteManager.cloneSprite(srcSpriteName, newSpriteName, spritePos);
-        var newUnit = new Unit(player, newSpriteName, pos, distance,
+        var newUnit = new Unit(uid, player, newSpriteName, pos, distance,
                                movementType, movement, health, maxHealth,
                                nation, name, canMove, attacks, armor);
         units[uid] = newUnit;
@@ -146,6 +147,10 @@ function World(width, height) {
             }
         }
         return undefined;
+    }
+
+    function getUnit(id) {
+        return units[id];
     }
 
     function resetUnits(playerId) {
@@ -371,6 +376,10 @@ function World(width, height) {
 
     this.findUnit = function(wx, wy) {
         return findUnit(wx, wy);
+    };
+
+    this.getUnit = function(id) {
+        return getUnit(id);
     };
 
     this.withinWorld = function(x, y) {
