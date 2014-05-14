@@ -112,7 +112,7 @@
                 "LCR": "road_horz",
                 "TCB": "road_vert",
                 "LCB": "road_bottom_left",
-                "CBR": "road_bottom_right`",
+                "CBR": "road_bottom_right",
                 "LTC": "road_top_left",
                 "TCR": "road_top_right",
                 "TCBR": "road_right_tee",
