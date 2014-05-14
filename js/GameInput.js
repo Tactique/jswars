@@ -69,6 +69,16 @@ unitControlState.reset = function() {
     specialRenderer.removeLayer("attacks");
 };
 
+// This is still hard coded to specific numbers, but that's hopefully temporary
+Unit.prototype.checkInputs = function(keyboard) {
+    for (var aid = 0; aid < this.attacks.length; aid++) {
+        if (keyboard.ResetKeyDown(aid.toString())) {
+            return aid;
+        }
+    }
+    return undefined;
+};
+
 function handleUnitKeyboard(keyboard) {
     if (keyboard.ResetKeyDown("M")) {
         if (unitControlState.unit.player === myPlayer.id) {
@@ -91,9 +101,14 @@ function handleUnitKeyboard(keyboard) {
         unitControlState.reset();
     } else if (keyboard.ResetKeyDown("E")) {
         network.sendTurn();
-    } else if (keyboard.ResetKeyDown("0")) {
-        if (unitControlState.targetUnit) {
-            network.sendAttack(unitControlState.unit, unitControlState.targetUnit, 0);
+    } else {
+        if (unitControlState.unit) {
+            var pressed = unitControlState.unit.checkInputs(keyboard);
+            if (pressed !== undefined) {
+                network.sendAttack(unitControlState.unit,
+                                   unitControlState.targetUnit,
+                                   pressed);
+            }
         }
     }
 }
