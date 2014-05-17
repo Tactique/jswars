@@ -32,15 +32,15 @@ function Network() {
 
     function sendAttack(source, target, attackId) {
         var message = {
-            Attacker: source.pos,
-            AttackIndex: attackId,
-            Target: target.pos
+            attacker: parseInt(source.id),
+            attackIndex: attackId,
+            target: target.pos
         };
         sendMessage(ATTACK_CMD, message);
     }
 
     function sendUnitMove(unit, move) {
-        var message = {move: []};
+        var message = {unitId: parseInt(unit.id), move: []};
         for (var i = 0; i < move.length; i++) {
             message.move.push(move[i].position);
         }
@@ -189,7 +189,7 @@ function Network() {
     function parseMoveResponse(status, response) {
         if (status === 0) {
             var path = response.move;
-            var unit = game.world.findUnit(path[0].x, path[0].y);
+            var unit = game.world.getUnit(response.unitId);
             if (path) {
                 // tell the renderer about the move
                 var unitSprite = assets.spriteManager.getSprite(unit.spriteName);
@@ -209,8 +209,8 @@ function Network() {
     }
 
     function parseAttackResponse(status, response) {
-        var sourceUnit = game.world.findUnit(response.attacker.x,
-                                             response.attacker.y);
+        console.log("Not implemented", response);
+        var sourceUnit = game.world.getUnit(response.attacker.toString());
         var targetUnit = game.world.findUnit(response.target.x,
                                              response.target.y);
         var attackId = response.attackIndex;
