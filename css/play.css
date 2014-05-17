@@ -1,8 +1,7 @@
 canvas {
 	position: absolute;
 	top: 0;
-	bottom: 0;
-	right: 8px;
+	right: 0;
 
 	margin: auto;
 }
@@ -17,7 +16,20 @@ canvas {
 	z-index: 3;
 	background-color: #CCF;
 
-	display: none; /* by default */
+	display: block; /* by default */
+}
+
+#chatSidebar {
+	width: 200px;
+	height: 400px; /* this is overridden by App.js to be the canvas height */
+	position: fixed;
+
+	top: 8px;
+	right: 8px;
+	z-index: 3;
+	background-color: #FCC;
+
+	display: block; /* by default */
 }
 
 #unitInfo {
@@ -31,7 +43,7 @@ canvas {
 	left: 0;
 	z-index: 4;
 
-	display: none; /* by default */
+	display: block; /* by default */
 }
 
 #unitName {

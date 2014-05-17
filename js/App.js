@@ -1,4 +1,3 @@
-var edgeMargin = 16;
 // cache the canvas so we can get information about it later
 var canvas;
 
@@ -30,15 +29,42 @@ var getPortNum = function() {
 };
 
 var initCanvas = function(width, height) {
-    canvas = document.createElement("canvas");
-    canvas.id = "canvas";
-    document.getElementById("canvas_land").appendChild(canvas);
-    resizeCanvas(width, height);
 
-//    console.log(document.getElementById("canvas").style.height)
-    document.getElementById("unitSidebar").style.height = document.getElementById("canvas").height;
-    document.getElementById("unitSidebar").style.display = "block";
-    
+    canvas = document.createElement("canvas");
+    unitSidebar = document.createElement("div");
+    unitInfo = document.createElement("div");
+    unitInfo_name = document.createElement("div");
+    unitInfo_legs = document.createElement("div");
+    unitInfo_healthContainer = document.createElement("span");
+    unitInfo_health = document.createElement("span");
+    chatSidebar = document.createElement("div");
+
+
+    canvas.id = "canvas";
+    unitSidebar.id = "unitSidebar";
+    unitInfo.id = "unitInfo";
+    unitInfo_name.id = "unitName";
+    unitInfo_legs.id = "unitLegs";
+    unitInfo_healthContainer.id = "unitHealthContainer";
+    unitInfo_health.id = "unitHealth";
+    chatSidebar.id = "chatSidebar";
+
+    document.getElementById("unitSidebar_land").appendChild(unitSidebar);
+        document.getElementById("unitSidebar").appendChild(unitInfo);
+        document.getElementById("unitInfo").appendChild(unitInfo_name);
+        document.getElementById("unitInfo").appendChild(unitInfo_legs);
+        document.getElementById("unitInfo").appendChild(unitInfo_healthContainer);
+            document.getElementById("unitHealthContainer").appendChild(unitInfo_health);
+
+    document.getElementById("canvas_land").appendChild(canvas);
+
+    document.getElementById("chatSidebar_land").appendChild(chatSidebar);
+
+
+    resizeCanvas(width, height);
+    document.getElementById("unitSidebar").style.height = (document.getElementById("canvas").height - 16);
+    document.getElementById("chatSidebar").style.height = (document.getElementById("canvas").height - 16);
+
     gfx.ctx = setupContext(canvas.getContext("2d"));
 
     // we want the jquery version of this object, but that has to happen after
@@ -54,8 +80,8 @@ var setupContext = function(ctx) {
 
 var resizeCanvas = function(width, height) {
     var canvas = document.getElementById("canvas");
-    canvas.width = width - edgeMargin - 208; // for unit info panel
-    canvas.height = height - edgeMargin;
+    canvas.width = width;
+    canvas.height = height;
 
     gfx.width = canvas.width;
     gfx.height = canvas.height;
