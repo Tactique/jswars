@@ -210,8 +210,7 @@ function Network() {
 
     function parseAttackResponse(status, response) {
         console.log("Not implemented", response);
-        var sourceUnit = game.world.findUnit(response.attacker.x,
-                                             response.attacker.y);
+        var sourceUnit = game.world.getUnit(response.attacker.toString());
         var targetUnit = game.world.findUnit(response.target.x,
                                              response.target.y);
         var attackId = response.attackIndex;
