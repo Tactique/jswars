@@ -32,15 +32,15 @@ function Network() {
 
     function sendAttack(source, target, attackId) {
         var message = {
-            Attacker: source.id,
-            AttackIndex: attackId,
-            Target: target.pos
+            attacker: parseInt(source.id),
+            attackIndex: attackId,
+            target: target.pos
         };
         sendMessage(ATTACK_CMD, message);
     }
 
     function sendUnitMove(unit, move) {
-        var message = {UnitId: unit.id, move: []};
+        var message = {unitId: parseInt(unit.id), move: []};
         for (var i = 0; i < move.length; i++) {
             message.move.push(move[i].position);
         }
@@ -189,7 +189,7 @@ function Network() {
     function parseMoveResponse(status, response) {
         if (status === 0) {
             var path = response.move;
-            var unit = game.world.getUnit(response.UnitId);
+            var unit = game.world.getUnit(response.unitId);
             if (path) {
                 // tell the renderer about the move
                 var unitSprite = assets.spriteManager.getSprite(unit.spriteName);
