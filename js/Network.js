@@ -159,7 +159,6 @@ function Network() {
     }
 
     function parsePlayers(game, playersResponse) {
-        console.log(playersResponse);
         var players = playersResponse.players;
         for (var id in players) {
             var player = players[id];

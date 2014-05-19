@@ -260,11 +260,7 @@ function SuperSprite(name, width, height, subsprites, filterName, filterRules) {
 
     this.getFramePosition = function(x, y) {
         var neighbors = game.world.getNeighbors(x, y, "plus");
-        var filtered = this.filterFunction(neighbors);
-        this.currentSprite = assets.spriteManager.getSprite(filtered);
-        if (this.currentSprite === undefined) {
-            console.log(filtered);
-        }
+        this.currentSprite = assets.spriteManager.getSprite(this.filterFunction(neighbors));
         return this.currentSprite.getFramePosition();
     }
 
