@@ -68,6 +68,11 @@ function Camera() {
                (c_y + zoomLevel >= 0 && c_y <= height);
     }
 
+    function resizeViewport(w, h) {
+        width = w;
+        height = h;
+    }
+
     var x = 0;
     var y = 0;
     var width = gfx.width;
@@ -117,4 +122,8 @@ function Camera() {
     this.positionVisible = function(c_x, c_y) {
         return positionVisible(c_x, c_y);
     };
+
+    this.resizeViewport = function(width, height) {
+        resizeViewport(width, height);
+    }
 }

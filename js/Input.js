@@ -53,6 +53,10 @@ function InputManager() {
         app.stateMap[app.currentState].keyboard(keyboard);
     }
 
+    function updateWindowSize(width, height) {
+        mouse.updateWindowSize(width, height);
+    }
+
     initInputs();
 
     var keyboard = new Keyboard();
@@ -69,6 +73,10 @@ function InputManager() {
     this.processKeyboard = function() {
         processKeyboard();
     };
+
+    this.updateWindowSize = function(width, height) {
+        updateWindowSize(width, height);
+    }
 
     function nop() {};
 

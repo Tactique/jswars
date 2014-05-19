@@ -89,6 +89,10 @@ var resizeCanvas = function(width, height) {
     gfx.ctx = setupContext(canvas.getContext("2d"));
 
     if (app !== undefined && app.inputs != undefined) {
-        app.inputs.mouse.updateWindowSize(width, height);
+        app.inputs.updateWindowSize(width, height);
+    }
+
+    if (camera !== undefined) {
+        camera.resizeViewport(width, height);
     }
 };
