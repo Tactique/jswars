@@ -18,6 +18,49 @@ var requestAnimFrame = (function(){
         };
 })();
 
+function Renderer(width, height, destination) {
+    // This contains all the graphics contexts which can render to their specific
+    // layers. All contexts are overlapped on the screen, and have the same overall
+    // width and height
+    var contextLayers = {
+        spriteLayer: {
+            canvas: null,
+            ctx: null
+        },
+        backgroundLayer: {
+            canvas: null,
+            ctx: null
+        },
+        foregroundLayer: {
+            canvas: null,
+            ctx: null
+        },
+        width: 0,
+        height: 0
+    };
+
+    function initializeContexts(width, height, destination) {
+        var canvas = document.createElement("canvas");
+        canvas.id = "spriteLayer";
+        contextLayers.spriteLayer.canvas = canvas;
+        contextLayers.spriteLayer.ctx = setupContext(canvas.getContext("2d"));
+        document.getElementById("canvas_land").appendChild(canvas);
+
+        canvas = document.createElement("canvas");
+        canvas.id = "backgroundLayer";
+        contextLayers.backgroundLayer.canvas = canvas;
+        contextLayers.backgroundLayer.ctx = setupContext(canvas.getContext("2d"));
+        document.getElementById("canvas_land").appendChild(canvas);
+
+        canvas = document.createElement("canvas");
+        canvas.id = "foregroundLayer";
+        contextLayers.foregroundLayer.canvas = canvas;
+        contextLayers.foregroundLayer.ctx = setupContext(canvas.getContext("2d"));
+        document.getElementById("canvas_land").appendChild(canvas);
+
+    }
+}
+
 function SpecialRenderer() {
     function addLayer(key, priority, renderfunc, renderable) {
         renderer = {
