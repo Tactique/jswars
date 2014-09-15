@@ -27,8 +27,12 @@ $(document).ready(function() {
 
 var game;
 var loadQueue;
+var renderer;
 
 var innerInitialize = function() {
+    renderer = new Renderer($(window).width(), $(window).height(), "canvas_land");
+    setupRenderLayers(renderer);
+
     // Create the canvas and context
     initCanvas($(window).width(), $(window).height());
     // initialize the camera
