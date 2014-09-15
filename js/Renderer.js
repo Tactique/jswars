@@ -23,12 +23,13 @@ function Renderer(width, height, destination) {
     // layers. All contexts are overlapped on the screen, and have the same overall
     // width and height
     var contextLayers = {
-        width: 0,
-        height: 0
         spriteLayer: new LayerRenderer(),
         backgroundLayer: new LayerRenderer(),
         foregroundLayer: new LayerRenderer(),
     };
+
+    var width = width;
+    var height = height;
 
     function LayerRenderer() {
         this.canvas = null;
@@ -56,6 +57,8 @@ function Renderer(width, height, destination) {
         contextLayers.foregroundLayer.ctx = setupContext(canvas.getContext("2d"));
         document.getElementById("canvas_land").appendChild(canvas);
 
+        width = width;
+        height = height;
     }
 }
 
