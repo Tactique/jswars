@@ -183,12 +183,12 @@ function clearBack() {
     gfx.ctx.fillRect(0, 0, gfx.width, gfx.height);
 }
 
-function drawLine(sx, sy, dx, dy) {
-    gfx.ctx.moveTo(sx, sy);
-    gfx.ctx.lineTo(dx, dy);
+function drawLine(ctx, sx, sy, dx, dy) {
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(dx, dy);
 }
 
-function drawMenu() {
+function drawMenu(ctx) {
     // TODO actually render something for the menu
 }
 
@@ -208,7 +208,7 @@ function drawWorld() {
     specialRenderer.render();
 }
 
-function drawEnvironment(world) {
+function drawEnvironment(world, ctx) {
     for (var x = 0; x < world.getWidth(); x++) {
         for (var y = 0; y < world.getHeight(); y++) {
             var current_cell = world.getCell(x, y);
@@ -230,7 +230,7 @@ function drawSelector(selector) {
     drawSprite(position.x, position.y, selector.spriteName);
 }
 
-function drawSprite(x, y, spriteName) {
+function drawSprite(ctx, x, y, spriteName) {
     var cam_pos = camera.transformToCameraSpace(x, y);
     if (camera.positionVisible(cam_pos.cam_x, cam_pos.cam_y)) {
         var sprite = assets.spriteManager.getSprite(spriteName);
@@ -245,12 +245,12 @@ function drawSprite(x, y, spriteName) {
         centered_offset.cam_w = centered_offset.cam_w / 2;
         centered_offset.cam_h = centered_offset.cam_h / 2;
 
-        gfx.ctx.drawImage(img,
-                          pos.x, pos.y,
-                          sprite.width, sprite.height,
-                          cam_pos.cam_x - centered_offset.cam_w,
-                          cam_pos.cam_y - centered_offset.cam_h,
-                          cam_size.cam_w, cam_size.cam_h);
+        ctx.drawImage(img,
+                      pos.x, pos.y,
+                      sprite.width, sprite.height,
+                      cam_pos.cam_x - centered_offset.cam_w,
+                      cam_pos.cam_y - centered_offset.cam_h,
+                      cam_size.cam_w, cam_size.cam_h);
     }
 }
 
