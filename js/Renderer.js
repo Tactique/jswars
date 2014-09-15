@@ -92,13 +92,43 @@ function Renderer(width, height, destination) {
 
     // Intelligent rendering function. Makes rendering calls only for layers
     // that require it
-    function render() {
+    this.render = function() {
         contextLayers.backgroundLayer.render(width, height);
         contextLayers.spriteLayer.render(width, height);
         contextLayers.foregroundLayer.render(width, height);
     }
 
+    function registerLayerTask = function(layerName, renderFunc) {
+        contextLayers[layerName].registerTask(renderFunc);
+    }
 
+    this.registerSpriteLayerTask = function(renderfunc) {
+        registerLayerTask("spriteLayer", renderfunc);
+    }
+
+    this.registerBackgroundLayerTask = function(renderfunc) {
+        registerLayerTask("backgroundLayer", renderfunc);
+    }
+
+    this.registerForegroundLayerTask = function(renderfunc) {
+        registerLayerTask("foregroundLayer", renderfunc);
+    }
+
+    function invalidateLayer = function(layerName) {
+        contextLayers[layerName].invalidate();
+    }
+
+    this.registerSpriteLayerTask = function(renderfunc) {
+        invalidateLayer("spriteLayer");
+    }
+
+    this.registerBackgroundLayerTask = function(renderfunc) {
+        invalidateLayer("backgroundLayer");
+    }
+
+    this.registerForegroundLayerTask = function(renderfunc) {
+        invalidateLayer("foregroundLayer");
+    }
 }
 
 function SpecialRenderer() {
