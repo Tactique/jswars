@@ -36,6 +36,32 @@ function Renderer(width, height, destination) {
         this.ctx = null;
         this.valid = false;
         this.renderingTasks = [];
+
+        this.render = function(width, height) {
+            if (!this.valid) {
+                this.clearLayer(width, height);
+
+                for (var i = 0; i < this.renderingTasks.length; i++) {
+                    this.renderingTasks[i](this.ctx, width, height);
+                }
+            }
+            this.valid = true;
+        }
+
+        // Rendering tasks are functions that use a graphics context to render
+        // something. As such they must be of the form:
+        //      renderTask(bound arguments..., context, width, height)
+        this.registerTask = function(renderFunc) {
+            this.renderingTasks.push(renderFunc);
+        }
+
+        this.invalidate = function() {
+            this.valid = false;
+        }
+
+        this.clearLayer = function(width, height) {
+            this.ctx.clearRect(0, 0, width, height);
+        }
     }
 
     function initializeContexts(width, height, destination) {
@@ -60,6 +86,16 @@ function Renderer(width, height, destination) {
         width = width;
         height = height;
     }
+
+    // Intelligent rendering function. Makes rendering calls only for layers
+    // that require it
+    function render() {
+        contextLayers.backgroundLayer.render(width, height);
+        contextLayers.spriteLayer.render(width, height);
+        contextLayers.foregroundLayer.render(width, height);
+    }
+
+
 }
 
 function SpecialRenderer() {
