@@ -23,21 +23,19 @@ function Renderer(width, height, destination) {
     // layers. All contexts are overlapped on the screen, and have the same overall
     // width and height
     var contextLayers = {
-        spriteLayer: {
-            canvas: null,
-            ctx: null
-        },
-        backgroundLayer: {
-            canvas: null,
-            ctx: null
-        },
-        foregroundLayer: {
-            canvas: null,
-            ctx: null
-        },
         width: 0,
         height: 0
+        spriteLayer: new LayerRenderer(),
+        backgroundLayer: new LayerRenderer(),
+        foregroundLayer: new LayerRenderer(),
     };
+
+    function LayerRenderer() {
+        this.canvas = null;
+        this.ctx = null;
+        this.valid = false;
+        this.renderingTasks = [];
+    }
 
     function initializeContexts(width, height, destination) {
         var canvas = document.createElement("canvas");
