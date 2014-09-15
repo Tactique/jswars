@@ -31,6 +31,8 @@ function Renderer(width, height, destination) {
     var width = width;
     var height = height;
 
+    initializeContexts(width, height, destination);
+
     function LayerRenderer() {
         this.canvas = null;
         this.ctx = null;
@@ -65,23 +67,24 @@ function Renderer(width, height, destination) {
     }
 
     function initializeContexts(width, height, destination) {
+        // Some CSS fudging will have to happen here to get the canvases to overlap
         var canvas = document.createElement("canvas");
         canvas.id = "spriteLayer";
         contextLayers.spriteLayer.canvas = canvas;
         contextLayers.spriteLayer.ctx = setupContext(canvas.getContext("2d"));
-        document.getElementById("canvas_land").appendChild(canvas);
+        document.getElementById(destination).appendChild(canvas);
 
         canvas = document.createElement("canvas");
         canvas.id = "backgroundLayer";
         contextLayers.backgroundLayer.canvas = canvas;
         contextLayers.backgroundLayer.ctx = setupContext(canvas.getContext("2d"));
-        document.getElementById("canvas_land").appendChild(canvas);
+        document.getElementById(destination).appendChild(canvas);
 
         canvas = document.createElement("canvas");
         canvas.id = "foregroundLayer";
         contextLayers.foregroundLayer.canvas = canvas;
         contextLayers.foregroundLayer.ctx = setupContext(canvas.getContext("2d"));
-        document.getElementById("canvas_land").appendChild(canvas);
+        document.getElementById(destination).appendChild(canvas);
 
         width = width;
         height = height;
