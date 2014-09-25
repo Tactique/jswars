@@ -37,24 +37,28 @@ function Renderer(width, height, destination) {
         this.canvas = null;
         this.ctx = null;
         this.valid = false;
-        this.renderingTasks = [];
+        this.renderingTasks = {};
 
-        this.render = function(width, height) {
+        this.render = function(width, height, renderable) {
             if (!this.valid) {
                 this.clearLayer(width, height);
 
-                for (var i = 0; i < this.renderingTasks.length; i++) {
-                    this.renderingTasks[i](this.ctx, width, height);
+                for (var functionName in this.renderingTasks) {
+                    this.renderingTasks[functionName](this.ctx, renderable);
                 }
             }
             this.valid = true;
         }
 
         // Rendering tasks are functions that use a graphics context to render
-        // something. As such they must be of the form:
-        //      renderTask(bound arguments..., context, width, height)
-        this.registerTask = function(renderFunc) {
-            this.renderingTasks.push(renderFunc);
+        // something. Tasks must be of the form:
+        //      task(context, renderable)
+        this.registerTask = function(functionName, renderFunc) {
+            this.renderingTasks[functionName] = renderFunc;
+        }
+
+        this.removeTask = function(functionName) {
+            delete this.renderingTasks[functionName];
         }
 
         this.invalidate = function() {
@@ -64,70 +68,107 @@ function Renderer(width, height, destination) {
         this.clearLayer = function(width, height) {
             this.ctx.clearRect(0, 0, width, height);
         }
+
+        this.resize = function(width, height) {
+            this.canvas.width = width;
+            this.canvas.height = height;
+
+            this.ctx = setupContext(this.canvas.getContext("2d"));
+            this.valid = false;
+        }
     }
 
     function initializeContexts(width, height, destination) {
+        console.log(contextLayers);
+        // This should be able to reuse canvases if they already exist
         // Some CSS fudging will have to happen here to get the canvases to overlap
-        var canvas = document.createElement("canvas");
-        canvas.id = "spriteLayer";
-        contextLayers.spriteLayer.canvas = canvas;
-        contextLayers.spriteLayer.ctx = setupContext(canvas.getContext("2d"));
-        document.getElementById(destination).appendChild(canvas);
+        initLayer("backgroundLayer", width, height, destination);
+        initLayer("spriteLayer", width, height, destination);
+        initLayer("foregroundLayer", width, height, destination);
+    }
 
-        canvas = document.createElement("canvas");
-        canvas.id = "backgroundLayer";
-        contextLayers.backgroundLayer.canvas = canvas;
-        contextLayers.backgroundLayer.ctx = setupContext(canvas.getContext("2d"));
-        document.getElementById(destination).appendChild(canvas);
-
-        canvas = document.createElement("canvas");
-        canvas.id = "foregroundLayer";
-        contextLayers.foregroundLayer.canvas = canvas;
-        contextLayers.foregroundLayer.ctx = setupContext(canvas.getContext("2d"));
-        document.getElementById(destination).appendChild(canvas);
-
-        width = width;
-        height = height;
+    function initLayer(layerName, width, height, destination) {
+        var canvas = document.getElementById(layerName) || document.createElement("canvas");
+        canvas.id = layerName;
+        contextLayers[layerName].canvas = canvas;
+        contextLayers[layerName].ctx = setupContext(canvas.getContext("2d"));
+        contextLayers[layerName].resize(width, height);
+        if (!document.getElementById(layerName)) {
+            document.getElementById(destination).appendChild(canvas);
+        }        
+        console.log("initLayer", contextLayers);
     }
 
     // Intelligent rendering function. Makes rendering calls only for layers
     // that require it
-    this.render = function() {
-        contextLayers.backgroundLayer.render(width, height);
-        contextLayers.spriteLayer.render(width, height);
-        contextLayers.foregroundLayer.render(width, height);
+    this.render = function(renderable) {
+        contextLayers.backgroundLayer.render(width, height, renderable);
+        contextLayers.spriteLayer.render(width, height, renderable);
+        contextLayers.foregroundLayer.render(width, height, renderable);
     }
 
-    function registerLayerTask = function(layerName, renderFunc) {
-        contextLayers[layerName].registerTask(renderFunc);
+    function registerLayerTask(layerName, functionName, renderFunc) {
+        contextLayers[layerName].registerTask(functionName, renderFunc);
     }
 
-    this.registerSpriteLayerTask = function(renderfunc) {
-        registerLayerTask("spriteLayer", renderfunc);
+    this.registerSpriteLayerTask = function(functionName, renderfunc) {
+        registerLayerTask("spriteLayer", functionName, renderfunc);
     }
 
-    this.registerBackgroundLayerTask = function(renderfunc) {
-        registerLayerTask("backgroundLayer", renderfunc);
+    this.registerBackgroundLayerTask = function(functionName, renderfunc) {
+        registerLayerTask("backgroundLayer", functionName, renderfunc);
     }
 
-    this.registerForegroundLayerTask = function(renderfunc) {
-        registerLayerTask("foregroundLayer", renderfunc);
+    this.registerForegroundLayerTask = function(functionName, renderfunc) {
+        registerLayerTask("foregroundLayer", functionName, renderfunc);
     }
 
-    function invalidateLayer = function(layerName) {
+    function removeLayerTask(layerName, functionName) {
+        contextLayers[layerName].removeTask(functionName);
+    }
+
+    this.removeSpriteLayerTask = function(functionName) {
+        removeLayerTask("spriteLayer", functionName);
+    }
+
+    this.removeBackgroundLayerTask = function(functionName) {
+        removeLayerTask("backgroundLayer", functionName);
+    }
+
+    this.removeForegroundLayerTask = function(functionName) {
+        removeLayerTask("foregroundLayer", functionName);
+    }
+
+    function invalidateLayer(layerName) {
         contextLayers[layerName].invalidate();
     }
 
-    this.registerSpriteLayerTask = function(renderfunc) {
+    this.invalidateSpriteLayer = function() {
         invalidateLayer("spriteLayer");
     }
 
-    this.registerBackgroundLayerTask = function(renderfunc) {
+    this.invalidateBackgroundLayer = function() {
         invalidateLayer("backgroundLayer");
     }
 
-    this.registerForegroundLayerTask = function(renderfunc) {
+    this.invalidateForegroundLayer = function() {
         invalidateLayer("foregroundLayer");
+    }
+
+    this.invalidateAllLayers = function() {
+        this.invalidateBackgroundLayer();
+        this.invalidateForegroundLayer();
+        this.invalidateSpriteLayer();
+    }
+
+    this.resizeCanvases = function(width, height) {
+        console.log("resizeCanvases", contextLayers);
+        contextLayers.backgroundLayer.resize(width, height);
+        contextLayers.spriteLayer.resize(width, height);
+        contextLayers.foregroundLayer.resize(width, height);
+
+        width = width;
+        height = height;
     }
 }
 
