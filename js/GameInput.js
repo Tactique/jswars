@@ -12,6 +12,9 @@ function handleCameraKeyboard(keyboard) {
     if (keyboard.KeyDown("Down")) {
         camMove.y += 5;
     }
+    if (camMove.x != 0 || camMove.y != 0) {
+        activeRenderer.invalidateAllLayers();
+    }
     camera.processMove(camMove);
     if (keyboard.ResetKeyDown("R")) {
         network.sendViewWorld();

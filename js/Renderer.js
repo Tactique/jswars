@@ -1,9 +1,4 @@
-var renderers = {
-    "CAMERA_CONTROL": drawWorld,
-    "UNIT_CONTROL": drawWorld,
-    "MENU_CONTROL" : drawMenu,
-    "CELL_PLACEMENT": drawWorld
-};
+var renderers = {};
 
 // A cross-browser requestAnimationFrame
 // See https://hacks.mozilla.org/2011/08/animating-with-javascript-from-setinterval-to-requestanimationframe/
@@ -249,20 +244,20 @@ function drawWorld() {
     specialRenderer.render();
 }
 
-function drawEnvironment(world, ctx) {
+function drawEnvironment(ctx, world) {
     for (var x = 0; x < world.getWidth(); x++) {
         for (var y = 0; y < world.getHeight(); y++) {
             var current_cell = world.getCell(x, y);
-            drawSprite(x, y, current_cell.spriteName);
+            drawSprite(ctx, x, y, current_cell.spriteName);
         }
     }
 }
 
-function drawUnits(world) {
+function drawUnits(ctx, world) {
     var units = world.getUnits();
     for (var i in units) {
         var position = assets.spriteManager.getSprite(units[i].spriteName).drawPos;
-        drawSprite(position.x, position.y, units[i].spriteName);
+        drawSprite(ctx, position.x, position.y, units[i].spriteName);
     }
 }
 
@@ -295,27 +290,26 @@ function drawSprite(ctx, x, y, spriteName) {
     }
 }
 
-function drawGrid(world) {
-    gfx.ctx.strokeStyle = "#000000";
-    gfx.ctx.beginPath();
+function drawGrid(ctx, world) {
+    ctx.strokeStyle = "#000000";
+    ctx.beginPath();
     for (var x = 0; x <= world.getWidth(); x++) {
         var draw_x = camera.transformToCameraSpace(x, 0).cam_x;
         var top = camera.transformToCameraSpace(x, 0).cam_y;
         var bot = camera.transformToCameraSpace(x, world.getHeight()).cam_y;
-        drawLine(draw_x, top, draw_x, bot);
+        drawLine(ctx, draw_x, top, draw_x, bot);
     }
 
     for (var y = 0; y <= world.getHeight(); y++) {
         var draw_y = camera.transformToCameraSpace(0, y).cam_y;
         var left = camera.transformToCameraSpace(0, y).cam_x;
         var right = camera.transformToCameraSpace(world.getWidth(), y).cam_x;
-        drawLine(left, draw_y, right, draw_y);
+        drawLine(ctx, left, draw_y, right, draw_y);
     }
-    gfx.ctx.stroke();
+    ctx.stroke();
 }
 
-function render() {
-    clearBack();
-
-    renderers[app.currentState]();
+function render(renderable) {
+    activeRenderer = renderers[app.currentState];
+    renderers[app.currentState].render(renderable);
 }

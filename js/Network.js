@@ -146,7 +146,7 @@ function Network() {
     }
 
     function parseTerrain(game, terrain) {
-        if (game.world === undefined) {
+        if (game.world === null) {
             game.world = new World(terrain.length, terrain[0].length);
             game.currentState = "CAMERA_CONTROL";
         }

@@ -130,6 +130,7 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
     this.update = function(dt) {
         // Updates the sprite itself, ie running, standing, shooting
         if (this.animate) {
+            activeRenderer.invalidateSpriteLayer();
             this.currentTime -= dt;
             if (this.currentTime <= 0) {
                 this.currentTime = this.currentAnimation.rate;
@@ -138,6 +139,7 @@ function Sprite(url, drawPos, sheetPos, width, height, animations, currentAnimat
         }
         // Physically moves the sprite in the world
         if (this.movements.length > 0 || this.currentMovement !== null) {
+            activeRenderer.invalidateSpriteLayer();
             if (this.currentMovement === null) {
                 this.currentMovement = this.movements.shift();
             }

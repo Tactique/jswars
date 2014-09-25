@@ -30,19 +30,17 @@ var loadQueue;
 var renderer;
 
 var innerInitialize = function() {
-    renderer = new Renderer($(window).width(), $(window).height(), "canvas_land");
-    setupRenderLayers(renderer);
-
-    // Create the canvas and context
-    initCanvas($(window).width(), $(window).height());
     // initialize the camera
     camera = new Camera();
     // create the Game object in preparation to play
     app = new Game();
     game = app;
+    // initialize renderers and stuff, connect render hooks and such
+    initRenderers($(window).width(), $(window).height(), "canvas_land");
+    canvas_element = $("#canvas_land");
+    initMenus($(window).width(), $(window).height());
+    // Setup the network and load stuff async style
     loadQueue = new TaskQueue(app.init.bind(app));
-    // connect render hooks and such
-    initRenderers();
     ajaxNetwork = new AjaxNetwork();
     // load sprites and other assets from the server
     loadQueue.enqueueTask(ajaxNetwork.sendGetAllCells, ajaxNetwork.handleGetAllCells);
@@ -51,6 +49,7 @@ var innerInitialize = function() {
     loadQueue.enqueueTask(GatherAssets, function() {});
     loadQueue.executeTasks();
 };
+
 
 var removeNewGameInterface = function() {
     $("#gameinfo").remove();

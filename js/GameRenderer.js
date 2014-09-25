@@ -1,4 +1,4 @@
-function initRenderers() {
+function initRenderers(width, height, destination) {
     game.selectorCallback = handleSelectorRendering;
 
     game.pathCallback = handlePathRendering;
@@ -6,6 +6,28 @@ function initRenderers() {
     game.movesAvailableCallback = handleMovesRendering;
 
     game.attacksAvailableCallback = handleAttacksRendering;
+
+    renderers["CAMERA_CONTROL"] = new Renderer(width, height, destination);
+    renderers["UNIT_CONTROL"] = new Renderer(width, height, destination);
+    // This renderer won't do anything for now
+    renderers["MENU_CONTROL"] = new Renderer(width, height, destination);
+    renderers["CELL_PLACEMENT"] = new Renderer(width, height, destination);
+
+    setupWorldRenderLayers(renderers["CAMERA_CONTROL"]);
+    setupWorldRenderLayers(renderers["UNIT_CONTROL"]);
+    setupWorldRenderLayers(renderers["CELL_PLACEMENT"]);
+
+    resizeCanvas(width, height);
+}
+
+function setupWorldRenderLayers(renderer) {
+    console.log("Setting up a renderer", renderer);
+    // drawEnvironment is a background
+    renderer.registerBackgroundLayerTask("drawEnvironment", drawEnvironment);
+    // drawUnits is a sprite
+    renderer.registerSpriteLayerTask("drawUnits", drawUnits);
+    // drawGrid is a foreground
+    renderer.registerForegroundLayerTask("drawGrid", drawGrid);
 }
 
 function handlePathRendering(path) {

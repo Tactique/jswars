@@ -1,8 +1,7 @@
 // cache the canvas so we can get information about it later
-var canvas;
+var canvas_element;
 
 var gfx = {
-    ctx: null,
     width: 0,
     height: 0
 };
@@ -14,6 +13,8 @@ var ajaxNetwork;
 var desiredPlayers;
 var playerId;
 var responseTemplates = {};
+var activeRenderer;
+var renderers;
 
 $(window).resize(function() {
     resizeCanvas($(window).width(), $(window).height());
@@ -28,9 +29,7 @@ var getPortNum = function() {
     return $("#wsport").text().slice(1);
 };
 
-var initCanvas = function(width, height) {
-
-    canvas = document.createElement("canvas");
+var initMenus = function(width, height) {
     unitSidebar = document.createElement("div");
     unitInfo = document.createElement("div");
     unitInfo_name = document.createElement("div");
@@ -39,8 +38,9 @@ var initCanvas = function(width, height) {
     unitInfo_health = document.createElement("span");
     chatSidebar = document.createElement("div");
 
+    gfx.width = width;
+    gfx.height = height;
 
-    canvas.id = "canvas";
     unitSidebar.id = "unitSidebar";
     unitInfo.id = "unitInfo";
     unitInfo_name.id = "unitName";
@@ -56,20 +56,10 @@ var initCanvas = function(width, height) {
         document.getElementById("unitInfo").appendChild(unitInfo_healthContainer);
             document.getElementById("unitHealthContainer").appendChild(unitInfo_health);
 
-    document.getElementById("canvas_land").appendChild(canvas);
-
     document.getElementById("chatSidebar_land").appendChild(chatSidebar);
 
-
-    resizeCanvas(width, height);
-    document.getElementById("unitSidebar").style.height = (document.getElementById("canvas").height - 16);
-    document.getElementById("chatSidebar").style.height = (document.getElementById("canvas").height - 16);
-
-    gfx.ctx = setupContext(canvas.getContext("2d"));
-
-    // we want the jquery version of this object, but that has to happen after
-    // the initialization above
-    canvas = $(canvas);
+    document.getElementById("unitSidebar").style.height = (document.getElementById("canvas_land").height - 16);
+    document.getElementById("chatSidebar").style.height = (document.getElementById("canvas_land").height - 16);
 };
 
 var setupContext = function(ctx) {
@@ -79,14 +69,14 @@ var setupContext = function(ctx) {
 };
 
 var resizeCanvas = function(width, height) {
-    var canvas = document.getElementById("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    if (activeRenderer) {
+        activeRenderer.resizeCanvases(width, height);
+    } else {
+        console.log("No active renderer to resize");
+    }
 
-    gfx.width = canvas.width;
-    gfx.height = canvas.height;
-
-    gfx.ctx = setupContext(canvas.getContext("2d"));
+    gfx.width = width;
+    gfx.height = height;
 
     if (app !== undefined && app.inputs != undefined) {
         app.inputs.updateWindowSize(width, height);

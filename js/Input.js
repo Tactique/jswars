@@ -35,7 +35,7 @@ function InputManager() {
         } else if (ev.type === "mouseup") {
             mouse[buttonCodeToChar[ev.which]] = false;
         }
-        var canvas_off = canvas.offset();
+        var canvas_off = canvas_element.offset();
         mouse.UpdatePosition(ev.clientX - canvas_off.left, ev.clientY - canvas_off.top);
         processMouse();
     }
