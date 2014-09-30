@@ -229,9 +229,10 @@ function drawMenu(ctx) {
 }
 
 function handleSelectorRendering(selector) {
-    specialRenderer.removeLayer("selector");
+    console.log(activeRenderer);
+    activeRenderer.removeSpriteLayerTask("selector");
     assets.spriteManager.getSprite("selector").animate = true;
-    specialRenderer.addLayer("selector", 1, drawSelector, selector);
+    activeRenderer.registerSpriteLayerTask("selector", drawSelector.bind(null, selector));
 }
 
 function drawWorld() {
@@ -261,9 +262,9 @@ function drawUnits(ctx, world) {
     }
 }
 
-function drawSelector(selector) {
+function drawSelector(selector, ctx) {
     var position = selector.pos;
-    drawSprite(position.x, position.y, selector.spriteName);
+    drawSprite(ctx, position.x, position.y, selector.spriteName);
 }
 
 function drawSprite(ctx, x, y, spriteName) {
