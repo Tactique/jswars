@@ -12,6 +12,7 @@ function Game() {
         this.inputs.processKeyboard();
         // update entities, animations, and such, with dt
         this.update(dt);
+        camera.update(dt);
         // this could be a more complicated process, in that the game could
         // decide what to pass to the renderer based on its state. As of now
         // everything is a rendering the game world, so passing it here is easier
@@ -68,6 +69,8 @@ function Game() {
     this.update = update;
     this.selectWorld = selectWorld;
 
+    // I think this is a shim to stop the renderer from freaking out if we don't
+    // have a selector when it goes to render it?
     this.selector = null;
 
     this.world = null;

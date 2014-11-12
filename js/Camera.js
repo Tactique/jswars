@@ -73,8 +73,53 @@ function Camera() {
         height = h;
     }
 
+    // This function sets a destination for the camera to slide to over time
+    function slideToPosition(sX, sY) {
+        slideX = sX;
+        slideY = sY;
+        startX = x;
+        startY = y;
+
+        slideDt = 0;
+    }
+
+    // update slides the camera appropriately if a slide destination exists and
+    // clears the slide destination if it's arrived
+    function update(dt) {
+        slideDt += dt;
+
+        var dx = slideX - startX;
+        var dy = slideY - startY;
+        slideProgress = slideDt / slideRate;
+        // if there's something to do, conveyed horribly
+        if (!(dx == 0 && dy == 0)) {
+            // I'm probably going to want to bezier this
+            if (slideProgress >= 1.0) {
+                x = slideX;
+                y = slideY;
+                startX = x;
+                startY = y;
+            } else {
+                x = startX + (dx * slideProgress);
+                y = startY + (dy * slideProgress);
+                // don't do this for real, this should happen in whatever moves the camera
+                // or maybe not? something will have to check if the camera is still moving
+                if (activeRenderer) {
+                    activeRenderer.invalidateAllLayers();
+                }
+            }
+        }
+    }
+
     var x = 0;
     var y = 0;
+    var slideX = x;
+    var slideY = y;
+    var startX = x;
+    var startY = y;
+    var slideRate = 100;
+    var slideDt = 0;
+    var slideProgress = 0;
     var width = gfx.width;
     var height = gfx.height;
     var zoomLevel = 100;
@@ -125,5 +170,13 @@ function Camera() {
 
     this.resizeViewport = function(width, height) {
         resizeViewport(width, height);
+    }
+
+    this.slideToPosition = function(x, y) {
+        slideToPosition(x, y);
+    }
+
+    this.update = function(dt) {
+        update(dt);
     }
 }

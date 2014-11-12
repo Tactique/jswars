@@ -229,7 +229,7 @@ function drawMenu(ctx) {
 }
 
 function handleSelectorRendering(selector) {
-    console.log(activeRenderer);
+    // console.log(activeRenderer);
     activeRenderer.removeSpriteLayerTask("selector");
     assets.spriteManager.getSprite("selector").animate = true;
     activeRenderer.registerSpriteLayerTask("selector", drawSelector.bind(null, selector));

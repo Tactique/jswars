@@ -1,4 +1,7 @@
 function handleCameraKeyboard(keyboard) {
+    // if (game.selector !== null) {
+    //     game.selectWorld(Math.floor(game.world.getWidth() / 2), Math.floor(game.world.getHeight() / 2));
+    // }
     var camMove = {'x': 0, 'y': 0};
     if (keyboard.KeyDown("Left")) {
         camMove.x -= 5;
@@ -28,7 +31,9 @@ function handleCameraMouse(mouse) {
     if(mouse.lastState == mouseStates.LeftDown &&
        mouse.currentState == mouseStates.LeftUp) {
         assets.spriteManager.getSprite("selector").resetCurrentFrame();
+        console.log("alleged mouse position", mouse.x, mouse.y);
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);
+        console.log("alleged world position", wp);
         if (game.world.withinWorld(wp.world_x, wp.world_y)) {
             game.selectWorld(wp.world_x, wp.world_y);
             var selectedUnit = game.world.findUnit(wp.world_x, wp.world_y);

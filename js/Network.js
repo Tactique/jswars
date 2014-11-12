@@ -156,6 +156,7 @@ function Network() {
             }
         }
         game.world.initialize(terrain);
+        game.selectWorld(Math.floor(game.world.getWidth() / 2), Math.floor(game.world.getHeight() / 2));
     }
 
     function parsePlayers(game, playersResponse) {
