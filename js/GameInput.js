@@ -29,7 +29,7 @@ function handleCameraKeyboard(keyboard) {
 
 function handleCameraMouse(mouse) {
     if(mouse.lastState == mouseStates.LeftDown &&
-       mouse.currentState == mouseStates.LeftUp) {
+        mouse.currentState == mouseStates.LeftUp) {
         assets.spriteManager.getSprite("selector").resetCurrentFrame();
         console.log("alleged mouse position", mouse.x, mouse.y);
         var wp = camera.transformToWorldSpace(mouse.x, mouse.y);

@@ -6,6 +6,14 @@ canvas {
 	margin: auto;
 }
 
+#canvas_land {
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	margin: auto;
+}
+
 #unitSidebar {
 	width: 200px;
 	height: 400px; /* this is overridden by App.js to be the canvas height */

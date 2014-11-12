@@ -36,6 +36,9 @@ function InputManager() {
             mouse[buttonCodeToChar[ev.which]] = false;
         }
         var canvas_off = canvas_element.offset();
+        if (mouse[buttonCodeToChar[ev.which]]) {
+            console.log(ev, canvas_off);
+        }
         mouse.UpdatePosition(ev.clientX - canvas_off.left, ev.clientY - canvas_off.top);
         processMouse();
     }

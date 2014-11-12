@@ -69,6 +69,10 @@ var setupContext = function(ctx) {
 };
 
 var resizeCanvas = function(width, height) {
+    $("#canvas_land").width(width);
+    $("#canvas_land").height(height);
+    canvas_element = $("#canvas_land");
+
     if (activeRenderer) {
         activeRenderer.resizeCanvases(width, height);
     } else {
